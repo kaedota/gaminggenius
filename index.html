@@ -3,41 +3,95 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Gaming Genius</title>
 
 <style>
-body{
+*{
     margin:0;
-    background:#111;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#0d0d0d;
     color:white;
-    font-family:Arial;
+}
+
+nav{
+    width:100%;
+    padding:20px 60px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:fixed;
+    background:rgba(0,0,0,.85);
+    backdrop-filter:blur(10px);
+}
+
+nav h2{
+    color:#1da1ff;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin-left:25px;
 }
 
 .hero{
     height:100vh;
     display:flex;
+    flex-direction:column;
     justify-content:center;
     align-items:center;
-    flex-direction:column;
+    text-align:center;
+    padding:20px;
 }
 
-h1{
-    font-size:72px;
-    margin:0;
+.hero h1{
+    font-size:70px;
+    margin-bottom:20px;
 }
 
-p{
+.hero p{
     font-size:24px;
     color:#bbbbbb;
+    margin-bottom:40px;
 }
 
 .button{
-    margin-top:40px;
-    background:#0077ff;
+    background:#1da1ff;
     color:white;
-    padding:15px 35px;
-    border-radius:50px;
     text-decoration:none;
+    padding:18px 45px;
+    border-radius:50px;
+    font-size:20px;
+}
+
+section{
+    max-width:1200px;
+    margin:auto;
+    padding:90px 20px;
+}
+
+.title{
+    font-size:42px;
+    margin-bottom:30px;
+}
+
+.card{
+    background:#181818;
+    padding:35px;
+    border-radius:18px;
+    margin-bottom:25px;
+}
+
+footer{
+    text-align:center;
+    padding:40px;
+    color:#777;
 }
 </style>
 
@@ -45,17 +99,110 @@ p{
 
 <body>
 
+<nav>
+
+<h2>Gaming Genius</h2>
+
+<div>
+<a href="#about">About</a>
+<a href="#events">Events</a>
+<a href="#ranking">Ranking</a>
+<a href="#contact">Contact</a>
+</div>
+
+</nav>
+
 <div class="hero">
 
 <h1>Gaming Genius</h1>
 
-<p>Professional Gaming & Hobby Event Organizer</p>
+<p>Malaysia's Gaming & Hobby Community</p>
 
-<a class="button" href="#">
-Coming Soon
+<a class="button" href="#events">
+Upcoming Events
 </a>
 
 </div>
+
+<section id="about">
+
+<h2 class="title">
+About Gaming Genius
+</h2>
+
+<div class="card">
+
+Gaming Genius is building Malaysia's most professional Gaming & Hobby community.
+
+We organize Beyblade tournaments, Esports competitions, Trading Card Game events, Board Game activities and live broadcast productions.
+
+</div>
+
+</section>
+
+<section id="events">
+
+<h2 class="title">
+Upcoming Events
+</h2>
+
+<div class="card">
+
+🔥 Beyblade Ranking Tournament
+
+<br><br>
+
+📍 Centro Mall
+
+<br><br>
+
+🗓 August 2026
+
+</div>
+
+</section>
+
+<section id="ranking">
+
+<h2 class="title">
+Player Ranking
+</h2>
+
+<div class="card">
+
+Coming Soon
+
+</div>
+
+</section>
+
+<section id="contact">
+
+<h2 class="title">
+Contact Us
+</h2>
+
+<div class="card">
+
+Instagram
+
+<br><br>
+
+Facebook
+
+<br><br>
+
+gaminggenius.my
+
+</div>
+
+</section>
+
+<footer>
+
+© 2026 Gaming Genius
+
+</footer>
 
 </body>
 </html>
