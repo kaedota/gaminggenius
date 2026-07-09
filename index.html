@@ -1,46 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gaming Genius</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Arial,Helvetica,sans-serif;background:#0b0b0b;color:#fff;line-height:1.6}
 a{text-decoration:none;color:inherit}
-nav{position:fixed;top:0;width:100%;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:22px 7%;background:rgba(0,0,0,.72);backdrop-filter:blur(12px)}
+
+nav{
+position:fixed;top:0;width:100%;z-index:10;
+display:flex;justify-content:space-between;align-items:center;
+padding:22px 7%;background:rgba(0,0,0,.75);backdrop-filter:blur(12px)
+}
 .logo{font-size:22px;font-weight:800;color:#ff9f1c}
 nav a{margin-left:26px;color:#ddd;font-size:15px}
-.hero{min-height:100vh;display:flex;align-items:center;padding:130px 7% 80px;background:linear-gradient(120deg,#050505,#151515 55%,#291600)}
+
+.hero{
+min-height:100vh;display:flex;align-items:center;
+padding:130px 7% 80px;
+background:linear-gradient(120deg,#050505,#151515 55%,#291600)
+}
 .hero-content{max-width:850px}
 .tag{color:#ff9f1c;font-weight:700;margin-bottom:18px;letter-spacing:1px}
 .hero h1{font-size:72px;line-height:1.05;margin-bottom:22px}
 .hero p{font-size:24px;color:#ccc;max-width:720px;margin-bottom:36px}
+
 .buttons a{display:inline-block;margin-right:14px;margin-bottom:12px;padding:15px 28px;border-radius:40px;font-weight:700}
 .primary{background:#ff9f1c;color:#000}
 .secondary{border:1px solid #666;color:#fff}
+
 section{padding:90px 7%;max-width:1300px;margin:auto}
 h2{font-size:42px;margin-bottom:16px}
 .sub{color:#aaa;font-size:18px;margin-bottom:38px;max-width:760px}
+
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .card{background:#161616;border:1px solid #2a2a2a;border-radius:22px;padding:30px}
 .card h3{font-size:24px;margin-bottom:12px;color:#ff9f1c}
 .card p{color:#bbb}
+
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
 .stat{background:#111;border:1px solid #2c2c2c;border-radius:20px;padding:28px;text-align:center}
 .stat strong{display:block;font-size:42px;color:#ff9f1c}
-.event{background:linear-gradient(135deg,#171717,#271600);border:1px solid #3a2a10;border-radius:28px;padding:40px;display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:center}
+
+.event{
+background:linear-gradient(135deg,#171717,#271600);
+border:1px solid #3a2a10;border-radius:28px;padding:40px;
+display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:center
+}
 .badge{display:inline-block;background:#ff9f1c;color:#000;padding:8px 15px;border-radius:30px;font-weight:800;margin-bottom:18px}
 .event h3{font-size:38px;margin-bottom:16px}
 .event p{color:#ccc;font-size:18px}
+
 .quote{font-size:30px;color:#eee;max-width:900px}
 footer{padding:50px 7%;background:#050505;color:#888;text-align:center}
+
 @media(max-width:850px){
 nav{padding:18px 5%}
 nav div{display:none}
 .hero h1{font-size:46px}
-hero p{font-size:20px}
+.hero p{font-size:20px}
 .grid,.stats,.event{grid-template-columns:1fr}
 section{padding:70px 5%}
 }
@@ -77,15 +98,15 @@ section{padding:70px 5%}
 
   <div class="grid">
     <div class="card">
-      <h3>🏎️ Junior Challenge 1</h3>
-      <p>Our first children’s racing tournament, built from the ground up with real players, families and event production.</p>
+      <h3>Junior Challenge 1</h3>
+      <p>Our first children racing tournament, built from the ground up with real players, families and event production.</p>
     </div>
     <div class="card">
-      <h3>🏆 Junior Challenge 2</h3>
+      <h3>Junior Challenge 2</h3>
       <p>The second edition expanded the format with more players, stronger production, player stories and broadcast coverage.</p>
     </div>
     <div class="card">
-      <h3>🌀 Beyblade League</h3>
+      <h3>Beyblade League</h3>
       <p>The next chapter: a structured Beyblade season with ranking, community events and future grand finals.</p>
     </div>
   </div>
@@ -111,9 +132,9 @@ section{padding:70px 5%}
     <div>
       <span class="badge">COMING SOON</span>
       <h3>Beyblade Ranking Season</h3>
-      <p>📍 Centro Mall, Klang</p>
-      <p>🗓️ August 2026</p>
-      <p>🏆 Ranking points, community battles and future grand finals.</p>
+      <p>Location: Centro Mall, Klang</p>
+      <p>Date: August 2026</p>
+      <p>Ranking points, community battles and future grand finals.</p>
     </div>
     <div class="card">
       <h3>Register</h3>
@@ -138,7 +159,7 @@ section{padding:70px 5%}
   <h2>About Gaming Genius</h2>
   <p class="quote">We do not just organize tournaments. We build communities, create memories and give every player a stage to grow.</p>
   <br>
-  <p class="sub">Gaming Genius brings together gaming, hobby events, live production, family activities and long-term community building. Our goal is to create structured experiences that players and families can return to again and again.</p>
+  <p class="sub">Gaming Genius brings together gaming, hobby events, live production, family activities and long-term community building.</p>
 </section>
 
 <section>
