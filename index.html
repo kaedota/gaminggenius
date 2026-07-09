@@ -1,207 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Gaming Genius</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:#0d0d0d;
-    color:white;
-}
-
-nav{
-    width:100%;
-    padding:20px 60px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    position:fixed;
-    background:rgba(0,0,0,.85);
-    backdrop-filter:blur(10px);
-}
-
-nav h2{
-    color:#1da1ff;
-}
-
-nav a{
-    color:white;
-    text-decoration:none;
-    margin-left:25px;
-}
-
-.hero{
-    height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    padding:20px;
-}
-
-.hero h1{
-    font-size:70px;
-    margin-bottom:20px;
-}
-
-.hero p{
-    font-size:24px;
-    color:#bbbbbb;
-    margin-bottom:40px;
-}
-
-.button{
-    background:#1da1ff;
-    color:white;
-    text-decoration:none;
-    padding:18px 45px;
-    border-radius:50px;
-    font-size:20px;
-}
-
-section{
-    max-width:1200px;
-    margin:auto;
-    padding:90px 20px;
-}
-
-.title{
-    font-size:42px;
-    margin-bottom:30px;
-}
-
-.card{
-    background:#181818;
-    padding:35px;
-    border-radius:18px;
-    margin-bottom:25px;
-}
-
-footer{
-    text-align:center;
-    padding:40px;
-    color:#777;
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;background:#0b0b0b;color:#fff;line-height:1.6}
+a{text-decoration:none;color:inherit}
+nav{position:fixed;top:0;width:100%;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:22px 7%;background:rgba(0,0,0,.72);backdrop-filter:blur(12px)}
+.logo{font-size:22px;font-weight:800;color:#ff9f1c}
+nav a{margin-left:26px;color:#ddd;font-size:15px}
+.hero{min-height:100vh;display:flex;align-items:center;padding:130px 7% 80px;background:linear-gradient(120deg,#050505,#151515 55%,#291600)}
+.hero-content{max-width:850px}
+.tag{color:#ff9f1c;font-weight:700;margin-bottom:18px;letter-spacing:1px}
+.hero h1{font-size:72px;line-height:1.05;margin-bottom:22px}
+.hero p{font-size:24px;color:#ccc;max-width:720px;margin-bottom:36px}
+.buttons a{display:inline-block;margin-right:14px;margin-bottom:12px;padding:15px 28px;border-radius:40px;font-weight:700}
+.primary{background:#ff9f1c;color:#000}
+.secondary{border:1px solid #666;color:#fff}
+section{padding:90px 7%;max-width:1300px;margin:auto}
+h2{font-size:42px;margin-bottom:16px}
+.sub{color:#aaa;font-size:18px;margin-bottom:38px;max-width:760px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.card{background:#161616;border:1px solid #2a2a2a;border-radius:22px;padding:30px}
+.card h3{font-size:24px;margin-bottom:12px;color:#ff9f1c}
+.card p{color:#bbb}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.stat{background:#111;border:1px solid #2c2c2c;border-radius:20px;padding:28px;text-align:center}
+.stat strong{display:block;font-size:42px;color:#ff9f1c}
+.event{background:linear-gradient(135deg,#171717,#271600);border:1px solid #3a2a10;border-radius:28px;padding:40px;display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:center}
+.badge{display:inline-block;background:#ff9f1c;color:#000;padding:8px 15px;border-radius:30px;font-weight:800;margin-bottom:18px}
+.event h3{font-size:38px;margin-bottom:16px}
+.event p{color:#ccc;font-size:18px}
+.quote{font-size:30px;color:#eee;max-width:900px}
+footer{padding:50px 7%;background:#050505;color:#888;text-align:center}
+@media(max-width:850px){
+nav{padding:18px 5%}
+nav div{display:none}
+.hero h1{font-size:46px}
+hero p{font-size:20px}
+.grid,.stats,.event{grid-template-columns:1fr}
+section{padding:70px 5%}
 }
 </style>
-
 </head>
 
 <body>
 
 <nav>
-
-<h2>Gaming Genius</h2>
-
-<div>
-<a href="#about">About</a>
-<a href="#events">Events</a>
-<a href="#ranking">Ranking</a>
-<a href="#contact">Contact</a>
-</div>
-
+  <div class="logo">Gaming Genius</div>
+  <div>
+    <a href="#journey">Journey</a>
+    <a href="#events">Events</a>
+    <a href="#ranking">Ranking</a>
+    <a href="#about">About</a>
+  </div>
 </nav>
 
-<div class="hero">
+<header class="hero">
+  <div class="hero-content">
+    <div class="tag">GAMING • HOBBY • COMMUNITY</div>
+    <h1>Building Malaysia's Gaming & Hobby Community</h1>
+    <p>From junior esports tournaments to the next generation of Beyblade league events, Gaming Genius creates real stages for players, families and communities.</p>
+    <div class="buttons">
+      <a class="primary" href="#events">Upcoming Events</a>
+      <a class="secondary" href="#journey">Our Journey</a>
+    </div>
+  </div>
+</header>
 
-<h1>Gaming Genius</h1>
+<section id="journey">
+  <h2>Our Journey</h2>
+  <p class="sub">Gaming Genius started by creating real competitive experiences for children and families. Every event becomes content, memory and community growth.</p>
 
-<p>Malaysia's Gaming & Hobby Community</p>
+  <div class="grid">
+    <div class="card">
+      <h3>🏎️ Junior Challenge 1</h3>
+      <p>Our first children’s racing tournament, built from the ground up with real players, families and event production.</p>
+    </div>
+    <div class="card">
+      <h3>🏆 Junior Challenge 2</h3>
+      <p>The second edition expanded the format with more players, stronger production, player stories and broadcast coverage.</p>
+    </div>
+    <div class="card">
+      <h3>🌀 Beyblade League</h3>
+      <p>The next chapter: a structured Beyblade season with ranking, community events and future grand finals.</p>
+    </div>
+  </div>
+</section>
 
-<a class="button" href="#events">
-Upcoming Events
-</a>
+<section>
+  <h2>Achievements</h2>
+  <p class="sub">Real progress, real players, real events.</p>
 
-</div>
-
-<section id="about">
-
-<h2 class="title">
-About Gaming Genius
-</h2>
-
-<div class="card">
-
-Gaming Genius is building Malaysia's most professional Gaming & Hobby community.
-
-We organize Beyblade tournaments, Esports competitions, Trading Card Game events, Board Game activities and live broadcast productions.
-
-</div>
-
+  <div class="stats">
+    <div class="stat"><strong>2</strong>Junior Championships</div>
+    <div class="stat"><strong>80+</strong>Players Joined</div>
+    <div class="stat"><strong>100k+</strong>Online Views</div>
+    <div class="stat"><strong>1</strong>Growing Platform</div>
+  </div>
 </section>
 
 <section id="events">
+  <h2>Upcoming Event</h2>
+  <p class="sub">Our next chapter begins with Beyblade.</p>
 
-<h2 class="title">
-Upcoming Events
-</h2>
-
-<div class="card">
-
-🔥 Beyblade Ranking Tournament
-
-<br><br>
-
-📍 Centro Mall
-
-<br><br>
-
-🗓 August 2026
-
-</div>
-
+  <div class="event">
+    <div>
+      <span class="badge">COMING SOON</span>
+      <h3>Beyblade Ranking Season</h3>
+      <p>📍 Centro Mall, Klang</p>
+      <p>🗓️ August 2026</p>
+      <p>🏆 Ranking points, community battles and future grand finals.</p>
+    </div>
+    <div class="card">
+      <h3>Register</h3>
+      <p>Registration link will be available here once the event is confirmed.</p>
+      <br>
+      <a class="primary" href="#">Google Form Coming Soon</a>
+    </div>
+  </div>
 </section>
 
 <section id="ranking">
+  <h2>Player Ranking</h2>
+  <p class="sub">A dedicated ranking system for future Beyblade and Gaming Genius events.</p>
 
-<h2 class="title">
-Player Ranking
-</h2>
-
-<div class="card">
-
-Coming Soon
-
-</div>
-
+  <div class="card">
+    <h3>Season Ranking</h3>
+    <p>Ranking table will be updated after official Gaming Genius events.</p>
+  </div>
 </section>
 
-<section id="contact">
+<section id="about">
+  <h2>About Gaming Genius</h2>
+  <p class="quote">We do not just organize tournaments. We build communities, create memories and give every player a stage to grow.</p>
+  <br>
+  <p class="sub">Gaming Genius brings together gaming, hobby events, live production, family activities and long-term community building. Our goal is to create structured experiences that players and families can return to again and again.</p>
+</section>
 
-<h2 class="title">
-Contact Us
-</h2>
+<section>
+  <h2>Partner With Us</h2>
+  <p class="sub">We welcome shopping malls, schools, sponsors and communities who want to build meaningful gaming and hobby experiences together.</p>
 
-<div class="card">
-
-Instagram
-
-<br><br>
-
-Facebook
-
-<br><br>
-
-gaminggenius.my
-
-</div>
-
+  <div class="grid">
+    <div class="card"><h3>Shopping Malls</h3><p>Bring community events and family traffic into your space.</p></div>
+    <div class="card"><h3>Schools</h3><p>Create safe and structured gaming experiences for students.</p></div>
+    <div class="card"><h3>Sponsors</h3><p>Connect your brand with active families and young players.</p></div>
+  </div>
 </section>
 
 <footer>
-
-© 2026 Gaming Genius
-
+  © 2026 Gaming Genius · gaminggenius.my
 </footer>
 
 </body>
