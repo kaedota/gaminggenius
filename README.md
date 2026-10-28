@@ -1,40 +1,92 @@
-# Gaming Genius
+# Gaming Genius — Black / Red Website V2
 
-Existing GitHub Pages website: https://kaedota.github.io/gaminggenius/
+Existing GitHub Pages project: **kaedota/gaminggenius**
+Public address: https://kaedota.github.io/gaminggenius/
 
-## Website refresh — October 2026
+This version implements Kae's approved black/red esports + Beyblade direction with the exact headline **BUILT FOR THE BATTLE.** It replaces the rejected cream/orange design. The existing GitHub Pages main/root publishing source and domain configuration are retained.
 
-Static HTML/CSS/JavaScript, no framework, backend or paid service required. Keep publishing from the repository's existing Pages branch/root. The custom domain configuration has not been changed.
+## Included
 
-- `index.html`, `styles.css`, `app.js`: responsive public website, searchable season rankings, category-filtered event archive and event details.
-- `data/events.json`: archive content. `completed`, `series`, and `planned` have distinct labels. Missing dates/photos are stated, not invented. The artwork is graphic illustration, not event photography. Add confirmed events and actual photography here and in `assets/` as available. Current archive contains the known event series; it is not a complete individual weekly-event history.
-- `data/season.json`: season rules and verified results. It starts as a draft with no fabricated players. Public rankings display only when `status` is `active`.
-- `results-tool.html`: browser-only CSV preparation tool, deliberately not advertised as a secure admin panel. Uploaded records remain in page memory. No credentials, localStorage or automatic GitHub writes.
-- `ranking.js`: shared validation/calculation logic, tested by `npm test` (or `node --test tests/*.test.js`).
+- Original GG logo rendered from the supplied PDF-compatible Illustrator file. Original colours and proportions retained; page margins cropped only.
+- Two actual, approved cover photographs: Paradigm group photograph extracted from GG's report; Little Racers screenshot with black sidebars cropped. Lossless WebP copies retain decoded source pixel values. CSS frames the originals; click either photograph to see the whole image. No generative image edits or AI face changes are included.
+- 8 main activity records: Paradigm, AEON, Centro Beyblade, Centro Pokémon TCG, JustPlay, Elmina, Little Racers I and II.
+- 11 dated Night/Weekly Battle records, from 8 August to 30 October 2026; expandable archive.
+- 2 undated posters retained separately as supplementary artwork, not invented extra tournaments.
+- Original full posters plus lighter thumbnails. Entire posters are visible; click to read full artwork and details.
+- Direct WhatsApp and two Instagram links, plus the original supplied QR images in a dialog.
+- Elmina registration link, shown only while the event is upcoming or on its event dates.
+- Searchable season leaderboard, player-result dialog, shared points calculation and CSV preparation tool. No fabricated players or results; Season 01 remains a draft.
+
+## Local preview
+
+Node is only needed for the preview copy and tests; the deployed website is plain static HTML/CSS/JS.
+
+```
+node build.mjs
+node --test tests/*.test.js
+```
+
+Serve the project over HTTP (not `file://`). Use any local static HTTP server. GitHub Pages continues to serve the repository root. `dist/` is ignored; no hosting platform is added.
+
+## Publish to the existing GitHub Pages repository
+
+Upload/merge this folder's contents at the **root of kaedota/gaminggenius**, replacing corresponding files. Do not nest the whole folder inside another `gaminggenius/` directory. Include **assets/**, **data/** and **event-utils.js**. Keep any existing `CNAME` or GitHub Pages configuration. The archive intentionally does not include `.git/`, `dist/`, credentials, private event reports or generated face-altered images.
+
+After committing, check the existing Pages deployment and refresh the public URL.
+
+## Maintain activities
+
+Edit `data/events.json`. Each record includes ID, category, dates, venue, copy, thumbnail and poster. Supported categories: `beyblade`, `esports`, `tcg`, `community`. `kind` is `mall`, `junior` or `weekly`.
+
+- ISO `startDate` and `endDate` drive labels using Malaysia time. Historical dates are labelled **PAST EVENT**, not assumed proof of completion.
+- Unknown dates remain null and are labelled **DATE TO BE ADDED**.
+- Keep poster text in the original image; display corrected metadata separately.
+- JustPlay's year is **2026**, explicitly confirmed by Kae, despite the original poster saying 2025.
+- Little Racers I: 28 September 2025; II: 23–24 and 30–31 May 2026.
+- Centro Beyblade's exact date is still unconfirmed.
+- Slots/capacities and advertised prizes must not be described as actual turnout or paid results.
+- Share an event with `#event/<event-id>` appended to the site URL.
+- To add upcoming registration, set `registrationUrl`. Expired events do not display registration buttons automatically.
+
+`data/supplemental.json` holds the two undated Night Battle artworks. Do not assign them a made-up date or count them twice.
 
 ## Maintain rankings
 
-Open `results-tool.html` on the site. Set season dates/name, import verified CSV rows, inspect the calculated table, and download `season.json`. Commit it to `data/season.json` in this repository to publish through the existing GitHub Pages workflow. Download before leaving the page. Existing results load from the published JSON so subsequent CSVs append; duplicate event/player records are rejected.
+Open `results-tool.html` on the published site. It is a **browser-only preparation tool**, not a protected admin system. Imported records live in tab memory; download before leaving. It loads existing `data/season.json`, validates appended CSV records, previews rankings, and exports replacement JSON. It does not automatically write to GitHub.
 
-CSV columns:
+CSV headers:
 
 ```
 event_id,date,player_id,display_name,placement,participants
 ```
 
-Use a stable GG player ID, public alias, ISO date, final placement and actual event participant count. Never upload birth dates, telephone numbers, private contact details or unapproved personal data. Verify player alias publication permission and event results before import. Do not import no-shows/disqualifications.
+Use stable GG IDs, public player aliases and verified final standings. Do not include phone numbers, birthdays or private contact information. Exclude no-shows and disqualifications before import.
 
-Draft rules: 100/70/50/35 points for places 1–4; 25 for 5–8; 15 for 9–16; 5 below. Best six results count. Ties use best counted placing, then counted wins; remaining ties share rank (1,1,3). One placement award per player/event. All eligible events use the same scale and must be announced before entry. This is an independent GG system, not another organisation's ranking. Draft rules, season dates, event eligibility and correction deadline need organiser confirmation before activation. Import tools validate structure, not whether results are true. This is an event-points leaderboard, not an opponent-strength/Elo rating.
+Draft points: champion 100, runner-up 70, third 50, fourth 35, places 5–8 get 25, 9–16 get 15, others 5. Best six results count. Equal totals use best counted placing, then counted wins; remaining ties share ranks (1,1,3). One award per player/event; no stacking of participation points. Eligible events must be announced before entry. This GG ranking is independent of other organisations' systems.
 
-## Content requiring confirmation
+Confirm season dates, eligibility and correction deadlines before changing `status` from `draft` to `active`. No past results were automatically imported or retrospectively awarded points.
 
-- Full dates and verified outcomes for Centro and individual weekly events.
-- Individual TCG/board-game event records rather than the current collection entry.
-- Little Racers II advertised May dates versus June project wrap-up (both explained in detail).
-- Actual event photos/videos, final standings and publication permissions.
-- Elmina is proposed for 7–8 November 2026 and is not shown as completed. Final programme/registration/official designation is not asserted.
-- No unverified total audience, views or attendance statistics from the July site are retained.
+## Social / contact
 
-## Preview
+- WhatsApp: exact URL decoded from the supplied QR, retained in `data/links.json` and the public button.
+- Main Instagram: `@gaming_geniusmy`.
+- Beyblade Instagram: `@ggeniusbeyblade`.
+- Elmina registration: https://forms.gle/xL64RhokrHdTP4376
+- Business email: gaminggeniusmy@gmail.com.
 
-Serve the repository over HTTP; JSON and ES modules do not work through `file://`. For local preview, use any static HTTP server. Run `node build.mjs` to prepare `dist/` if needed. Production remains on the existing GitHub Pages branch/root; no alternate hosting is configured.
+External forms/social URLs were extracted or supplied, not submitted or used to join groups. Changes to account links must update both `index.html` and `data/links.json`.
+
+## Remaining owner input
+
+- Exact date of the Centro Beyblade event.
+- Date/association for the two supplementary Night Battle posters.
+- Actual approved season rules, dates and verified results.
+- Additional real event photographs/videos can be added later. Current posters are supplied by Kae, not stand-ins.
+
+## Integration checks / 28 October 2026
+
+- Preserve strict CSV closing-quote validation and fail-closed season import/export loading from the existing repository.
+- Photographs, logo and usable supplied posters are copied byte-for-byte; no colour or face edits. Photo hover brightness adjustment removed.
+- Empty supplied assets: weekly-0901-thumb.webp uses the supplied full poster; weekly-1011.webp falls back to the supplied thumbnail with a note; instagram-beyblade.webp is unavailable and its QR control is marked awaiting original. Direct Instagram link remains available.
+- Elmina venue remains Elmina Lakeside Mall, explicitly reconfirmed by the owner. The registration form currently describes Near Elmina Sales Gallery; check the form for current details.
+- JustPlay remains 13 September 2026; original poster is unchanged. Season remains draft with zero results.
