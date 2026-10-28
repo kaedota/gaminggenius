@@ -1,4 +1,4 @@
-import { calculateRankings } from './ranking.js';
+import { calculateRankings, tierLabel } from './ranking.js';
 import { eventState, sortNewest, upcomingEvents, malaysiaDate } from './event-utils.js';
 
 const $ = id => document.getElementById(id);
@@ -56,6 +56,7 @@ function showMedia(path, title, label = 'GG / ORIGINAL PHOTOGRAPH') {
 document.querySelectorAll('[data-photo]').forEach(button => button.addEventListener('click', () => showMedia(button.dataset.photo, button.dataset.title)));
 document.querySelectorAll('[data-qr]').forEach(button => button.addEventListener('click', () => showMedia(button.dataset.qr, button.dataset.title, 'SCAN TO CONNECT')));
 
+function eventTierText(event) { return `${tierLabel(season?.eventTiers?.[event.id] || 'regular')} · DRAFT / eligibility TBA`; }
 function openEvent(event, updateHash = true) {
   const state = eventState(event, today);
   const labels = { weekly: 'WEEKLY / NIGHT BATTLE', junior: 'ESPORTS / LITTLE RACERS', mall: 'GG / EVENT ARCHIVE' };
@@ -63,6 +64,7 @@ function openEvent(event, updateHash = true) {
   const image = el('img'); image.src = event.poster; image.alt = `${event.title} supplied poster`;
   $('dialog-art').append(image);
   $('dialog-description').textContent = event.description;
+  $('dialog-details').append(el('p', eventTierText(event), 'event-tier')); 
   $('dialog-details').append(el('p', event.details));
   $('dialog-actions').append(safeLink(event.poster, 'OPEN POSTER ↗'));
   if (event.registrationUrl && ['upcoming', 'today'].includes(state.id)) {
@@ -132,7 +134,7 @@ function eventCard(event) {
   meta.append(el('span', event.dateLabel, 'event-date'), el('span', state.label, `status ${state.id}`));
   const title = el('h3', undefined, 'event-title');
   const button = el('button', event.title); button.addEventListener('click', () => openEvent(event)); title.append(button);
-  copy.append(meta, title, el('p', event.venue, 'event-venue'));
+  copy.append(meta, title, el('p', event.venue, 'event-venue'), el('p', eventTierText(event), 'event-tier')); 
   article.append(art, copy); return article;
 }
 function renderArchive() {
@@ -158,6 +160,7 @@ function renderUpcoming() {
     art.append(image); art.addEventListener('click', () => openEvent(event));
     const copy = el('div', undefined, 'next-copy');
     copy.append(el('span', event.dateLabel + (event.time ? ` / ${event.time}` : ''), 'next-meta'), el('h3', event.title), el('p', event.venue));
+    copy.append(el('p', eventTierText(event), 'event-tier'));
     if (event.registrationUrl) copy.append(safeLink(event.registrationUrl, 'REGISTER NOW ↗', 'button red'));
     else { const details = el('button', 'VIEW EVENT DETAILS ↗', 'button outline'); details.addEventListener('click', () => openEvent(event)); copy.append(details); }
     card.append(art, copy); return card;
@@ -181,7 +184,7 @@ function renderRankings() {
       resetDialog(`${season.name} / PLAYER RESULTS`, player.name, `${player.id} · Rank ${player.rank} · ${player.total} points`);
       $('dialog-art').append(el('p', `BEST ${season.bestResults} RESULTS COUNT`, 'eyebrow'));
       $('dialog-description').textContent = `${player.results.length} recorded events. ${player.counted.length} results counted.`;
-      $('dialog-details').replaceChildren(...player.results.map(result => el('p', `${result.date} · ${result.event_id} · Place ${result.placement} · ${result.points} pts${player.counted.includes(result) ? ' · COUNTED' : ''}`)));
+      $('dialog-details').replaceChildren(...player.results.map(result => el('p', `${result.date} · ${result.event_id} · ${tierLabel(result.event_tier)} · Place ${result.placement} · ${result.points} pts${player.counted.includes(result) ? ' · COUNTED' : ''}`)));
       dialog.showModal();
     });
     who.append(button, el('small', player.id));
@@ -226,10 +229,13 @@ getJSON('data/season.json').then(config => {
   $('season-name-label').textContent = config.name.toUpperCase();
   $('rank-footnote').textContent = `${config.status === 'active' ? 'Season format' : 'Proposed format'}: best ${config.bestResults} results count.`;
   document.querySelector('.rule-badge').textContent = `BEST ${config.bestResults} RESULTS / ONE SEASON`;
-  document.querySelectorAll('.point-grid strong').forEach((strong, i) => { strong.textContent = [config.points['1'], config.points['2'], config.points['3'], config.points['4'], config.points.top8, config.points.top16, config.points.participation][i]; });
+  const points = [config.points['1'], config.points['2'], config.points['3'], config.points['4'], config.points.top8, config.points.top16, config.points.participation];
+  document.querySelectorAll('[data-regular]').forEach((cell,i) => { cell.textContent = points[i]; });
+  document.querySelectorAll('[data-major]').forEach((cell,i) => { cell.textContent = points[i]*2; });
+  renderUpcoming(); renderArchive(); renderWeekly(); if (events.length) handleHash();
   const summary = document.querySelectorAll('.rules-content summary')[1];
   summary.textContent = `Why the best ${config.bestResults} results?`;
-  summary.nextElementSibling.textContent = `Your ${config.bestResults} highest-scoring eligible results contribute to your total. Extra appearances offer another chance to improve. Participation points are not added on top of placement points.`;
+  summary.nextElementSibling.textContent = `Your ${config.bestResults} highest-scoring valid results across Regular and Major Events count. With fewer than ${config.bestResults}, all valid results count. Beyond ${config.bestResults}, higher-scoring results replace lower-scoring ones. Participation points are not added on top of placement points.`;
   if (config.status === 'active') {
     rankings = calculateRankings(config.results, config);
     $('season-status').textContent = 'SEASON ACTIVE';
