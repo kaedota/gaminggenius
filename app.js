@@ -25,7 +25,8 @@ function safeLink(url, text, className = 'button outline') {
   }
   return a;
 }
-function closeDialog() { dialog.close(); }
+function pauseEventVideos() { dialog.querySelectorAll('video').forEach(video => video.pause()); }
+function closeDialog() { pauseEventVideos(); dialog.close(); }
 $('dialog-close').addEventListener('click', closeDialog);
 dialog.addEventListener('click', e => {
   if (e.target !== dialog) return;
@@ -33,9 +34,13 @@ dialog.addEventListener('click', e => {
   if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) closeDialog();
 });
 dialog.addEventListener('close', () => {
+  pauseEventVideos();
   if (location.hash.startsWith('#event/')) history.replaceState(null, '', location.pathname + location.search + previousHash);
 });
 function resetDialog(label, title, meta, mediaOnly = false) {
+  pauseEventVideos();
+  $('event-media').replaceChildren();
+  $('event-media').hidden = true;
   $('dialog-label').textContent = label;
   $('dialog-title').textContent = title;
   $('dialog-meta').textContent = meta;
@@ -70,6 +75,34 @@ function openEvent(event, updateHash = true) {
     catch { copy.textContent = 'COPY THIS PAGE URL'; }
   });
   $('dialog-actions').append(copy);
+  if (event.videos?.length) {
+    const media = $('event-media');
+    media.hidden = false;
+    media.append(el('p', 'THE MOMENTS THAT STAY', 'eyebrow'), el('h3', 'EVENT FILMS'));
+    for (const film of event.videos) {
+      const article = el('article', undefined, 'event-film');
+      article.append(el('h4', film.title), el('p', film.description || '', 'film-description'));
+      const video = el('video');
+      video.controls = true;
+      video.preload = 'none';
+      video.playsInline = true;
+      video.poster = film.poster;
+      video.setAttribute('aria-label', film.title);
+      const source = el('source'); source.src = film.src; source.type = film.type || 'video/mp4';
+      video.append(source, 'Your browser does not support this video.');
+      const videoLink = safeLink(film.src, 'OPEN VIDEO IN A NEW TAB ↗', 'text-link film-link');
+      videoLink.target = '_blank'; videoLink.rel = 'noopener noreferrer';
+      article.append(video, videoLink);
+      const error = el('p', 'The video could not load. Try opening it in a new tab.', 'film-error');
+      error.hidden = true;
+      const showError = () => { error.hidden = false; };
+      source.addEventListener('error', showError); video.addEventListener('error', showError);
+      article.append(error); media.append(article);
+    }
+    const watch = el('button', 'WATCH EVENT RECAP ↓', 'button red');
+    watch.addEventListener('click', () => media.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' }));
+    $('dialog-actions').prepend(watch);
+  }
   if (updateHash) {
     previousHash = location.hash.startsWith('#event/') ? '#events' : location.hash || '#events';
     history.pushState(null, '', `#event/${event.id}`);

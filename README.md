@@ -90,3 +90,7 @@ External forms/social URLs were extracted or supplied, not submitted or used to 
 - Empty supplied assets: weekly-0901-thumb.webp uses the supplied full poster; weekly-1011.webp falls back to the supplied thumbnail with a note; instagram-beyblade.webp is unavailable and its QR control is marked awaiting original. Direct Instagram link remains available.
 - Elmina venue remains Elmina Lakeside Mall, explicitly reconfirmed by the owner. The registration form currently describes Near Elmina Sales Gallery; check the form for current details.
 - JustPlay remains 13 September 2026; original poster is unchanged. Season remains draft with zero results.
+
+## Event recap video
+
+Little Racers Challenge I (racers-1) includes the supplied Official Event Recap · Part 3 MP4 and poster under assets/videos/. Videos are optional event data. The native player loads on request, never autoplays, supports inline mobile playback and pauses when the dialog closes or its content changes. The WATCH EVENT RECAP button scrolls to the player. Share the existing #event/racers-1 URL; no event results or ranking points are inferred from the footage.
