@@ -66,7 +66,7 @@ function openEvent(event, updateHash = true) {
   $('dialog-details').append(el('p', event.details));
   $('dialog-actions').append(safeLink(event.poster, 'OPEN POSTER ↗'));
   if (event.registrationUrl && ['upcoming', 'today'].includes(state.id)) {
-    $('dialog-actions').prepend(safeLink(event.registrationUrl, 'REGISTER FOR ELMINA ↗', 'button red'));
+    $('dialog-actions').prepend(safeLink(event.registrationUrl, 'REGISTER NOW ↗', 'button red'));
   }
   $('dialog-actions').append(safeLink(`mailto:gaminggeniusmy@gmail.com?subject=${encodeURIComponent(event.title + ' enquiry')}`, 'ASK GG ↗'));
   const copy = el('button', 'COPY EVENT LINK ⧉', 'button outline');
