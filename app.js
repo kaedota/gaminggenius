@@ -85,8 +85,19 @@ function openEvent(event, updateHash = true) {
       const video = el('video');
       video.controls = true;
       video.preload = 'none';
+      video.addEventListener('play', () => {
+        dialog.querySelectorAll('video').forEach(other => { if (other !== video) other.pause(); });
+      });
       video.playsInline = true;
       video.poster = film.poster;
+      const setRatio = (width, height) => {
+        if (Number.isFinite(width) && Number.isFinite(height) && width > 0 && height > 0) {
+          video.style.aspectRatio = width + ' / ' + height;
+          video.style.setProperty('--film-ratio', String(width / height));
+        }
+      };
+      setRatio(film.width, film.height);
+      video.addEventListener('loadedmetadata', () => setRatio(video.videoWidth, video.videoHeight));
       video.setAttribute('aria-label', film.title);
       const source = el('source'); source.src = film.src; source.type = film.type || 'video/mp4';
       video.append(source, 'Your browser does not support this video.');
@@ -99,7 +110,7 @@ function openEvent(event, updateHash = true) {
       source.addEventListener('error', showError); video.addEventListener('error', showError);
       article.append(error); media.append(article);
     }
-    const watch = el('button', 'WATCH EVENT RECAP ↓', 'button red');
+    const watch = el('button', event.id === 'racers-1' ? 'WATCH EVENT RECAP ↓' : 'WATCH EVENT VIDEOS ↓', 'button red');
     watch.addEventListener('click', () => media.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' }));
     $('dialog-actions').prepend(watch);
   }

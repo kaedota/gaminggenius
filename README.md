@@ -94,3 +94,7 @@ External forms/social URLs were extracted or supplied, not submitted or used to 
 ## Event recap video
 
 Little Racers Challenge I (racers-1) includes the supplied Official Event Recap · Part 3 MP4 and poster under assets/videos/. Videos are optional event data. The native player loads on request, never autoplays, supports inline mobile playback and pauses when the dialog closes or its content changes. The WATCH EVENT RECAP button scrolls to the player. Share the existing #event/racers-1 URL; no event results or ranking points are inferred from the footage.
+
+## Video Batch 01
+
+Merge by event ID and deduplicate by src. Paradigm has three supplied promotional films; Centro Beyblade has one highlights film; Little Racers II has one event film. Little Racers I keeps its existing Part 3 recap. No sixth batch film or placeholder is added. Each player preserves its own aspect ratio, uses native controls with preload=none and playsinline, and pauses on close or event changes. Starting another film pauses its siblings. Media and cover files are copied unchanged from GG-Videos-Fixed (1).zip.
