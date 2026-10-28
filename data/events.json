@@ -116,7 +116,16 @@
     "kind": "junior",
     "time": "",
     "poster": "assets/posters/racers-1.webp",
-    "thumbnail": "assets/posters/racers-1-thumb.webp"
+    "thumbnail": "assets/posters/racers-1-thumb.webp",
+    "videos": [
+      {
+        "title": "Official Event Recap · Part 3",
+        "description": "The full Part 3 recap: player stories and memories from the first Little Racers Challenge.",
+        "src": "assets/videos/little-racers-1-recap-part-3.mp4",
+        "poster": "assets/videos/little-racers-1-recap-part-3.jpg",
+        "type": "video/mp4"
+      }
+    ]
   },
   {
     "id": "racers-2",

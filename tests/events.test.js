@@ -23,3 +23,11 @@ test('confirmed year correction and real Elmina registration are retained',()=>{
  assert.equal(events.find(e=>e.id==='elmina').registrationUrl,'https://forms.gle/xL64RhokrHdTP4376');
  assert.equal(events.filter(e=>e.kind==='weekly').length,11);
 });
+
+
+test('first Little Racers recap uses real supplied MP4 and JPEG assets only on its own event',()=>{
+ const films=events.filter(e=>e.videos?.length);assert.deepEqual(films.map(e=>e.id),['racers-1']);
+ const film=films[0].videos[0];assert.equal(film.title,'Official Event Recap · Part 3');assert.equal(film.type,'video/mp4');
+ const video=readFileSync(new URL('../'+film.src,import.meta.url));assert.equal(video.subarray(4,8).toString(),'ftyp');assert.ok(video.length>1000000);
+ const poster=readFileSync(new URL('../'+film.poster,import.meta.url));assert.equal(poster[0],0xff);assert.equal(poster[1],0xd8);
+});
