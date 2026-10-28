@@ -1,181 +1,22 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gaming Genius</title>
-
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Arial,Helvetica,sans-serif;background:#0b0b0b;color:#fff;line-height:1.6}
-a{text-decoration:none;color:inherit}
-
-nav{
-position:fixed;top:0;width:100%;z-index:10;
-display:flex;justify-content:space-between;align-items:center;
-padding:22px 7%;background:rgba(0,0,0,.75);backdrop-filter:blur(12px)
-}
-.logo{font-size:22px;font-weight:800;color:#ff9f1c}
-nav a{margin-left:26px;color:#ddd;font-size:15px}
-
-.hero{
-min-height:100vh;display:flex;align-items:center;
-padding:130px 7% 80px;
-background:linear-gradient(120deg,#050505,#151515 55%,#291600)
-}
-.hero-content{max-width:850px}
-.tag{color:#ff9f1c;font-weight:700;margin-bottom:18px;letter-spacing:1px}
-.hero h1{font-size:72px;line-height:1.05;margin-bottom:22px}
-.hero p{font-size:24px;color:#ccc;max-width:720px;margin-bottom:36px}
-
-.buttons a{display:inline-block;margin-right:14px;margin-bottom:12px;padding:15px 28px;border-radius:40px;font-weight:700}
-.primary{background:#ff9f1c;color:#000}
-.secondary{border:1px solid #666;color:#fff}
-
-section{padding:90px 7%;max-width:1300px;margin:auto}
-h2{font-size:42px;margin-bottom:16px}
-.sub{color:#aaa;font-size:18px;margin-bottom:38px;max-width:760px}
-
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.card{background:#161616;border:1px solid #2a2a2a;border-radius:22px;padding:30px}
-.card h3{font-size:24px;margin-bottom:12px;color:#ff9f1c}
-.card p{color:#bbb}
-
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.stat{background:#111;border:1px solid #2c2c2c;border-radius:20px;padding:28px;text-align:center}
-.stat strong{display:block;font-size:42px;color:#ff9f1c}
-
-.event{
-background:linear-gradient(135deg,#171717,#271600);
-border:1px solid #3a2a10;border-radius:28px;padding:40px;
-display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:center
-}
-.badge{display:inline-block;background:#ff9f1c;color:#000;padding:8px 15px;border-radius:30px;font-weight:800;margin-bottom:18px}
-.event h3{font-size:38px;margin-bottom:16px}
-.event p{color:#ccc;font-size:18px}
-
-.quote{font-size:30px;color:#eee;max-width:900px}
-footer{padding:50px 7%;background:#050505;color:#888;text-align:center}
-
-@media(max-width:850px){
-nav{padding:18px 5%}
-nav div{display:none}
-.hero h1{font-size:46px}
-.hero p{font-size:20px}
-.grid,.stats,.event{grid-template-columns:1fr}
-section{padding:70px 5%}
-}
-</style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f6f4ee"><meta name="description" content="Gaming Genius brings players together through Beyblade tournaments, Little Racers junior esports and community experiences in Malaysia. Explore our events and upcoming GG season rankings.">
+<title>Gaming Genius — A stage for every player.</title>
+<link rel="icon" href="assets/gg-mark.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-
-<nav>
-  <div class="logo">Gaming Genius</div>
-  <div>
-    <a href="#journey">Journey</a>
-    <a href="#events">Events</a>
-    <a href="#ranking">Ranking</a>
-    <a href="#about">About</a>
-  </div>
-</nav>
-
-<header class="hero">
-  <div class="hero-content">
-    <div class="tag">GAMING • HOBBY • COMMUNITY</div>
-    <h1>Building Malaysia's Gaming & Hobby Community</h1>
-    <p>From junior esports tournaments to the next generation of Beyblade league events, Gaming Genius creates real stages for players, families and communities.</p>
-    <div class="buttons">
-      <a class="primary" href="#events">Upcoming Events</a>
-      <a class="secondary" href="#journey">Our Journey</a>
-    </div>
-  </div>
-</header>
-
-<section id="journey">
-  <h2>Our Journey</h2>
-  <p class="sub">Gaming Genius started by creating real competitive experiences for children and families. Every event becomes content, memory and community growth.</p>
-
-  <div class="grid">
-    <div class="card">
-      <h3>Junior Challenge 1</h3>
-      <p>Our first children racing tournament, built from the ground up with real players, families and event production.</p>
-    </div>
-    <div class="card">
-      <h3>Junior Challenge 2</h3>
-      <p>The second edition expanded the format with more players, stronger production, player stories and broadcast coverage.</p>
-    </div>
-    <div class="card">
-      <h3>Beyblade League</h3>
-      <p>The next chapter: a structured Beyblade season with ranking, community events and future grand finals.</p>
-    </div>
-  </div>
-</section>
-
-<section>
-  <h2>Achievements</h2>
-  <p class="sub">Real progress, real players, real events.</p>
-
-  <div class="stats">
-    <div class="stat"><strong>2</strong>Junior Championships</div>
-    <div class="stat"><strong>80+</strong>Players Joined</div>
-    <div class="stat"><strong>100k+</strong>Online Views</div>
-    <div class="stat"><strong>1</strong>Growing Platform</div>
-  </div>
-</section>
-
-<section id="events">
-  <h2>Upcoming Event</h2>
-  <p class="sub">Our next chapter begins with Beyblade.</p>
-
-  <div class="event">
-    <div>
-      <span class="badge">COMING SOON</span>
-      <h3>Beyblade Ranking Season</h3>
-      <p>Location: Centro Mall, Klang</p>
-      <p>Date: August 2026</p>
-      <p>Ranking points, community battles and future grand finals.</p>
-    </div>
-    <div class="card">
-      <h3>Register</h3>
-      <p>Registration link will be available here once the event is confirmed.</p>
-      <br>
-      <a class="primary" href="#">Google Form Coming Soon</a>
-    </div>
-  </div>
-</section>
-
-<section id="ranking">
-  <h2>Player Ranking</h2>
-  <p class="sub">A dedicated ranking system for future Beyblade and Gaming Genius events.</p>
-
-  <div class="card">
-    <h3>Season Ranking</h3>
-    <p>Ranking table will be updated after official Gaming Genius events.</p>
-  </div>
-</section>
-
-<section id="about">
-  <h2>About Gaming Genius</h2>
-  <p class="quote">We do not just organize tournaments. We build communities, create memories and give every player a stage to grow.</p>
-  <br>
-  <p class="sub">Gaming Genius brings together gaming, hobby events, live production, family activities and long-term community building.</p>
-</section>
-
-<section>
-  <h2>Partner With Us</h2>
-  <p class="sub">We welcome shopping malls, schools, sponsors and communities who want to build meaningful gaming and hobby experiences together.</p>
-
-  <div class="grid">
-    <div class="card"><h3>Shopping Malls</h3><p>Bring community events and family traffic into your space.</p></div>
-    <div class="card"><h3>Schools</h3><p>Create safe and structured gaming experiences for students.</p></div>
-    <div class="card"><h3>Sponsors</h3><p>Connect your brand with active families and young players.</p></div>
-  </div>
-</section>
-
-<footer>
-  © 2026 Gaming Genius · gaminggenius.my
-</footer>
-
-</body>
-</html>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><a class="brand" href="#home" aria-label="Gaming Genius home"><span class="brand-icon">GG<span>↗</span></span><span>GAMING<br>GENIUS<span class="brand-small">PLAY. COMPETE. BELONG.</span></span></a><nav aria-label="Main navigation"><a href="#events">Our events</a><a href="#ranking">GG Rankings <span class="tiny-dot"></span></a><a href="#about">Our story</a></nav><a class="nav-cta" href="#partner">Let's collaborate <span>↗</span></a></header>
+<main id="main">
+<section class="hero" id="home"><div class="hero-copy"><p class="eyebrow"><span class="dot"></span> MALAYSIA · GAMING & HOBBY COMMUNITY</p><h1>A stage for<br>every <span class="serif">player.</span><span class="heading-star">✳</span></h1><p class="hero-description">Big first races. Close final battles.<br>Good people, brought together by play.</p><div class="hero-actions"><a class="button dark" href="#events">Explore our events <span>↗</span></a><a class="text-link" href="#ranking">Find your next challenge <span>→</span></a></div><div class="hero-caption"><span class="caption-rule"></span> From Bukit Raja. Built for the community.</div></div><div class="arena-art" role="img" aria-label="Graphic illustration of two spinning tops meeting in a tournament arena"><div class="art-grid"></div><span class="art-top">THE NEXT BATTLE<br>STARTS WITH YOU.</span><span class="arena-outline ring-one"></span><span class="arena-outline ring-two"></span><span class="arena-outline ring-three"></span><div class="top top-one"><i></i></div><div class="top top-two"><i></i></div><span class="burst">✳</span><div class="art-bottom"><span>GG / COMMUNITY<br>IN MOTION</span><span class="art-arrow">↗</span></div><span class="art-index">001 — PLAY WITHOUT LIMITS</span></div></section>
+<div class="ticker" aria-label="Our activities"><div>BEYBLADE X <span>✳</span> LITTLE RACERS <span>✳</span> COMMUNITY PLAY <span>✳</span> LIVE PRODUCTION <span>✳</span> BEYBLADE X <span>✳</span> LITTLE RACERS <span>✳</span></div></div>
+<section class="section events-section" id="events"><div class="section-heading"><div><p class="eyebrow">01 / THE PLACES WE'VE PLAYED</p><h2>Small beginnings.<br><span class="serif">Real moments.</span></h2></div><p>From our first junior racing challenge to mall tournaments. Explore the events shaping the GG community.</p></div><div class="archive-toolbar"><div class="filters" role="group" aria-label="Filter events"><button class="filter active" data-filter="all" aria-pressed="true">All events</button><button class="filter" data-filter="beyblade" aria-pressed="false">Beyblade X</button><button class="filter" data-filter="racers" aria-pressed="false">Little Racers</button><button class="filter" data-filter="community" aria-pressed="false">Community</button></div><span class="archive-count" id="event-count" aria-live="polite"></span></div><div id="event-grid" class="event-grid"><p class="load-state">Loading the event archive…</p></div><p class="archive-note">An archive in progress. Individual weekly results and event photography will be added as records are verified.</p></section>
+<section class="ranking-section" id="ranking"><div class="ranking-intro"><p class="eyebrow"><span class="dot"></span> 02 / SOMETHING TO PLAY FOR</p><h2>Your next chapter.<br><span class="serif">On the ladder.</span></h2><p>A GG season built around showing up, improving and making your best results count.</p><a href="#rules" class="text-link light">Explore the proposed rules <span>↗</span></a><div class="ladder-art" aria-hidden="true"><span>03</span><span>02</span><span>01 ↗</span></div><p class="ranking-disclaimer">An independent Gaming Genius ranking. No affiliation with another organisation's points, ranking or qualification system is implied.</p></div><div class="ranking-panel"><div class="panel-top"><span class="eyebrow" id="season-name-label">GG SEASON 01</span><span class="status draft" id="season-status">RULES IN DEVELOPMENT</span></div><div class="rank-title"><h3>Season leaderboard</h3><span id="season-dates">Season dates to be announced</span></div><label class="search-box"><span aria-hidden="true">⌕</span><input type="search" id="player-search" placeholder="Search player name or GG ID" aria-label="Search player name or GG ID"></label><div class="table-scroll"><table><thead><tr><th scope="col">RANK</th><th scope="col">PLAYER</th><th scope="col">EVENTS</th><th scope="col">POINTS</th></tr></thead><tbody id="ranking-body"></tbody></table></div><div id="ranking-empty" class="ranking-empty"><span class="empty-symbol">↗</span><h4>The first chapter is yours.</h4><p>Player standings will appear here when Season 01 launches. Follow the season, track your progress and make your best results count.</p><a class="button orange" href="#rules">See how points could work <span>↓</span></a></div><p class="rank-footnote" id="rank-footnote">Proposed format: best 6 eligible event results per season.</p></div></section>
+<section class="section rules-section" id="rules"><div class="rules-intro"><p class="eyebrow" id="rulebook-label">THE RULEBOOK / DRAFT V1</p><h2>Make every<br><span class="serif">battle count.</span></h2><p id="rulebook-description">This proposal is open for organiser review. Season dates and eligible events will be announced before launch.</p></div><div class="rules-content"><div class="point-grid"><div><strong>100</strong><span>Champion</span></div><div><strong>70</strong><span>Runner-up</span></div><div><strong>50</strong><span>3rd place</span></div><div><strong>35</strong><span>4th place</span></div><div><strong>25</strong><span>5th–8th</span></div><div><strong>15</strong><span>9th–16th</span></div><div><strong>5</strong><span>17th & below</span></div></div><details><summary>Which events count?</summary><p>Only events explicitly announced as GG season points events before registration. Each eligible event uses the same scale. No automatic inclusion of past events or other organisers' events. One verified final standing per GG player ID per event; no-show and disqualified entries are excluded before import.</p></details><details><summary>Why the best six results?</summary><p>Your six highest-scoring eligible results contribute to your total. Extra appearances offer another chance to improve, without making attendance alone the deciding factor. One placement award per event; participation points are not added on top.</p></details><details><summary>How are ties and corrections handled?</summary><p>Equal points are ordered by best counted placing, then the number of wins among counted results. If still tied, players share the same rank. Event standings must be verified before entry; tied tournament placings receive the same placement points. Contact GG to request a correction with the event name and result evidence. Season dates and correction deadlines will be published before launch.</p></details></div></section>
+<section class="story-section" id="about"><div class="story-number">GG<span>EST. IN BUKIT RAJA</span></div><div><p class="eyebrow">03 / MORE THAN MATCH DAY</p><h2>Play brings us together.<br><span class="serif">The memories stay.</span></h2><p>Gaming Genius creates spaces for children, families and hobby communities to compete, discover and belong. From Little Racers to Beyblade battles, we bring care to the whole experience: the game, the stage and the people around it.</p><a class="text-link" href="#events">Follow our journey <span>↗</span></a></div></section>
+<section class="partner-section" id="partner"><div><p class="eyebrow">LET'S BUILD THE NEXT EXPERIENCE</p><h2>Your space.<br>Our next <span class="serif">playground.</span></h2><p>Mall activations · Junior esports · Hobby tournaments<br>Community play · Multi-camera event production</p></div><a class="button dark" href="mailto:gaminggeniusmy@gmail.com?subject=Gaming%20Genius%20Event%20Collaboration">Talk to Gaming Genius <span>↗</span></a></section>
+</main><footer><a class="footer-logo" href="#home">GAMING GENIUS<span>PLAY. COMPETE. BELONG.</span></a><p>Bukit Raja, Klang · Malaysia<br><a href="mailto:gaminggeniusmy@gmail.com">gaminggeniusmy@gmail.com</a></p><p>© 2026 Gaming Genius<br><a href="#ranking">GG Rankings</a> · <a href="#events">Event archive</a></p></footer>
+<dialog id="event-dialog" aria-labelledby="dialog-title"><button id="dialog-close" class="dialog-close" aria-label="Close event details">×</button><p class="eyebrow" id="dialog-label"></p><h2 id="dialog-title"></h2><p class="dialog-meta" id="dialog-meta"></p><p id="dialog-description"></p><div class="dialog-metrics" id="dialog-metrics"></div><p id="dialog-details"></p><a class="text-link" href="mailto:gaminggeniusmy@gmail.com?subject=Event%20archive%20enquiry">Ask GG about this event ↗</a></dialog>
+<script type="module" src="app.js"></script></body></html>
