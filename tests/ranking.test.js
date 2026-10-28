@@ -1,0 +1,12 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';import {calculateRankings,parseCSV,pointsFor,validateResults} from '../ranking.js';
+const config=JSON.parse(readFileSync(new URL('../data/season.json',import.meta.url)));
+const row=(id,place,event='e1')=>({event_id:event,date:'2026-11-10',player_id:id,display_name:id,placement:place,participants:32});
+test('placement boundaries award one result, not stacked points',()=>assert.deepEqual([1,2,3,4,5,8,9,16,17,32].map(p=>pointsFor(p,config)),[100,70,50,35,25,25,15,15,5,5]));
+test('best six discard weakest results',()=>{const r=calculateRankings(Array.from({length:8},(_,i)=>row('A',i+1,'e'+i)),config)[0];assert.equal(r.results.length,8);assert.equal(r.counted.length,6);assert.equal(r.total,305);});
+test('tiebreakers and competition ranks retain ties',()=>{const r=calculateRankings([row('B',1),row('A',1),row('C',2)],config);assert.deepEqual(r.map(p=>[p.name,p.rank]),[['A',1],['B',1],['C',3]]);});
+test('duplicates, impossible dates, inconsistent event metadata and season bounds fail',()=>{assert.throws(()=>validateResults([row('A',1),row('A',2)],config),/Duplicate/);assert.throws(()=>validateResults([{...row('A',1),date:'2026-02-30'}],config),/real date/);assert.throws(()=>validateResults([row('A',1),{...row('B',2),participants:64}],config),/inconsistent/);assert.throws(()=>validateResults([row('A',1)],{...config,startDate:'2026-12-01'}),/outside/);});
+test('CSV handles BOM, quoted commas, escaped quotes and CRLF',()=>{const rows=parseCSV('\uFEFFevent_id,date,player_id,display_name,placement,participants\r\ne1,2026-11-10,A,"Player, ""A""",1,32\r\n');assert.equal(rows[0].display_name,'Player, "A"');assert.equal(rows[0].placement,1);});
+test('CSV rejects malformed or unsafe numeric data',()=>{assert.throws(()=>parseCSV('event_id,date,player_id,display_name,placement,participants\ne1,2026-11-10,A,"Oops,1,32'),/Unclosed/);assert.throws(()=>validateResults(parseCSV('event_id,date,player_id,display_name,placement,participants\ne1,2026-11-10,A,A,=1+1,32'),config),/Invalid placement/);});
+test('new season is draft with no invented player data',()=>{assert.equal(config.status,'draft');assert.deepEqual(calculateRankings(config.results,config),[]);});
+
+test('CSV rejects trailing characters after closing quotes',()=>{assert.throws(()=>parseCSV('event_id,date,player_id,display_name,placement,participants\ne1,2026-11-10,A,"Alias"garbage,1,32'),/closing CSV quote/);});
