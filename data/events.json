@@ -14,7 +14,39 @@
     "kind": "mall",
     "time": "",
     "poster": "assets/posters/paradigm.webp",
-    "thumbnail": "assets/posters/paradigm-thumb.webp"
+    "thumbnail": "assets/posters/paradigm-thumb.webp",
+    "videos": [
+      {
+        "title": "Pre-event Promo",
+        "description": "The first promotional film for Paradigm Power Cup.",
+        "src": "assets/videos/paradigm-promo-01.mp4",
+        "poster": "assets/videos/paradigm-promo-01.jpg",
+        "type": "video/mp4",
+        "width": 720,
+        "height": 1280,
+        "durationSeconds": 15.672993
+      },
+      {
+        "title": "Pre-event Teaser 01",
+        "description": "A preview of Paradigm Power Cup.",
+        "src": "assets/videos/paradigm-teaser-01.mp4",
+        "poster": "assets/videos/paradigm-teaser-01.jpg",
+        "type": "video/mp4",
+        "width": 720,
+        "height": 898,
+        "durationSeconds": 53.103991
+      },
+      {
+        "title": "Pre-event Teaser 02",
+        "description": "An invitation to Paradigm Power Cup at Paradigm Mall PJ.",
+        "src": "assets/videos/paradigm-teaser-02.mp4",
+        "poster": "assets/videos/paradigm-teaser-02.jpg",
+        "type": "video/mp4",
+        "width": 720,
+        "height": 1280,
+        "durationSeconds": 40.402993
+      }
+    ]
   },
   {
     "id": "aeon",
@@ -48,7 +80,19 @@
     "kind": "mall",
     "time": "",
     "poster": "assets/posters/centro-beyblade.webp",
-    "thumbnail": "assets/posters/centro-beyblade-thumb.webp"
+    "thumbnail": "assets/posters/centro-beyblade-thumb.webp",
+    "videos": [
+      {
+        "title": "Centro Mall · Event Highlights",
+        "description": "Moments from the Centro Mall Beyblade X competition.",
+        "src": "assets/videos/centro-recap-01.mp4",
+        "poster": "assets/videos/centro-recap-01.jpg",
+        "type": "video/mp4",
+        "width": 720,
+        "height": 1280,
+        "durationSeconds": 63.971995
+      }
+    ]
   },
   {
     "id": "centro-tcg",
@@ -142,7 +186,19 @@
     "kind": "junior",
     "time": "",
     "poster": "assets/posters/racers-2.webp",
-    "thumbnail": "assets/posters/racers-2-thumb.webp"
+    "thumbnail": "assets/posters/racers-2-thumb.webp",
+    "videos": [
+      {
+        "title": "Little Racers II · Event Film",
+        "description": "A film from the second Little Racers Challenge.",
+        "src": "assets/videos/little-racers-2-event-film-01.mp4",
+        "poster": "assets/videos/little-racers-2-event-film-01.jpg",
+        "type": "video/mp4",
+        "width": 720,
+        "height": 1280,
+        "durationSeconds": 34.453
+      }
+    ]
   },
   {
     "id": "halloween",
