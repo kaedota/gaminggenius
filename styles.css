@@ -11,3 +11,5 @@
 .season-picker{display:grid;gap:7px;font-size:10px;letter-spacing:1px;margin:12px 0}.season-picker select{padding:10px;background:var(--surface);color:var(--paper);border:1px solid var(--line);width:100%}
 
 .event-tier{white-space:pre-line}.season-status{text-transform:none}
+
+.featured-film{padding-block:40px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;border-bottom:1px solid var(--line)}.featured-film[hidden]{display:none}.featured-film h2{margin:14px 0}.featured-film .feature-meta{color:var(--muted);margin:16px 0}.feature-player{background:#000;border:1px solid var(--line);display:flex;justify-content:center}.feature-player video{display:block;width:100%;height:min(65vh,600px);object-fit:contain}.feature-controls{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}.feature-controls button{min-height:44px}.feature-note{font-size:12px;color:var(--muted);margin-top:14px}@media(max-width:640px){.featured-film{grid-template-columns:1fr;gap:24px;padding-block:30px}.feature-player video{height:min(65vh,560px)}.featured-film h2{font-size:38px}}

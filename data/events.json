@@ -165,7 +165,19 @@
     "kind": "mall",
     "time": "",
     "poster": "assets/posters/elmina.webp",
-    "thumbnail": "assets/posters/elmina-thumb.webp"
+    "thumbnail": "assets/posters/elmina-thumb.webp",
+    "videos": [
+      {
+        "title": "Elmina Cup · Official Promo",
+        "description": "Get ready for two days of Beyblade X battles at Elmina Cup.",
+        "src": "assets/videos/elmina-cup-promo-01.mp4",
+        "poster": "assets/videos/elmina-cup-promo-01.jpg",
+        "type": "video/mp4",
+        "width": 720,
+        "height": 1280
+      }
+    ],
+    "homepagePromo": "assets/videos/elmina-cup-promo-01.mp4"
   },
   {
     "id": "racers-1",

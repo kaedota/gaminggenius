@@ -1,3 +1,4 @@
+import { renderFeaturedFilm } from './featured-film.js';
 import { calculateRankings } from './ranking.js';
 import { eventState, sortNewest, upcomingEvents, malaysiaDate, seasonState, rankingEventLabel, matchesPlayer } from './event-utils.js';
 
@@ -213,7 +214,7 @@ function handleHash() {
 window.addEventListener('hashchange', handleHash);
 window.addEventListener('popstate', handleHash);
 getJSON('data/events.json').then(data => {
-  events = data; renderUpcoming(); renderArchive(); renderWeekly(); handleHash();
+  events = data; renderFeaturedFilm(events, today, openEvent, dialog); renderUpcoming(); renderArchive(); renderWeekly(); handleHash();
 }).catch(() => {
   for (const id of ['event-grid', 'weekly-grid', 'upcoming-grid']) $(id).replaceChildren(el('p', 'Events could not load. Please refresh or contact GG.', 'load-state'));
 });
