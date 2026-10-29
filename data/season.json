@@ -55,10 +55,10 @@
     },
     "elmina": {
       "title": "Elmina Cup",
-      "multiplier": 1,
+      "multiplier": 2,
       "topCutSize": null,
       "scoringMode": "final-event",
-      "eligible": false,
+      "eligible": true,
       "discipline": "beyblade"
     },
     "racers-1": {
