@@ -1,9 +1,9 @@
 {
   "id": "season-01",
   "name": "GG Season 01",
-  "status": "draft",
-  "startDate": null,
-  "endDate": null,
+  "status": "active",
+  "startDate": "2026-10-30",
+  "endDate": "2026-12-31",
   "scoringVersion": "cumulative-v2",
   "points": {
     "champion": 20,
@@ -17,117 +17,159 @@
       "title": "Paradigm Power Cup",
       "multiplier": 1,
       "topCutSize": null,
-      "scoringMode": "pending"
+      "scoringMode": "pending",
+      "eligible": false,
+      "discipline": "beyblade"
     },
     "aeon": {
       "title": "AEON 42nd Anniversary G3",
       "multiplier": 1,
       "topCutSize": null,
-      "scoringMode": "final-event"
+      "scoringMode": "final-event",
+      "eligible": false,
+      "discipline": "beyblade"
     },
     "centro-beyblade": {
       "title": "Titan × Gaming Genius",
       "multiplier": 1,
       "topCutSize": null,
-      "scoringMode": "final-event"
+      "scoringMode": "final-event",
+      "eligible": false,
+      "discipline": "beyblade"
     },
     "centro-tcg": {
       "title": "Centro Pokémon TCG Championship",
       "multiplier": 1,
       "topCutSize": null,
-      "scoringMode": "final-event"
+      "scoringMode": "final-event",
+      "eligible": false,
+      "discipline": "tcg"
     },
     "justplay": {
       "title": "JustPlay · 多元同乐",
       "multiplier": 1,
       "topCutSize": null,
-      "scoringMode": "final-event"
+      "scoringMode": "final-event",
+      "eligible": false,
+      "discipline": "community"
     },
     "elmina": {
       "title": "Elmina Cup",
       "multiplier": 1,
       "topCutSize": null,
-      "scoringMode": "final-event"
+      "scoringMode": "final-event",
+      "eligible": false,
+      "discipline": "beyblade"
     },
     "racers-1": {
       "title": "Little Racers Challenge I",
       "multiplier": 1,
       "topCutSize": null,
-      "scoringMode": "final-event"
+      "scoringMode": "final-event",
+      "eligible": false,
+      "discipline": "esports"
     },
     "racers-2": {
       "title": "Little Racers Challenge II",
       "multiplier": 1,
       "topCutSize": null,
-      "scoringMode": "pending"
+      "scoringMode": "pending",
+      "eligible": false,
+      "discipline": "esports"
     },
     "halloween": {
       "title": "Halloween Night",
       "multiplier": 1,
-      "topCutSize": null,
-      "scoringMode": "final-event"
+      "topCutSize": 8,
+      "scoringMode": "final-event",
+      "eligible": true,
+      "discipline": "beyblade",
+      "firstRankingEvent": true
     },
     "weekly-1027": {
       "title": "Weekly Night Battle",
       "multiplier": 1,
       "topCutSize": null,
-      "scoringMode": "final-event"
+      "scoringMode": "final-event",
+      "eligible": false,
+      "discipline": "beyblade"
     },
     "weekly-1020": {
       "title": "Night Battle · White Dragon",
       "multiplier": 1,
       "topCutSize": null,
-      "scoringMode": "final-event"
+      "scoringMode": "final-event",
+      "eligible": false,
+      "discipline": "beyblade"
     },
     "weekly-1011": {
       "title": "Night Battle · Phoenix Wing",
       "multiplier": 1,
       "topCutSize": null,
-      "scoringMode": "final-event"
+      "scoringMode": "final-event",
+      "eligible": false,
+      "discipline": "beyblade"
     },
     "weekly-0922": {
       "title": "Phoenix Cup",
       "multiplier": 1,
       "topCutSize": null,
-      "scoringMode": "pending"
+      "scoringMode": "pending",
+      "eligible": false,
+      "discipline": "beyblade"
     },
     "weekly-0915": {
       "title": "Night Battle · Meteor Dragoon",
       "multiplier": 1,
       "topCutSize": null,
-      "scoringMode": "final-event"
+      "scoringMode": "final-event",
+      "eligible": false,
+      "discipline": "beyblade"
     },
     "weekly-0908": {
       "title": "Night Battle · Aero Pegasus",
       "multiplier": 1,
       "topCutSize": null,
-      "scoringMode": "final-event"
+      "scoringMode": "final-event",
+      "eligible": false,
+      "discipline": "beyblade"
     },
     "weekly-0901": {
       "title": "Night Battle · Shark Scale",
       "multiplier": 1,
       "topCutSize": null,
-      "scoringMode": "final-event"
+      "scoringMode": "final-event",
+      "eligible": false,
+      "discipline": "beyblade"
     },
     "weekly-0829": {
       "title": "GG × XJL Night Battle",
       "multiplier": 1,
       "topCutSize": null,
-      "scoringMode": "final-event"
+      "scoringMode": "final-event",
+      "eligible": false,
+      "discipline": "beyblade"
     },
     "weekly-0825": {
       "title": "GG × Titan Night Battle",
       "multiplier": 1,
       "topCutSize": null,
-      "scoringMode": "final-event"
+      "scoringMode": "final-event",
+      "eligible": false,
+      "discipline": "beyblade"
     },
     "weekly-0808": {
       "title": "GG × XJL Night Battle",
       "multiplier": 1,
       "topCutSize": null,
-      "scoringMode": "pending"
+      "scoringMode": "pending",
+      "eligible": false,
+      "discipline": "beyblade"
     }
   },
   "results": [],
-  "archives": []
+  "archives": [],
+  "timeZone": "Asia/Kuala_Lumpur",
+  "shortName": "SEASON 01",
+  "enforceEligibility": true
 }
