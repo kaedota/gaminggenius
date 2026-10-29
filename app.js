@@ -200,7 +200,7 @@ function renderRankings() {
 $('player-search').addEventListener('input', renderRankings);
 
 async function getJSON(path) {
-  const response = await fetch(path);
+  const response = await fetch(path, {cache:'no-cache'});
   if (!response.ok) throw Error(`Could not load ${path}`);
   return response.json();
 }
