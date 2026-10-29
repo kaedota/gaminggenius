@@ -15,7 +15,7 @@ This version implements Kae's approved black/red esports + Beyblade direction wi
 - Original full posters plus lighter thumbnails. Entire posters are visible; click to read full artwork and details.
 - Direct WhatsApp and two Instagram links, plus the original supplied QR images in a dialog.
 - Elmina registration link, shown only while the event is upcoming or on its event dates.
-- Searchable season leaderboard, player-result dialog, shared points calculation and CSV preparation tool. No fabricated players or results; Season 01 remains a draft.
+- Searchable season leaderboard, player-result dialog, shared points calculation and CSV preparation tool. No fabricated players or results; Season 01 is announced for 30 October–31 December 2026.
 
 ## Local preview
 
@@ -52,11 +52,11 @@ Edit `data/events.json`. Each record includes ID, category, dates, venue, copy, 
 
 ## Maintain rankings
 
-Use results-tool.html. It is a browser-only preparation tool, not an authenticated backend; export before leaving. It loads current results and archives and exports the entire season.json bundle. No automatic GitHub write. Season 01 remains a draft with no players/results.
+Use results-tool.html. It is a browser-only preparation tool, not an authenticated backend; export before leaving. It loads current results and archives and exports the entire season.json bundle. No automatic GitHub write. Season 01 is announced for 30 October–31 December 2026 with no players/results.
 
 Cumulative-v2: Regular ×1 awards 20/15/10 to first/second/third, 7 to other confirmed Top Cut players, 5 to other actual participants. Double ×2 awards 40/30/20/14/10. Highest band only, never stacked. All valid events sum by unique Player ID within one season; no best-N cap. Ties remain best placing, then wins, then shared competition rank.
 
-Event settings are in season.events[event_id]: multiplier (default 1, allowed 1/2), topCutSize (null means unknown), scoringMode (final-event or pending), title. Do not infer Top Cut from attendance. GG must confirm event eligibility/multiplier before registration; no historical event is automatically eligible. Current default multipliers are ×1, including Elmina, until separately confirmed. Paradigm (six sessions), racers-2 (qualifiers/finals), weekly-0922 and weekly-0808 (two slots/player) use scoringMode=pending until GG confirms the award unit. Slot/session CSV awards are rejected, not silently added.
+Event settings are in season.events[event_id]: multiplier (default 1, allowed 1/2), topCutSize (null means unknown), scoringMode (final-event or pending), title. Do not infer Top Cut from attendance. GG must confirm event eligibility/multiplier before registration; no historical event is automatically eligible. Only Halloween is currently designated eligible; all multipliers remain ×1. Other activities, including Elmina, are not automatically ranking events. Paradigm (six sessions), racers-2 (qualifiers/finals), weekly-0922 and weekly-0808 (two slots/player) use scoringMode=pending until GG confirms the award unit. Slot/session CSV awards are rejected, not silently added.
 
 CSV required headers: event_id,date,player_id,display_name,placement,participants. Optional: season_id,top_cut,attendance,slot,session. Recommended template includes season_id,top_cut,attendance. top_cut=true/false; attendance=attended/no_show/registered/disqualified. No-show and registered-only rows may have blank placement and earn zero. Same-event metadata must agree. Unknown Top Cut requires an explicit boolean for placements after third. Conflicting configured flags are rejected. Do not include private contact data.
 
@@ -98,3 +98,6 @@ Little Racers Challenge I (racers-1) includes the supplied Official Event Recap 
 ## Video Batch 01
 
 Merge by event ID and deduplicate by src. Paradigm has three supplied promotional films; Centro Beyblade has one highlights film; The Game Genius_V0 event film belongs to Little Racers I, as corrected by the owner. Little Racers I has this event film plus its existing Part 3 recap; Little Racers II has no video from this batch. The event film and cover keep their existing little-racers-2-event-film-01 filenames to preserve references. No sixth batch film or placeholder is added. Each player preserves its own aspect ratio, uses native controls with preload=none and playsinline, and pauses on close or event changes. Starting another film pauses its siblings. Media and cover files are copied unchanged from GG-Videos-Fixed (1).zip.
+
+## Season 01 public announcement
+Published status=active means announced; visible phase is determined by Asia/Kuala_Lumpur calendar dates: before 2026-10-30 Starts 30 October, through 2026-12-31 Season Live, then Season Ended. Results and archives were preserved unchanged. enforceEligibility requires explicit eligible=true AND discipline=beyblade before recording results. Halloween is the sole confirmed event, Regular ×1, Top Cut 8 from its existing poster description. Other activities have no public ranking badges. Internal scoringMode flags still protect imports without appearing in public event labels. New seasons also require explicit event designation.

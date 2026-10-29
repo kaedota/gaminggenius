@@ -1,5 +1,5 @@
-import { calculateRankings, eventSettings, multiplierLabel } from './ranking.js';
-import { eventState, sortNewest, upcomingEvents, malaysiaDate } from './event-utils.js';
+import { calculateRankings } from './ranking.js';
+import { eventState, sortNewest, upcomingEvents, malaysiaDate, seasonState, rankingEventLabel, matchesPlayer } from './event-utils.js';
 
 const $ = id => document.getElementById(id);
 const el = (tag, text, className) => {
@@ -12,7 +12,6 @@ const dialog = $('event-dialog');
 let events = [], rankings = [], season = null, weeklyExpanded = false, previousHash = '#events';
 let seasonBundle = null;
 let archiveFilter = 'all';
-const emptyTemplate = $('ranking-empty').cloneNode(true);
 const today = malaysiaDate();
 $('copyright-year').textContent = today.slice(0, 4);
 
@@ -57,7 +56,7 @@ function showMedia(path, title, label = 'GG / ORIGINAL PHOTOGRAPH') {
 document.querySelectorAll('[data-photo]').forEach(button => button.addEventListener('click', () => showMedia(button.dataset.photo, button.dataset.title)));
 document.querySelectorAll('[data-qr]').forEach(button => button.addEventListener('click', () => showMedia(button.dataset.qr, button.dataset.title, 'SCAN TO CONNECT')));
 
-function eventPointsText(event) { const settings=eventSettings(seasonBundle || {},event.id); return `${multiplierLabel(settings.multiplier)} · ${settings.scoringMode==='pending'?'slot/session scoring pending':'season eligibility TBA'}`; }
+function appendRankingTag(container,event) { const label=rankingEventLabel(event,seasonBundle); if(label)container.append(el('p',label,'event-tier')); }
 function openEvent(event, updateHash = true) {
   const state = eventState(event, today);
   const labels = { weekly: 'WEEKLY / NIGHT BATTLE', junior: 'ESPORTS / LITTLE RACERS', mall: 'GG / EVENT ARCHIVE' };
@@ -65,7 +64,7 @@ function openEvent(event, updateHash = true) {
   const image = el('img'); image.src = event.poster; image.alt = `${event.title} supplied poster`;
   $('dialog-art').append(image);
   $('dialog-description').textContent = event.description;
-  $('dialog-details').append(el('p', eventPointsText(event), 'event-tier'));
+  appendRankingTag($('dialog-details'),event);
   $('dialog-details').append(el('p', event.details));
   $('dialog-actions').append(safeLink(event.poster, 'OPEN POSTER ↗'));
   if (event.registrationUrl && ['upcoming', 'today'].includes(state.id)) {
@@ -135,7 +134,7 @@ function eventCard(event) {
   meta.append(el('span', event.dateLabel, 'event-date'), el('span', state.label, `status ${state.id}`));
   const title = el('h3', undefined, 'event-title');
   const button = el('button', event.title); button.addEventListener('click', () => openEvent(event)); title.append(button);
-  copy.append(meta, title, el('p', event.venue, 'event-venue'), el('p', eventPointsText(event), 'event-tier'));
+  copy.append(meta, title, el('p', event.venue, 'event-venue')); appendRankingTag(copy,event);
   article.append(art, copy); return article;
 }
 function renderArchive() {
@@ -161,7 +160,7 @@ function renderUpcoming() {
     art.append(image); art.addEventListener('click', () => openEvent(event));
     const copy = el('div', undefined, 'next-copy');
     copy.append(el('span', event.dateLabel + (event.time ? ` / ${event.time}` : ''), 'next-meta'), el('h3', event.title), el('p', event.venue));
-    copy.append(el('p', eventPointsText(event), 'event-tier'));
+    appendRankingTag(copy,event);
     if (event.registrationUrl) copy.append(safeLink(event.registrationUrl, 'REGISTER NOW ↗', 'button red'));
     else { const details = el('button', 'VIEW EVENT DETAILS ↗', 'button outline'); details.addEventListener('click', () => openEvent(event)); copy.append(details); }
     card.append(art, copy); return card;
@@ -177,7 +176,7 @@ $('weekly-toggle').addEventListener('click', () => { weeklyExpanded = !weeklyExp
 
 function renderRankings() {
   const query = $('player-search').value.trim().toLocaleLowerCase();
-  const matches = rankings.filter(p => `${p.name} ${p.id}`.toLocaleLowerCase().includes(query));
+  const matches = rankings.filter(p => matchesPlayer(p,query));
   $('ranking-body').replaceChildren(...matches.map(player => {
     const row = el('tr'), who = el('td');
     const button = el('button', player.name, 'rank-player');
@@ -195,7 +194,7 @@ function renderRankings() {
   const empty = $('ranking-empty'); empty.hidden = matches.length > 0;
   if (!matches.length) {
     if (rankings.length) empty.replaceChildren(el('h3', 'NO MATCHING PLAYERS'), el('p', 'Try a different name or GG player ID.'));
-    else empty.replaceChildren(...Array.from(emptyTemplate.childNodes).map(n => n.cloneNode(true)));
+    else empty.replaceChildren(el('h3','VERIFIED RESULTS'),el('p',seasonState(season).id==='upcoming'?'Standings will appear after the first GG ranking event.':'No verified results have been published for this season yet.'));
   }
 }
 $('player-search').addEventListener('input', renderRankings);
@@ -225,6 +224,9 @@ getJSON('data/supplemental.json').then(items => {
     return button;
   }));
 }).catch(() => { document.querySelector('.supplemental').hidden = true; });
+function updateSeasonStatus() { if(season)$('season-status').textContent=seasonState(season).label; }
+setInterval(updateSeasonStatus,30000);
+document.addEventListener('visibilitychange',updateSeasonStatus);
 function selectSeason(config) {
   season=config;rankings=[];
   $('season-name-label').textContent=config.name.toUpperCase();
@@ -233,9 +235,10 @@ function selectSeason(config) {
   const p=config.points, scores=[p.champion,p.runnerUp,p.third,p.topCut,p.participation];
   document.querySelectorAll('[data-regular]').forEach((cell,i)=>{cell.textContent=scores[i];});
   document.querySelectorAll('[data-major]').forEach((cell,i)=>{cell.textContent=scores[i]*2;});
-  $('season-status').textContent=config.status==='completed'?'SEASON FINAL':config.status==='active'?'SEASON ACTIVE':'SEASON COMING SOON';
-  $('season-dates').textContent=config.startDate||config.endDate?((config.startDate||'Start TBA')+' — '+(config.endDate||'End TBA')):'Season dates to be announced';
-  $('rulebook-label').textContent=config.status==='draft'?'THE RULEBOOK / DRAFT':'THE RULEBOOK / SEASON RULES';
+  updateSeasonStatus();
+  const format=date=>new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Kuala_Lumpur',day:'numeric',month:'long',year:'numeric'}).format(new Date(date+'T00:00:00+08:00'));
+  $('season-dates').textContent=config.startDate&&config.endDate?format(config.startDate)+' – '+format(config.endDate)+' · Asia/Kuala_Lumpur':'Season dates to be announced';
+  $('rulebook-label').textContent=(config.shortName||config.name.toUpperCase())+' RULES';
   $('rulebook-description').textContent='Only announced GG season points events count. Check eligibility and multiplier before registering.';
   if(config.status==='active'||config.status==='completed')rankings=config.finalRankings || calculateRankings(config.results,config);
   $('player-search').value='';renderRankings();
