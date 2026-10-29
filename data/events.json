@@ -91,6 +91,16 @@
         "width": 720,
         "height": 1280,
         "durationSeconds": 63.971995
+      },
+      {
+        "title": "Centro Mall G3 · Event Film",
+        "description": "Beyblade X event film from Centro Mall, 16 August 2026.",
+        "src": "assets/videos/centro-beyblade-20260816-event-film.mp4",
+        "poster": "assets/videos/centro-beyblade-20260816-event-film.jpg",
+        "type": "video/mp4",
+        "width": 1280,
+        "height": 720,
+        "durationSeconds": 159.63
       }
     ]
   },
@@ -109,7 +119,19 @@
     "kind": "mall",
     "time": "",
     "poster": "assets/posters/centro-tcg.webp",
-    "thumbnail": "assets/posters/centro-tcg-thumb.webp"
+    "thumbnail": "assets/posters/centro-tcg-thumb.webp",
+    "videos": [
+      {
+        "title": "Centro Pokémon TCG · Event Film",
+        "description": "Event film from the Centro Pokémon TCG Championship.",
+        "src": "assets/videos/centro-tcg-event-film.mp4",
+        "poster": "assets/videos/centro-tcg-event-film.jpg",
+        "type": "video/mp4",
+        "width": 720,
+        "height": 1280,
+        "durationSeconds": 39.22
+      }
+    ]
   },
   {
     "id": "justplay",
@@ -196,7 +218,29 @@
     "kind": "junior",
     "time": "",
     "poster": "assets/posters/racers-2.webp",
-    "thumbnail": "assets/posters/racers-2-thumb.webp"
+    "thumbnail": "assets/posters/racers-2-thumb.webp",
+    "videos": [
+      {
+        "title": "Little Racers II · Event Recap",
+        "description": "Event recap from the second Little Racers Challenge.",
+        "src": "assets/videos/little-racers-2-recap-v2.mp4",
+        "poster": "assets/videos/little-racers-2-recap-v2.jpg",
+        "type": "video/mp4",
+        "width": 1280,
+        "height": 720,
+        "durationSeconds": 220
+      },
+      {
+        "title": "Little Racers II · Event Highlights",
+        "description": "Event highlights from the second Little Racers Challenge.",
+        "src": "assets/videos/little-racers-2-event-highlights.mp4",
+        "poster": "assets/videos/little-racers-2-event-highlights.jpg",
+        "type": "video/mp4",
+        "width": 720,
+        "height": 1280,
+        "durationSeconds": 43.84
+      }
+    ]
   },
   {
     "id": "halloween",
