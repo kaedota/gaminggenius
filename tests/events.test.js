@@ -26,9 +26,9 @@ test('confirmed year correction and real Elmina registration are retained',()=>{
 
 
 test('confirmed video ownership retains the first recap without extra or duplicate films',()=>{
- const expected={paradigm:3,'centro-beyblade':1,'racers-1':2};
+ const expected={paradigm:3,'centro-beyblade':2,'centro-tcg':1,'racers-1':2,'racers-2':2};
  const films=events.filter(e=>e.videos?.length);assert.deepEqual(Object.fromEntries(films.map(e=>[e.id,e.videos.length])),expected);
- const all=films.flatMap(e=>e.videos);assert.equal(new Set(all.map(v=>v.src)).size,6);
+ const all=films.flatMap(e=>e.videos);assert.equal(new Set(all.map(v=>v.src)).size,10);
  const corrected=events.find(e=>e.id==='racers-1').videos.find(v=>v.src==='assets/videos/little-racers-2-event-film-01.mp4');assert.equal(corrected.title,'Little Racers I · Event Film');assert.equal(corrected.description,'A film from the first Little Racers Challenge.');assert.equal(corrected.poster,'assets/videos/little-racers-2-event-film-01.jpg');assert.ok(!(events.find(e=>e.id==='racers-2').videos||[]).some(v=>v.src===corrected.src));
  const first=events.find(e=>e.id==='racers-1').videos[0];assert.equal(first.title,'Official Event Recap · Part 3');assert.equal(first.src,'assets/videos/little-racers-1-recap-part-3.mp4');
  for(const film of all){assert.equal(film.type,'video/mp4');const video=readFileSync(new URL('../'+film.src,import.meta.url));assert.equal(video.subarray(4,8).toString(),'ftyp');assert.ok(video.length>1000000);const poster=readFileSync(new URL('../'+film.poster,import.meta.url));assert.equal(poster[0],0xff);assert.equal(poster[1],0xd8);}
@@ -41,3 +41,5 @@ test('confirmed poster dates migrate once into Weekly and keep archive order',()
  const archive=sortNewest(events.filter(e=>e.kind!=='weekly')).map(e=>e.id);assert.equal(archive[archive.indexOf('centro-tcg')+1],'centro-beyblade');assert.equal(archive[archive.indexOf('centro-beyblade')+1],'racers-2');
  assert.deepEqual(JSON.parse(readFileSync(new URL('../data/supplemental.json',import.meta.url))),[]);
 });
+
+test('four supplied event films are merged into the owner-confirmed activities',()=>{for(const [id,slugs] of [['racers-2',['little-racers-2-recap-v2','little-racers-2-event-highlights']],['centro-beyblade',['centro-beyblade-20260816-event-film']],['centro-tcg',['centro-tcg-event-film']]])for(const slug of slugs){const matches=events.filter(e=>e.videos?.some(v=>v.src==='assets/videos/'+slug+'.mp4'));assert.deepEqual(matches.map(e=>e.id),[id]);const film=matches[0].videos.find(v=>v.src==='assets/videos/'+slug+'.mp4');assert.equal(film.poster,'assets/videos/'+slug+'.jpg');assert.ok(film.width>0&&film.height>0);assert.ok(statSync(new URL('../'+film.src,import.meta.url)).size<25000000);}});
