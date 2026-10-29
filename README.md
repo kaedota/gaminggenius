@@ -52,19 +52,19 @@ Edit `data/events.json`. Each record includes ID, category, dates, venue, copy, 
 
 ## Maintain rankings
 
-Open `results-tool.html` on the published site. It is a **browser-only preparation tool**, not a protected admin system. Imported records live in tab memory; download before leaving. It loads existing `data/season.json`, validates appended CSV records, previews rankings, and exports replacement JSON. It does not automatically write to GitHub.
+Use results-tool.html. It is a browser-only preparation tool, not an authenticated backend; export before leaving. It loads current results and archives and exports the entire season.json bundle. No automatic GitHub write. Season 01 remains a draft with no players/results.
 
-CSV headers:
+Cumulative-v2: Regular ×1 awards 20/15/10 to first/second/third, 7 to other confirmed Top Cut players, 5 to other actual participants. Double ×2 awards 40/30/20/14/10. Highest band only, never stacked. All valid events sum by unique Player ID within one season; no best-N cap. Ties remain best placing, then wins, then shared competition rank.
 
-```
-event_id,date,player_id,display_name,placement,participants
-```
+Event settings are in season.events[event_id]: multiplier (default 1, allowed 1/2), topCutSize (null means unknown), scoringMode (final-event or pending), title. Do not infer Top Cut from attendance. GG must confirm event eligibility/multiplier before registration; no historical event is automatically eligible. Current default multipliers are ×1, including Elmina, until separately confirmed. Paradigm (six sessions), racers-2 (qualifiers/finals), weekly-0922 and weekly-0808 (two slots/player) use scoringMode=pending until GG confirms the award unit. Slot/session CSV awards are rejected, not silently added.
 
-Use stable GG IDs, public player aliases and verified final standings. Do not include phone numbers, birthdays or private contact information. Exclude no-shows and disqualifications before import.
+CSV required headers: event_id,date,player_id,display_name,placement,participants. Optional: season_id,top_cut,attendance,slot,session. Recommended template includes season_id,top_cut,attendance. top_cut=true/false; attendance=attended/no_show/registered/disqualified. No-show and registered-only rows may have blank placement and earn zero. Same-event metadata must agree. Unknown Top Cut requires an explicit boolean for placements after third. Conflicting configured flags are rejected. Do not include private contact data.
 
-Draft points: champion 100, runner-up 70, third 50, fourth 35, places 5–8 get 25, 9–16 get 15, others 5. Best six results count. Equal totals use best counted placing, then counted wins; remaining ties share ranks (1,1,3). One award per player/event; no stacking of participation points. Eligible events must be announced before entry. This GG ranking is independent of other organisations' systems.
+Import previews all old/new points before Apply. upsert key=(season_id,event_id,player_id): existing records are replaced on correction/re-save, not appended. Duplicate keys within one incoming batch are rejected as ambiguous. Invalid import is atomic. Event-setting changes preview recalculation before applying. No event multiplier supplied in CSV can override GG settings.
 
-Confirm season dates, eligibility and correction deadlines before changing `status` from `draft` to `active`. No past results were automatically imported or retrospectively awarded points.
+Set a verified season completed, export its final standings, then use Archive / New Season. This preserves the full completed season including scoring settings, raw results and finalRankings in archives; new season starts draft with empty results. Export includes every archive; public season selector exposes completed rankings/history. Archived seasons are read-only; historical corrections need a separate reviewed migration. Never clear history to start a season.
+
+Migration audit: deployed season-01 had status=draft, results=[] and no prior archives on 29 Oct 2026. No real result requires recalculation. Previous unmerged 30/60 proposal is superseded. Data/events.json and all original media remain unchanged.
 
 ## Social / contact
 

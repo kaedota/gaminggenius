@@ -1,1 +1,133 @@
-{"id":"season-01","name":"GG Season 01","status":"draft","startDate":null,"endDate":null,"bestResults":6,"points":{"1":100,"2":70,"3":50,"4":35,"top8":25,"top16":15,"participation":5},"results":[]}
+{
+  "id": "season-01",
+  "name": "GG Season 01",
+  "status": "draft",
+  "startDate": null,
+  "endDate": null,
+  "scoringVersion": "cumulative-v2",
+  "points": {
+    "champion": 20,
+    "runnerUp": 15,
+    "third": 10,
+    "topCut": 7,
+    "participation": 5
+  },
+  "events": {
+    "paradigm": {
+      "title": "Paradigm Power Cup",
+      "multiplier": 1,
+      "topCutSize": null,
+      "scoringMode": "pending"
+    },
+    "aeon": {
+      "title": "AEON 42nd Anniversary G3",
+      "multiplier": 1,
+      "topCutSize": null,
+      "scoringMode": "final-event"
+    },
+    "centro-beyblade": {
+      "title": "Titan × Gaming Genius",
+      "multiplier": 1,
+      "topCutSize": null,
+      "scoringMode": "final-event"
+    },
+    "centro-tcg": {
+      "title": "Centro Pokémon TCG Championship",
+      "multiplier": 1,
+      "topCutSize": null,
+      "scoringMode": "final-event"
+    },
+    "justplay": {
+      "title": "JustPlay · 多元同乐",
+      "multiplier": 1,
+      "topCutSize": null,
+      "scoringMode": "final-event"
+    },
+    "elmina": {
+      "title": "Elmina Cup",
+      "multiplier": 1,
+      "topCutSize": null,
+      "scoringMode": "final-event"
+    },
+    "racers-1": {
+      "title": "Little Racers Challenge I",
+      "multiplier": 1,
+      "topCutSize": null,
+      "scoringMode": "final-event"
+    },
+    "racers-2": {
+      "title": "Little Racers Challenge II",
+      "multiplier": 1,
+      "topCutSize": null,
+      "scoringMode": "pending"
+    },
+    "halloween": {
+      "title": "Halloween Night",
+      "multiplier": 1,
+      "topCutSize": null,
+      "scoringMode": "final-event"
+    },
+    "weekly-1027": {
+      "title": "Weekly Night Battle",
+      "multiplier": 1,
+      "topCutSize": null,
+      "scoringMode": "final-event"
+    },
+    "weekly-1020": {
+      "title": "Night Battle · White Dragon",
+      "multiplier": 1,
+      "topCutSize": null,
+      "scoringMode": "final-event"
+    },
+    "weekly-1011": {
+      "title": "Night Battle · Phoenix Wing",
+      "multiplier": 1,
+      "topCutSize": null,
+      "scoringMode": "final-event"
+    },
+    "weekly-0922": {
+      "title": "Phoenix Cup",
+      "multiplier": 1,
+      "topCutSize": null,
+      "scoringMode": "pending"
+    },
+    "weekly-0915": {
+      "title": "Night Battle · Meteor Dragoon",
+      "multiplier": 1,
+      "topCutSize": null,
+      "scoringMode": "final-event"
+    },
+    "weekly-0908": {
+      "title": "Night Battle · Aero Pegasus",
+      "multiplier": 1,
+      "topCutSize": null,
+      "scoringMode": "final-event"
+    },
+    "weekly-0901": {
+      "title": "Night Battle · Shark Scale",
+      "multiplier": 1,
+      "topCutSize": null,
+      "scoringMode": "final-event"
+    },
+    "weekly-0829": {
+      "title": "GG × XJL Night Battle",
+      "multiplier": 1,
+      "topCutSize": null,
+      "scoringMode": "final-event"
+    },
+    "weekly-0825": {
+      "title": "GG × Titan Night Battle",
+      "multiplier": 1,
+      "topCutSize": null,
+      "scoringMode": "final-event"
+    },
+    "weekly-0808": {
+      "title": "GG × XJL Night Battle",
+      "multiplier": 1,
+      "topCutSize": null,
+      "scoringMode": "pending"
+    }
+  },
+  "results": [],
+  "archives": []
+}
