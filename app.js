@@ -60,7 +60,7 @@ function appendRankingTag(container,event) { const label=rankingEventLabel(event
 function openEvent(event, updateHash = true) {
   const state = eventState(event, today);
   const labels = { weekly: 'WEEKLY / NIGHT BATTLE', junior: 'ESPORTS / LITTLE RACERS', mall: 'GG / EVENT ARCHIVE' };
-  resetDialog(labels[event.kind] || 'GG EVENT', event.title, `${event.dateLabel} · ${event.venue} · ${state.label}`);
+  resetDialog(labels[event.kind] || 'GG EVENT', event.title, [event.dateLabel, event.venue, state.label].filter(Boolean).join(' · '));
   const image = el('img'); image.src = event.poster; image.alt = `${event.title} supplied poster`;
   $('dialog-art').append(image);
   $('dialog-description').textContent = event.description;
@@ -217,13 +217,6 @@ getJSON('data/events.json').then(data => {
 }).catch(() => {
   for (const id of ['event-grid', 'weekly-grid', 'upcoming-grid']) $(id).replaceChildren(el('p', 'Events could not load. Please refresh or contact GG.', 'load-state'));
 });
-getJSON('data/supplemental.json').then(items => {
-  $('supplemental-grid').replaceChildren(...items.map(item => {
-    const button = el('button'); const image = el('img'); image.src = item.poster; image.alt = item.title; image.loading = 'lazy';
-    button.append(image, el('span', item.title)); button.addEventListener('click', () => showMedia(item.poster, item.title, 'SUPPLEMENTARY ARTWORK / DATE UNCONFIRMED'));
-    return button;
-  }));
-}).catch(() => { document.querySelector('.supplemental').hidden = true; });
 function updateSeasonStatus() { if(season)$('season-status').textContent=seasonState(season).label; }
 setInterval(updateSeasonStatus,30000);
 document.addEventListener('visibilitychange',updateSeasonStatus);
