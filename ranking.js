@@ -25,8 +25,9 @@ export function validateResults(rows,config) {
     if(!/^\d{4}-\d{2}-\d{2}$/.test(r.date)||!Number.isFinite(Date.parse(r.date))||new Date(r.date).toISOString().slice(0,10)!==r.date)throw Error(prefix+'Use a real date in YYYY-MM-DD format.');
     if(config.startDate&&r.date<config.startDate || config.endDate&&r.date>config.endDate)throw Error(prefix+'Event is outside this season.');
     const event=eventSettings(config,r.event_id);
+    if(config.enforceEligibility && (event.eligible!==true || event.discipline!=='beyblade'))throw Error(prefix+'This event is not a designated GG Beyblade ranking event.');
     if(![1,2].includes(event.multiplier))throw Error(prefix+'Multiplier must be 1 or 2.');
-    if(event.scoringMode!=='final-event'||r.slot||r.session)throw Error(prefix+'Slot/session scoring pending: provide one confirmed final-event result, not separate slot/session awards.');
+    if(event.scoringMode!=='final-event'||r.slot||r.session)throw Error(prefix+'This event requires an approved final-event scoring format; separate slot/session awards are not accepted.');
     if(event.topCutSize!==null && (!Number.isInteger(event.topCutSize)||event.topCutSize<0))throw Error(prefix+'Invalid Top Cut size.');
     const attendance=r.attendance||'attended';
     if(!['attended','no_show','registered','disqualified'].includes(attendance))throw Error(prefix+'Invalid attendance.');
@@ -65,7 +66,7 @@ export function startNextSeason(bundle,id,name) {
   if(!/^[a-zA-Z0-9_-]+$/.test(id)||!name?.trim()||[bundle.id,...(bundle.archives||[]).map(s=>s.id)].includes(id))throw Error('Use a new unique season ID and name.');
   const {archives=[],...current}=structuredClone(bundle);
   const snapshot={...current,finalRankings:calculateRankings(current.results,current)};
-  return {id,name:name.trim(),status:'draft',startDate:null,endDate:null,scoringVersion:'cumulative-v2',points:{...DEFAULT_POINTS},events:{},results:[],archives:[...archives,snapshot]};
+  return {id,name:name.trim(),status:'draft',startDate:null,endDate:null,timeZone:'Asia/Kuala_Lumpur',enforceEligibility:true,scoringVersion:'cumulative-v2',points:{...DEFAULT_POINTS},events:{},results:[],archives:[...archives,snapshot]};
 }
 export function parseCSV(text) {
   const rows=[]; let row=[], cell='', quoted=false, closed=false;

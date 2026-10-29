@@ -16,3 +16,20 @@ export function upcomingEvents(events, today = malaysiaDate()) {
   return events.filter(e => e.startDate && (e.endDate || e.startDate) >= today)
     .sort((a, b) => a.startDate.localeCompare(b.startDate));
 }
+
+export function seasonState(config, today = malaysiaDate()) {
+  if (config.status === 'completed' || config.endDate && today > config.endDate) return {id:'ended',label:'Season Ended'};
+  if (config.status === 'draft' || !config.startDate) return {id:'draft',label:'Season Coming Soon'};
+  if (today < config.startDate) {
+    const date = new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Kuala_Lumpur',day:'numeric',month:'long'}).format(new Date(config.startDate+'T00:00:00+08:00'));
+    return {id:'upcoming',label:'Starts '+date};
+  }
+  return {id:'live',label:'Season Live'};
+}
+export function rankingEventLabel(event, config) {
+  const setting=config?.events?.[event.id];
+  if(!setting?.eligible || event.category!=='beyblade' || !event.startDate || event.startDate<config.startDate || (event.endDate||event.startDate)>config.endDate)return '';
+  const tier=setting.multiplier===2?'DOUBLE POINTS ×2':'REGULAR POINTS ×1';
+  return (setting.firstRankingEvent?'FIRST GG RANKING EVENT\n':'')+(config.shortName||config.name.toUpperCase())+' · '+tier;
+}
+export function matchesPlayer(player,query) { return (player.name+' '+player.id).toLocaleLowerCase().includes(query.trim().toLocaleLowerCase()); }
