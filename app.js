@@ -1,4 +1,4 @@
-import { calculateRankings } from './ranking.js';
+import { calculateRankings, eventSettings, multiplierLabel } from './ranking.js';
 import { eventState, sortNewest, upcomingEvents, malaysiaDate } from './event-utils.js';
 
 const $ = id => document.getElementById(id);
@@ -10,6 +10,7 @@ const el = (tag, text, className) => {
 };
 const dialog = $('event-dialog');
 let events = [], rankings = [], season = null, weeklyExpanded = false, previousHash = '#events';
+let seasonBundle = null;
 let archiveFilter = 'all';
 const emptyTemplate = $('ranking-empty').cloneNode(true);
 const today = malaysiaDate();
@@ -56,6 +57,7 @@ function showMedia(path, title, label = 'GG / ORIGINAL PHOTOGRAPH') {
 document.querySelectorAll('[data-photo]').forEach(button => button.addEventListener('click', () => showMedia(button.dataset.photo, button.dataset.title)));
 document.querySelectorAll('[data-qr]').forEach(button => button.addEventListener('click', () => showMedia(button.dataset.qr, button.dataset.title, 'SCAN TO CONNECT')));
 
+function eventPointsText(event) { const settings=eventSettings(seasonBundle || {},event.id); return `${multiplierLabel(settings.multiplier)} · ${settings.scoringMode==='pending'?'slot/session scoring pending':'season eligibility TBA'}`; }
 function openEvent(event, updateHash = true) {
   const state = eventState(event, today);
   const labels = { weekly: 'WEEKLY / NIGHT BATTLE', junior: 'ESPORTS / LITTLE RACERS', mall: 'GG / EVENT ARCHIVE' };
@@ -63,6 +65,7 @@ function openEvent(event, updateHash = true) {
   const image = el('img'); image.src = event.poster; image.alt = `${event.title} supplied poster`;
   $('dialog-art').append(image);
   $('dialog-description').textContent = event.description;
+  $('dialog-details').append(el('p', eventPointsText(event), 'event-tier'));
   $('dialog-details').append(el('p', event.details));
   $('dialog-actions').append(safeLink(event.poster, 'OPEN POSTER ↗'));
   if (event.registrationUrl && ['upcoming', 'today'].includes(state.id)) {
@@ -132,7 +135,7 @@ function eventCard(event) {
   meta.append(el('span', event.dateLabel, 'event-date'), el('span', state.label, `status ${state.id}`));
   const title = el('h3', undefined, 'event-title');
   const button = el('button', event.title); button.addEventListener('click', () => openEvent(event)); title.append(button);
-  copy.append(meta, title, el('p', event.venue, 'event-venue'));
+  copy.append(meta, title, el('p', event.venue, 'event-venue'), el('p', eventPointsText(event), 'event-tier'));
   article.append(art, copy); return article;
 }
 function renderArchive() {
@@ -158,6 +161,7 @@ function renderUpcoming() {
     art.append(image); art.addEventListener('click', () => openEvent(event));
     const copy = el('div', undefined, 'next-copy');
     copy.append(el('span', event.dateLabel + (event.time ? ` / ${event.time}` : ''), 'next-meta'), el('h3', event.title), el('p', event.venue));
+    copy.append(el('p', eventPointsText(event), 'event-tier'));
     if (event.registrationUrl) copy.append(safeLink(event.registrationUrl, 'REGISTER NOW ↗', 'button red'));
     else { const details = el('button', 'VIEW EVENT DETAILS ↗', 'button outline'); details.addEventListener('click', () => openEvent(event)); copy.append(details); }
     card.append(art, copy); return card;
@@ -179,9 +183,9 @@ function renderRankings() {
     const button = el('button', player.name, 'rank-player');
     button.addEventListener('click', () => {
       resetDialog(`${season.name} / PLAYER RESULTS`, player.name, `${player.id} · Rank ${player.rank} · ${player.total} points`);
-      $('dialog-art').append(el('p', `BEST ${season.bestResults} RESULTS COUNT`, 'eyebrow'));
-      $('dialog-description').textContent = `${player.results.length} recorded events. ${player.counted.length} results counted.`;
-      $('dialog-details').replaceChildren(...player.results.map(result => el('p', `${result.date} · ${result.event_id} · Place ${result.placement} · ${result.points} pts${player.counted.includes(result) ? ' · COUNTED' : ''}`)));
+      $('dialog-art').append(el('p', 'ALL VERIFIED EVENT RESULTS COUNT', 'eyebrow'));
+      $('dialog-description').textContent = `${player.results.length} verified events. All results count in ${season.name}.`;
+      $('dialog-details').replaceChildren(...player.results.map(result => el('p', `${result.date} · ${result.event_title || result.event_id} (${result.event_id}) · ×${result.multiplier || 1} · Place ${result.placement} · ${result.points} pts`)));
       dialog.showModal();
     });
     who.append(button, el('small', player.id));
@@ -221,23 +225,26 @@ getJSON('data/supplemental.json').then(items => {
     return button;
   }));
 }).catch(() => { document.querySelector('.supplemental').hidden = true; });
+function selectSeason(config) {
+  season=config;rankings=[];
+  $('season-name-label').textContent=config.name.toUpperCase();
+  $('rank-footnote').textContent='All verified event results count. No best-N limit. One award per player/event.';
+  document.querySelector('.rule-badge').textContent='ALL EVENT RESULTS / ONE SEASON';
+  const p=config.points, scores=[p.champion,p.runnerUp,p.third,p.topCut,p.participation];
+  document.querySelectorAll('[data-regular]').forEach((cell,i)=>{cell.textContent=scores[i];});
+  document.querySelectorAll('[data-major]').forEach((cell,i)=>{cell.textContent=scores[i]*2;});
+  $('season-status').textContent=config.status==='completed'?'SEASON FINAL':config.status==='active'?'SEASON ACTIVE':'SEASON COMING SOON';
+  $('season-dates').textContent=config.startDate||config.endDate?((config.startDate||'Start TBA')+' — '+(config.endDate||'End TBA')):'Season dates to be announced';
+  $('rulebook-label').textContent=config.status==='draft'?'THE RULEBOOK / DRAFT':'THE RULEBOOK / SEASON RULES';
+  $('rulebook-description').textContent='Only announced GG season points events count. Check eligibility and multiplier before registering.';
+  if(config.status==='active'||config.status==='completed')rankings=config.finalRankings || calculateRankings(config.results,config);
+  $('player-search').value='';renderRankings();
+}
+$('season-select').addEventListener('change',()=>{if(dialog.open)closeDialog();selectSeason([seasonBundle,...(seasonBundle.archives||[])].find(s=>s.id===$('season-select').value));});
 getJSON('data/season.json').then(config => {
-  season = config;
-  $('season-name-label').textContent = config.name.toUpperCase();
-  $('rank-footnote').textContent = `${config.status === 'active' ? 'Season format' : 'Proposed format'}: best ${config.bestResults} results count.`;
-  document.querySelector('.rule-badge').textContent = `BEST ${config.bestResults} RESULTS / ONE SEASON`;
-  document.querySelectorAll('.point-grid strong').forEach((strong, i) => { strong.textContent = [config.points['1'], config.points['2'], config.points['3'], config.points['4'], config.points.top8, config.points.top16, config.points.participation][i]; });
-  const summary = document.querySelectorAll('.rules-content summary')[1];
-  summary.textContent = `Why the best ${config.bestResults} results?`;
-  summary.nextElementSibling.textContent = `Your ${config.bestResults} highest-scoring eligible results contribute to your total. Extra appearances offer another chance to improve. Participation points are not added on top of placement points.`;
-  if (config.status === 'active') {
-    rankings = calculateRankings(config.results, config);
-    $('season-status').textContent = 'SEASON ACTIVE';
-    $('season-dates').textContent = `${config.startDate || 'Start TBA'} — ${config.endDate || 'End TBA'}`;
-    $('rulebook-label').textContent = 'THE RULEBOOK / SEASON RULES';
-    $('rulebook-description').textContent = 'Only announced GG season points events count. Check eligibility before registering.';
-  }
-  renderRankings();
+  seasonBundle=config;
+  $('season-select').replaceChildren(...[config,...(config.archives||[])].map(s=>{const option=el('option',s.name+(s.status==='completed'?' · FINAL':''));option.value=s.id;return option;}));
+  selectSeason(config);renderUpcoming();renderArchive();renderWeekly();if(events.length)handleHash();
 }).catch(() => {
   $('season-status').textContent = 'RANKINGS UNAVAILABLE';
   $('ranking-empty').replaceChildren(el('h3', 'PLEASE CHECK BACK'), el('p', 'The leaderboard could not load. Please try again later.'));
