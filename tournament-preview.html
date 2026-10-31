@@ -1,0 +1,260 @@
+<!doctype html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GG Battles · 手机只读预览</title><meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/styles.css"><style>:root {
+  color-scheme: dark;
+}
+body {
+  background: #08090b;
+  color: #fff;
+}
+.battle-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 5%;
+  border-bottom: 1px solid #30323a;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.battle-header nav {
+  display: flex;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+.battle-wrap {
+  max-width: 1240px;
+  margin: auto;
+  padding: 28px 24px;
+}
+.intro h1 {
+  font-size: clamp(52px, 8vw, 100px);
+  margin: 8px 0;
+}
+.intro em {
+  color: #ff0048;
+}
+.toolbar,
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 18px 0;
+}
+.notice,
+#message:not(:empty) {
+  border-left: 4px solid #ff0048;
+  background: #211018;
+  padding: 16px;
+}
+.muted {
+  color: #a9b3c6;
+  font-size: 14px;
+}
+.card {
+  border: 1px solid #30323a;
+  background: #101115;
+  padding: 22px;
+  margin: 18px 0;
+  min-width: 0;
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 16px;
+}
+.cards .card {
+  margin: 0;
+}
+input,
+select,
+textarea {
+  width: 100%;
+  min-width: 0;
+  background: #090a0d;
+  border: 1px solid #4a4d58;
+  color: white;
+  padding: 12px;
+  font: inherit;
+  border-radius: 0;
+}
+textarea {
+  min-height: 110px;
+}
+label {
+  display: block;
+  margin: 12px 0;
+}
+button {
+  background: #ff0048;
+  border: 1px solid #ff0048;
+  color: #fff;
+  padding: 12px 16px;
+  font: inherit;
+  cursor: pointer;
+  min-height: 44px;
+}
+button.secondary {
+  background: transparent;
+  border-color: #484c57;
+}
+button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+a {
+  color: inherit;
+  text-underline-offset: 4px;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+  gap: 14px;
+}
+.table-scroll {
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+td,
+th {
+  text-align: left;
+  border-bottom: 1px solid #30323a;
+  padding: 12px;
+  white-space: nowrap;
+}
+caption {
+  text-align: left;
+  padding: 8px 0;
+  color: #a9b3c6;
+}
+.badge {
+  display: inline-block;
+  font-size: 12px;
+  padding: 5px 8px;
+  border: 1px solid #ff0048;
+  color: #ff7b99;
+  margin: 4px;
+}
+.score-form .score-row {
+  display: grid;
+  grid-template-columns: 1fr 54px 1fr;
+  gap: 8px;
+  align-items: center;
+}
+.score-row span {
+  text-align: center;
+}
+h2 {
+  font-size: 28px;
+}
+h3 {
+  font-size: 20px;
+}
+.pair-name {
+  overflow-wrap: anywhere;
+  min-height: 44px;
+}
+details {
+  margin: 16px 0;
+  border: 1px solid #30323a;
+  padding: 16px;
+}
+summary {
+  cursor: pointer;
+  min-height: 30px;
+}
+pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+}
+dialog {
+  max-width: 640px;
+  width: calc(100% - 32px);
+  max-height: 85vh;
+  overflow: auto;
+  background: #101115;
+  color: #fff;
+  border: 1px solid #ff0048;
+  padding: 24px;
+}
+dialog::backdrop {
+  background: #000b;
+}
+.danger {
+  margin: 10px 0;
+}
+.round-track {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  padding-bottom: 16px;
+  scroll-snap-type: x proximity;
+}
+.round-track > .round-column {
+  flex: 0 0 min(340px, 90vw);
+  scroll-snap-align: start;
+}
+.rank-one {
+  color: #ff6a8f;
+}
+.entry-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.entry-actions button {
+  padding: 8px;
+}
+.small {
+  font-size: 12px;
+}
+footer {
+  border-top: 1px solid #30323a;
+  margin-top: 40px !important;
+}
+@media (max-width: 600px) {
+  .battle-wrap {
+    padding: 20px 14px;
+  }
+  .battle-header {
+    padding: 18px 14px;
+  }
+  .battle-header nav {
+    gap: 14px;
+    font-size: 12px;
+  }
+  .card {
+    padding: 16px;
+  }
+  .score-form button {
+    flex: 1;
+  }
+  .toolbar > * {
+    font-size: 13px;
+  }
+  .round-track > .round-column {
+    flex-basis: calc(100vw - 44px);
+  }
+}
+.battle-header .brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.battle-header .brand img {
+  object-fit: contain;
+}
+#impact {
+  white-space: pre-line;
+}
+.score-row > label,
+.form-grid > label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+input[type="checkbox"]{width:auto;min-height:initial;margin-right:8px}
+
+html{scroll-behavior:smooth} .preview-nav{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0}.preview-nav a{border:1px solid #444;padding:10px 16px}.preview-match{display:grid;grid-template-columns:1fr auto;gap:8px;padding:14px;border:1px solid #333;margin:10px 0}.preview-match strong{color:#ff174c}details>summary{cursor:pointer;padding:16px;font-weight:bold}h1{overflow-wrap:anywhere}@media(max-width:600px){.battle-header{flex-wrap:wrap}h1{font-size:36px}.battle-wrap{padding:20px 14px}.card{padding:16px}.preview-nav a{flex:1;text-align:center}.table-scroll{max-width:100%;overflow-x:auto}}</style></head><body><header class="battle-header"><a class="brand" href="/"><img src="/assets/gg-logo.png" width="54" height="42" alt="Gaming Genius original logo"> GAMING GENIUS</a><a href="https://challonge.com/zh_CN/wk98jf2o" target="_blank" rel="noopener">原 Challonge 赛事 ↗</a></header><main class="battle-wrap"><p class="eyebrow">GG BATTLES / READ-ONLY PREVIEW</p><h1>GG BATTLES<br><em>赛事系统预览</em></h1><p class="notice">手机只读预览 · 无需登录。本页复放已公开赛事的 A/B 分组、赛果及排名，不是现场实时赛事，不提供录分，不影响 GG Season 排行榜。</p><nav class="preview-nav"><a href="#group-A">A 组排名</a><a href="#group-B">B 组排名</a><a href="#pairings">每轮对阵</a></nav><p class="notice">实场只读对账 · 54 场 Swiss / 36 个参赛条目 / A、B 两组：全榜所有计分字段、名次及各组 Top 6 均一致。未导入正式赛事，不修改赛季积分。</p><p class="notice">最新版本已补充 A/B 双组、每组 Top 6 合并淘汰，并通过隔离测试；本页实场复算仍只证明计分与名次一致，不证明未来自动配对逐场相同。</p><section class="card"><h2>原版实际排序</h2><p>① 总分（胜 +4） → ② 分数（累计得分） → ③ 输赢差 → ④ 小分（同分对手交手胜场） → ⑤ Median-Buchholz → ⑥ 赛前种子</p><p class="muted">Median-Buchholz：实际交手对手的赛事积分，剔除最高和最低各一个后求和。本场无轮空，不能用本场证明所有轮空／弃权边界也与 Challonge 完全相同；本页复放原对阵，不声称已复现其未来自动配对算法。</p><p>正式系统支持裁判独立录分；本预览不连接登录和写入接口。A/B 双 Slot 晋级均保留；相遇时由选手本人选择淘汰一个 Slot，主办方记录，不编造比分。</p></section><section class="card" id="group-B"><h2>B 组 · 18 个条目</h2><div class="table-scroll"><table><caption>每行均与原 Challonge 显示逐项相等；A/B slot 分开保留。</caption><thead><tr><th>排名</th><th>参与者</th><th>赢–输–平</th><th>1. 总分</th><th>2. 分数</th><th>3. 输赢差</th><th>4. 小分</th><th>5. Buchholz</th><th>核对</th></tr></thead><tbody><tr><td>1</td><td><span class="badge">晋级</span> A026. Villager</td><td>3 - 0 - 0</td><td>12.0</td><td>14</td><td>14</td><td>0</td><td>8.0</td><td>✓ 一致</td></tr><tr><td>2</td><td><span class="badge">晋级</span> A028. J_JiaJia</td><td>3 - 0 - 0</td><td>12.0</td><td>13</td><td>13</td><td>0</td><td>8.0</td><td>✓ 一致</td></tr><tr><td>3</td><td><span class="badge">晋级</span> A010. Gatch</td><td>2 - 1 - 0</td><td>8.0</td><td>10</td><td>3</td><td>0</td><td>4.0</td><td>✓ 一致</td></tr><tr><td>4</td><td><span class="badge">晋级</span> A016. JasonYSK</td><td>2 - 1 - 0</td><td>8.0</td><td>10</td><td>3</td><td>0</td><td>4.0</td><td>✓ 一致</td></tr><tr><td>5</td><td><span class="badge">晋级</span> A024. RUDZAIN UWAISY</td><td>2 - 1 - 0</td><td>8.0</td><td>9</td><td>3</td><td>0</td><td>8.0</td><td>✓ 一致</td></tr><tr><td>6</td><td><span class="badge">晋级</span> A020. Bench</td><td>2 - 1 - 0</td><td>8.0</td><td>8</td><td>4</td><td>0</td><td>4.0</td><td>✓ 一致</td></tr><tr><td>7</td><td>A014. JAI</td><td>2 - 1 - 0</td><td>8.0</td><td>8</td><td>3</td><td>0</td><td>8.0</td><td>✓ 一致</td></tr><tr><td>8</td><td>A036. Lengzai Boss</td><td>2 - 1 - 0</td><td>8.0</td><td>8</td><td>3</td><td>0</td><td>0.0</td><td>✓ 一致</td></tr><tr><td>9</td><td>A030. J_Ah Bean</td><td>2 - 1 - 0</td><td>8.0</td><td>8</td><td>1</td><td>0</td><td>8.0</td><td>✓ 一致</td></tr><tr><td>10</td><td>A022. Hehehehe</td><td>2 - 1 - 0</td><td>8.0</td><td>8</td><td>0</td><td>0</td><td>4.0</td><td>✓ 一致</td></tr><tr><td>11</td><td>A004. KC X</td><td>1 - 2 - 0</td><td>4.0</td><td>10</td><td>-1</td><td>0</td><td>8.0</td><td>✓ 一致</td></tr><tr><td>12</td><td>A006. Vincent H</td><td>1 - 2 - 0</td><td>4.0</td><td>8</td><td>-1</td><td>0</td><td>8.0</td><td>✓ 一致</td></tr><tr><td>13</td><td>A012. Desmond</td><td>1 - 2 - 0</td><td>4.0</td><td>8</td><td>-1</td><td>0</td><td>4.0</td><td>✓ 一致</td></tr><tr><td>14</td><td>A008. JadeRedemption</td><td>1 - 2 - 0</td><td>4.0</td><td>6</td><td>-5</td><td>0</td><td>8.0</td><td>✓ 一致</td></tr><tr><td>15</td><td>A002. AC</td><td>1 - 2 - 0</td><td>4.0</td><td>4</td><td>-7</td><td>0</td><td>8.0</td><td>✓ 一致</td></tr><tr><td>16</td><td>A032. Timothy</td><td>0 - 3 - 0</td><td>0.0</td><td>5</td><td>-8</td><td>0</td><td>4.0</td><td>✓ 一致</td></tr><tr><td>17</td><td>A034. Lesnar</td><td>0 - 3 - 0</td><td>0.0</td><td>3</td><td>-12</td><td>0</td><td>8.0</td><td>✓ 一致</td></tr><tr><td>18</td><td>A018. Melvin Pang</td><td>0 - 3 - 0</td><td>0.0</td><td>0</td><td>-12</td><td>0</td><td>8.0</td><td>✓ 一致</td></tr></tbody></table></div></section><section class="card" id="group-A"><h2>A 组 · 18 个条目</h2><div class="table-scroll"><table><caption>每行均与原 Challonge 显示逐项相等；A/B slot 分开保留。</caption><thead><tr><th>排名</th><th>参与者</th><th>赢–输–平</th><th>1. 总分</th><th>2. 分数</th><th>3. 输赢差</th><th>4. 小分</th><th>5. Buchholz</th><th>核对</th></tr></thead><tbody><tr><td>1</td><td><span class="badge">晋级</span> A033. Yz</td><td>3 - 0 - 0</td><td>12.0</td><td>14</td><td>12</td><td>0</td><td>4.0</td><td>✓ 一致</td></tr><tr><td>2</td><td><span class="badge">晋级</span> A025. Udin-san</td><td>3 - 0 - 0</td><td>12.0</td><td>12</td><td>7</td><td>0</td><td>8.0</td><td>✓ 一致</td></tr><tr><td>3</td><td><span class="badge">晋级</span> A035. TOP</td><td>2 - 1 - 0</td><td>8.0</td><td>11</td><td>5</td><td>0</td><td>4.0</td><td>✓ 一致</td></tr><tr><td>4</td><td><span class="badge">晋级</span> A011. Oliwar</td><td>2 - 1 - 0</td><td>8.0</td><td>11</td><td>4</td><td>0</td><td>4.0</td><td>✓ 一致</td></tr><tr><td>5</td><td><span class="badge">晋级</span> A003. 阿布捏捏promax</td><td>2 - 1 - 0</td><td>8.0</td><td>11</td><td>3</td><td>1</td><td>8.0</td><td>✓ 一致</td></tr><tr><td>6</td><td><span class="badge">晋级</span> A027. aizen</td><td>2 - 1 - 0</td><td>8.0</td><td>11</td><td>3</td><td>0</td><td>8.0</td><td>✓ 一致</td></tr><tr><td>7</td><td>A009. Jun Sheng</td><td>2 - 1 - 0</td><td>8.0</td><td>9</td><td>3</td><td>0</td><td>4.0</td><td>✓ 一致</td></tr><tr><td>8</td><td>A013. CORVUS</td><td>2 - 1 - 0</td><td>8.0</td><td>9</td><td>3</td><td>0</td><td>4.0</td><td>✓ 一致</td></tr><tr><td>9</td><td>A007. 陀螺新手 YJ</td><td>2 - 1 - 0</td><td>8.0</td><td>8</td><td>3</td><td>0</td><td>4.0</td><td>✓ 一致</td></tr><tr><td>10</td><td>A005. Justin Fung</td><td>1 - 2 - 0</td><td>4.0</td><td>8</td><td>-2</td><td>0</td><td>4.0</td><td>✓ 一致</td></tr><tr><td>11</td><td>A031. Hakai</td><td>1 - 2 - 0</td><td>4.0</td><td>7</td><td>-2</td><td>0</td><td>8.0</td><td>✓ 一致</td></tr><tr><td>12</td><td>A015. Biryani</td><td>1 - 2 - 0</td><td>4.0</td><td>7</td><td>-2</td><td>0</td><td>4.0</td><td>✓ 一致</td></tr><tr><td>13</td><td>A001. Small potato</td><td>1 - 2 - 0</td><td>4.0</td><td>6</td><td>-4</td><td>0</td><td>8.0</td><td>✓ 一致</td></tr><tr><td>14</td><td>A023. YAT</td><td>1 - 2 - 0</td><td>4.0</td><td>5</td><td>-4</td><td>0</td><td>8.0</td><td>✓ 一致</td></tr><tr><td>15</td><td>A029. J_Louis</td><td>1 - 2 - 0</td><td>4.0</td><td>5</td><td>-4</td><td>0</td><td>8.0</td><td>✓ 一致</td></tr><tr><td>16</td><td>A017. ARIQIN</td><td>1 - 2 - 0</td><td>4.0</td><td>4</td><td>-9</td><td>0</td><td>8.0</td><td>✓ 一致</td></tr><tr><td>17</td><td>A021. Richie W</td><td>0 - 3 - 0</td><td>0.0</td><td>7</td><td>-6</td><td>0</td><td>8.0</td><td>✓ 一致</td></tr><tr><td>18</td><td>A019. Nooby</td><td>0 - 3 - 0</td><td>0.0</td><td>2</td><td>-10</td><td>0</td><td>4.0</td><td>✓ 一致</td></tr></tbody></table></div></section><p class="muted">源数据：GAMING GENIUS X PARADIGM POWER CUP 3/10/26 S1 · 原网页可见 SVG 比分及排名表，核对日期 2026-11-01。Challonge 的配置可以改变，本报告固定核对此次观测数据。</p><section class="card" id="pairings"><h2>每轮对阵 · 已公开赛果复放</h2><p class="muted">展开查看各组、各轮的真实已完成比分。</p><details><summary>A 组 · 第 1 轮</summary><div class="preview-match"><span>Match 1</span><span>已完成</span><span>A001. Small potato</span><strong>4</strong><span>A019. Nooby</span><span>1</span></div><div class="preview-match"><span>Match 2</span><span>已完成</span><span>A003. 阿布捏捏promax</span><strong>4</strong><span>A021. Richie W</span><span>1</span></div><div class="preview-match"><span>Match 3</span><span>已完成</span><span>A005. Justin Fung</span><span>1</span><span>A023. YAT</span><strong>4</strong></div><div class="preview-match"><span>Match 4</span><span>已完成</span><span>A007. 陀螺新手 YJ</span><span>0</span><span>A025. Udin-san</span><strong>4</strong></div><div class="preview-match"><span>Match 5</span><span>已完成</span><span>A009. Jun Sheng</span><span>1</span><span>A027. aizen</span><strong>4</strong></div><div class="preview-match"><span>Match 6</span><span>已完成</span><span>A011. Oliwar</span><span>1</span><span>A029. J_Louis</span><strong>4</strong></div><div class="preview-match"><span>Match 7</span><span>已完成</span><span>A013. CORVUS</span><strong>4</strong><span>A031. Hakai</span><span>1</span></div><div class="preview-match"><span>Match 8</span><span>已完成</span><span>A015. Biryani</span><span>1</span><span>A033. Yz</span><strong>5</strong></div><div class="preview-match"><span>Match 9</span><span>已完成</span><span>A017. ARIQIN</span><span>0</span><span>A035. TOP</span><strong>6</strong></div></details><details><summary>A 组 · 第 2 轮</summary><div class="preview-match"><span>Match 10</span><span>已完成</span><span>A001. Small potato</span><span>2</span><span>A025. Udin-san</span><strong>4</strong></div><div class="preview-match"><span>Match 11</span><span>已完成</span><span>A003. 阿布捏捏promax</span><strong>4</strong><span>A027. aizen</span><span>3</span></div><div class="preview-match"><span>Match 12</span><span>已完成</span><span>A013. CORVUS</span><strong>4</strong><span>A029. J_Louis</span><span>0</span></div><div class="preview-match"><span>Match 13</span><span>已完成</span><span>A023. YAT</span><span>0</span><span>A033. Yz</span><strong>4</strong></div><div class="preview-match"><span>Match 14</span><span>已完成</span><span>A035. TOP</span><span>0</span><span>A031. Hakai</span><strong>6</strong></div><div class="preview-match"><span>Match 15</span><span>已完成</span><span>A005. Justin Fung</span><strong>4</strong><span>A015. Biryani</span><span>2</span></div><div class="preview-match"><span>Match 16</span><span>已完成</span><span>A007. 陀螺新手 YJ</span><strong>4</strong><span>A017. ARIQIN</span><span>0</span></div><div class="preview-match"><span>Match 17</span><span>已完成</span><span>A009. Jun Sheng</span><strong>4</strong><span>A019. Nooby</span><span>1</span></div><div class="preview-match"><span>Match 18</span><span>已完成</span><span>A011. Oliwar</span><strong>5</strong><span>A021. Richie W</span><span>3</span></div></details><details><summary>A 组 · 第 3 轮</summary><div class="preview-match"><span>Match 19</span><span>已完成</span><span>A003. 阿布捏捏promax</span><span>3</span><span>A025. Udin-san</span><strong>4</strong></div><div class="preview-match"><span>Match 20</span><span>已完成</span><span>A013. CORVUS</span><span>1</span><span>A033. Yz</span><strong>5</strong></div><div class="preview-match"><span>Match 21</span><span>已完成</span><span>A023. YAT</span><span>1</span><span>A007. 陀螺新手 YJ</span><strong>4</strong></div><div class="preview-match"><span>Match 22</span><span>已完成</span><span>A005. Justin Fung</span><span>3</span><span>A027. aizen</span><strong>4</strong></div><div class="preview-match"><span>Match 23</span><span>已完成</span><span>A029. J_Louis</span><span>1</span><span>A009. Jun Sheng</span><strong>4</strong></div><div class="preview-match"><span>Match 24</span><span>已完成</span><span>A011. Oliwar</span><strong>5</strong><span>A031. Hakai</span><span>0</span></div><div class="preview-match"><span>Match 25</span><span>已完成</span><span>A001. Small potato</span><span>0</span><span>A035. TOP</span><strong>5</strong></div><div class="preview-match"><span>Match 26</span><span>已完成</span><span>A019. Nooby</span><span>0</span><span>A015. Biryani</span><strong>4</strong></div><div class="preview-match"><span>Match 27</span><span>已完成</span><span>A017. ARIQIN</span><strong>4</strong><span>A021. Richie W</span><span>3</span></div></details><details><summary>B 组 · 第 1 轮</summary><div class="preview-match"><span>Match 1</span><span>已完成</span><span>A002. AC</span><span>0</span><span>A020. Bench</span><strong>4</strong></div><div class="preview-match"><span>Match 2</span><span>已完成</span><span>A004. KC X</span><span>3</span><span>A022. Hehehehe</span><strong>4</strong></div><div class="preview-match"><span>Match 3</span><span>已完成</span><span>A006. Vincent H</span><span>2</span><span>A024. RUDZAIN UWAISY</span><strong>5</strong></div><div class="preview-match"><span>Match 4</span><span>已完成</span><span>A008. JadeRedemption</span><span>0</span><span>A026. Villager</span><strong>4</strong></div><div class="preview-match"><span>Match 5</span><span>已完成</span><span>A010. Gatch</span><span>0</span><span>A028. J_JiaJia</span><strong>4</strong></div><div class="preview-match"><span>Match 6</span><span>已完成</span><span>A012. Desmond</span><span>1</span><span>A030. J_Ah Bean</span><strong>4</strong></div><div class="preview-match"><span>Match 7</span><span>已完成</span><span>A014. JAI</span><strong>4</strong><span>A032. Timothy</span><span>0</span></div><div class="preview-match"><span>Match 8</span><span>已完成</span><span>A016. JasonYSK</span><strong>6</strong><span>A034. Lesnar</span><span>1</span></div><div class="preview-match"><span>Match 9</span><span>已完成</span><span>A018. Melvin Pang</span><span>0</span><span>A036. Lengzai Boss</span><strong>4</strong></div></details><details><summary>B 组 · 第 2 轮</summary><div class="preview-match"><span>Match 10</span><span>已完成</span><span>A014. JAI</span><strong>4</strong><span>A024. RUDZAIN UWAISY</span><span>0</span></div><div class="preview-match"><span>Match 11</span><span>已完成</span><span>A016. JasonYSK</span><span>0</span><span>A026. Villager</span><strong>4</strong></div><div class="preview-match"><span>Match 12</span><span>已完成</span><span>A020. Bench</span><span>0</span><span>A028. J_JiaJia</span><strong>4</strong></div><div class="preview-match"><span>Match 13</span><span>已完成</span><span>A022. Hehehehe</span><span>0</span><span>A030. J_Ah Bean</span><strong>4</strong></div><div class="preview-match"><span>Match 14</span><span>已完成</span><span>A036. Lengzai Boss</span><strong>4</strong><span>A034. Lesnar</span><span>1</span></div><div class="preview-match"><span>Match 15</span><span>已完成</span><span>A002. AC</span><span>0</span><span>A010. Gatch</span><strong>5</strong></div><div class="preview-match"><span>Match 16</span><span>已完成</span><span>A004. KC X</span><strong>4</strong><span>A012. Desmond</span><span>2</span></div><div class="preview-match"><span>Match 17</span><span>已完成</span><span>A006. Vincent H</span><strong>4</strong><span>A018. Melvin Pang</span><span>0</span></div><div class="preview-match"><span>Match 18</span><span>已完成</span><span>A008. JadeRedemption</span><strong>5</strong><span>A032. Timothy</span><span>3</span></div></details><details><summary>B 组 · 第 3 轮</summary><div class="preview-match"><span>Match 19</span><span>已完成</span><span>A014. JAI</span><span>0</span><span>A028. J_JiaJia</span><strong>5</strong></div><div class="preview-match"><span>Match 20</span><span>已完成</span><span>A026. Villager</span><strong>6</strong><span>A030. J_Ah Bean</span><span>0</span></div><div class="preview-match"><span>Match 21</span><span>已完成</span><span>A036. Lengzai Boss</span><span>0</span><span>A024. RUDZAIN UWAISY</span><strong>4</strong></div><div class="preview-match"><span>Match 22</span><span>已完成</span><span>A008. JadeRedemption</span><span>1</span><span>A022. Hehehehe</span><strong>4</strong></div><div class="preview-match"><span>Match 23</span><span>已完成</span><span>A004. KC X</span><span>3</span><span>A010. Gatch</span><strong>5</strong></div><div class="preview-match"><span>Match 24</span><span>已完成</span><span>A006. Vincent H</span><span>2</span><span>A016. JasonYSK</span><strong>4</strong></div><div class="preview-match"><span>Match 25</span><span>已完成</span><span>A020. Bench</span><strong>4</strong><span>A018. Melvin Pang</span><span>0</span></div><div class="preview-match"><span>Match 26</span><span>已完成</span><span>A002. AC</span><strong>4</strong><span>A032. Timothy</span><span>2</span></div><div class="preview-match"><span>Match 27</span><span>已完成</span><span>A012. Desmond</span><strong>5</strong><span>A034. Lesnar</span><span>1</span></div></details></section><p class="muted">仅供界面检查。正式赛事管理功能尚未开放；未迁移或修改正式数据。</p></main></body></html>
