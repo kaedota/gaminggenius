@@ -1,3 +1,4 @@
+import { startAnalytics } from './analytics.js?v=20261031';
 import { renderFeaturedFilm } from './featured-film.js';
 import { calculateRankings } from './ranking.js?v=20261031-final-points';
 import { eventState, sortNewest, upcomingEvents, malaysiaDate, seasonState, rankingEventLabel, matchesPlayer } from './event-utils.js';
@@ -214,7 +215,7 @@ function handleHash() {
 window.addEventListener('hashchange', handleHash);
 window.addEventListener('popstate', handleHash);
 getJSON('data/events.json').then(data => {
-  events = data; renderFeaturedFilm(events, today, openEvent, dialog); renderUpcoming(); renderArchive(); renderWeekly(); handleHash();
+  events = data; startAnalytics('G-CYS5Q3VHJT', events.map(event => event.id)); renderFeaturedFilm(events, today, openEvent, dialog); renderUpcoming(); renderArchive(); renderWeekly(); handleHash();
 }).catch(() => {
   for (const id of ['event-grid', 'weekly-grid', 'upcoming-grid']) $(id).replaceChildren(el('p', 'Events could not load. Please refresh or contact GG.', 'load-state'));
 });
