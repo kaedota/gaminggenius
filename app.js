@@ -1,5 +1,5 @@
 import { renderFeaturedFilm } from './featured-film.js';
-import { calculateRankings } from './ranking.js';
+import { calculateRankings } from './ranking.js?v=20261031-final-points';
 import { eventState, sortNewest, upcomingEvents, malaysiaDate, seasonState, rankingEventLabel, matchesPlayer } from './event-utils.js';
 
 const $ = id => document.getElementById(id);
@@ -185,7 +185,7 @@ function renderRankings() {
       resetDialog(`${season.name} / PLAYER RESULTS`, player.name, `${player.id} · Rank ${player.rank} · ${player.total} points`);
       $('dialog-art').append(el('p', 'ALL VERIFIED EVENT RESULTS COUNT', 'eyebrow'));
       $('dialog-description').textContent = `${player.results.length} verified events. All results count in ${season.name}.`;
-      $('dialog-details').replaceChildren(...player.results.map(result => el('p', `${result.date} · ${result.event_title || result.event_id} (${result.event_id}) · ×${result.multiplier || 1} · Place ${result.placement} · ${result.points} pts`)));
+      $('dialog-details').replaceChildren(...player.results.map(result => el('p', `${result.date} · ${result.event_title || result.event_id} (${result.event_id}) · ×${result.multiplier || 1} · ${result.final_points!==undefined?"GG-confirmed final points":`Place ${result.placement}`} · ${result.points} pts`)));
       dialog.showModal();
     });
     who.append(button, el('small', player.id));
