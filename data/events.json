@@ -269,7 +269,97 @@
     "kind": "weekly",
     "time": "8:30 PM",
     "poster": "assets/posters/halloween.webp",
-    "thumbnail": "assets/posters/halloween-thumb.webp"
+    "thumbnail": "assets/posters/halloween-thumb.webp",
+    "photos": [
+      {
+        "src": "assets/photos/halloween-2026/img_7845.jpg",
+        "thumbnail": "assets/photos/halloween-2026/img_7845-thumb.jpg",
+        "width": 2560,
+        "height": 1920,
+        "alt": "Halloween Night · Event photograph 1"
+      },
+      {
+        "src": "assets/photos/halloween-2026/img_7826.jpg",
+        "thumbnail": "assets/photos/halloween-2026/img_7826-thumb.jpg",
+        "width": 1920,
+        "height": 2560,
+        "alt": "Halloween Night · Event photograph 2"
+      },
+      {
+        "src": "assets/photos/halloween-2026/img_7827.jpg",
+        "thumbnail": "assets/photos/halloween-2026/img_7827-thumb.jpg",
+        "width": 1920,
+        "height": 2560,
+        "alt": "Halloween Night · Event photograph 3"
+      },
+      {
+        "src": "assets/photos/halloween-2026/img_7828.jpg",
+        "thumbnail": "assets/photos/halloween-2026/img_7828-thumb.jpg",
+        "width": 1920,
+        "height": 2560,
+        "alt": "Halloween Night · Event photograph 4"
+      },
+      {
+        "src": "assets/photos/halloween-2026/img_7829.jpg",
+        "thumbnail": "assets/photos/halloween-2026/img_7829-thumb.jpg",
+        "width": 1920,
+        "height": 2560,
+        "alt": "Halloween Night · Event photograph 5"
+      },
+      {
+        "src": "assets/photos/halloween-2026/img_7934.jpg",
+        "thumbnail": "assets/photos/halloween-2026/img_7934-thumb.jpg",
+        "width": 1920,
+        "height": 2560,
+        "alt": "Halloween Night · Event photograph 6"
+      },
+      {
+        "src": "assets/photos/halloween-2026/img_7936.jpg",
+        "thumbnail": "assets/photos/halloween-2026/img_7936-thumb.jpg",
+        "width": 1920,
+        "height": 2560,
+        "alt": "Halloween Night · Event photograph 7"
+      },
+      {
+        "src": "assets/photos/halloween-2026/img_7938.jpg",
+        "thumbnail": "assets/photos/halloween-2026/img_7938-thumb.jpg",
+        "width": 1920,
+        "height": 2560,
+        "alt": "Halloween Night · Event photograph 8"
+      },
+      {
+        "src": "assets/photos/halloween-2026/img_7940.jpg",
+        "thumbnail": "assets/photos/halloween-2026/img_7940-thumb.jpg",
+        "width": 1920,
+        "height": 2560,
+        "alt": "Halloween Night · Event photograph 9"
+      },
+      {
+        "src": "assets/photos/halloween-2026/img_7942.jpg",
+        "thumbnail": "assets/photos/halloween-2026/img_7942-thumb.jpg",
+        "width": 1920,
+        "height": 2560,
+        "alt": "Halloween Night · Event photograph 10"
+      },
+      {
+        "src": "assets/photos/halloween-2026/img_7944.jpg",
+        "thumbnail": "assets/photos/halloween-2026/img_7944-thumb.jpg",
+        "width": 1920,
+        "height": 2560,
+        "alt": "Halloween Night · Event photograph 11"
+      }
+    ],
+    "videos": [
+      {
+        "title": "Halloween Night · Event Recap",
+        "description": "Moments from GG Halloween Battle 2026.",
+        "src": "assets/videos/halloween-2026-event-recap.mp4",
+        "poster": "assets/videos/halloween-2026-event-recap.jpg",
+        "type": "video/mp4",
+        "width": 1080,
+        "height": 1920
+      }
+    ]
   },
   {
     "id": "weekly-1027",
