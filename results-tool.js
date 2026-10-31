@@ -1,4 +1,4 @@
-import {parseCSV,calculateRankings,validateResults,upsertResults,eventSettings,pointsFor,startNextSeason,multiplierLabel,resultKey} from './ranking.js';
+import {parseCSV,calculateRankings,validateResults,upsertResults,eventSettings,pointsFor,startNextSeason,multiplierLabel,resultKey} from './ranking.js?v=20261031-final-points';
 const $=id=>document.getElementById(id);let config=null,rows=[],pending=null;
 function message(text,error=false){$('message').textContent=text;$('message').classList.toggle('error',error);}
 function cell(text){const td=document.createElement('td');td.textContent=text;return td;}
