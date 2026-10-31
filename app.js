@@ -1,3 +1,4 @@
+import { setupEventGallery } from './event-gallery.js';
 import { startAnalytics } from './analytics.js?v=20261031';
 import { renderFeaturedFilm } from './featured-film.js';
 import { calculateRankings } from './ranking.js?v=20261031-final-points';
@@ -11,6 +12,7 @@ const el = (tag, text, className) => {
   return element;
 };
 const dialog = $('event-dialog');
+const gallery = setupEventGallery(pauseEventVideos);
 let events = [], rankings = [], season = null, weeklyExpanded = false, previousHash = '#events';
 let seasonBundle = null;
 let archiveFilter = 'all';
@@ -28,7 +30,7 @@ function safeLink(url, text, className = 'button outline') {
   return a;
 }
 function pauseEventVideos() { dialog.querySelectorAll('video').forEach(video => video.pause()); }
-function closeDialog() { pauseEventVideos(); dialog.close(); }
+function closeDialog() { pauseEventVideos(); gallery.clear(); dialog.close(); }
 $('dialog-close').addEventListener('click', closeDialog);
 dialog.addEventListener('click', e => {
   if (e.target !== dialog) return;
@@ -37,10 +39,12 @@ dialog.addEventListener('click', e => {
 });
 dialog.addEventListener('close', () => {
   pauseEventVideos();
+  gallery.clear();
   if (location.hash.startsWith('#event/')) history.replaceState(null, '', location.pathname + location.search + previousHash);
 });
 function resetDialog(label, title, meta, mediaOnly = false) {
   pauseEventVideos();
+  gallery.clear();
   $('event-media').replaceChildren();
   $('event-media').hidden = true;
   $('dialog-label').textContent = label;
@@ -79,6 +83,7 @@ function openEvent(event, updateHash = true) {
     catch { copy.textContent = 'COPY THIS PAGE URL'; }
   });
   $('dialog-actions').append(copy);
+  gallery.render(event);
   if (event.videos?.length) {
     const media = $('event-media');
     media.hidden = false;
