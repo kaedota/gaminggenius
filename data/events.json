@@ -379,6 +379,23 @@
     "thumbnail": "assets/posters/weekly-1027-thumb.webp"
   },
   {
+    "id": "weekly-1024",
+    "title": "Night Battle · GG × X Juggernaut Legion",
+    "category": "beyblade",
+    "startDate": "2026-10-24",
+    "endDate": "2026-10-24",
+    "dateLabel": "24 OCT 2026",
+    "venue": "Gaming Genius Studio",
+    "description": "Test your skills. A GG × X Juggernaut Legion Night Battle.",
+    "details": "RM25 per slot or RM40 for two slots. Registration 8:00 PM; battle starts 8:30 PM. Advertised maximum 64 slots, maximum two slots per person. Four Swiss rounds up to four points, followed by Top 8 single elimination up to seven points. Individual · 4 Ban 1. Prizes advertised: Red Aero Pegasus for first place; UX-15 Shark Scale Deck Set picks for second to fourth; Beyblade parts for fifth to eighth.",
+    "featured": false,
+    "registrationUrl": null,
+    "kind": "weekly",
+    "time": "8:30 PM",
+    "poster": "assets/posters/weekly-1024-original.jpeg",
+    "thumbnail": "assets/posters/weekly-1024-thumb.webp"
+  },
+  {
     "id": "weekly-1020",
     "title": "Night Battle · White Dragon",
     "category": "beyblade",
