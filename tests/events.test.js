@@ -26,9 +26,9 @@ test('confirmed year correction and real Elmina registration are retained',()=>{
 
 
 test('confirmed video ownership retains the first recap without extra or duplicate films',()=>{
- const expected={paradigm:3,'centro-beyblade':2,'centro-tcg':1,'racers-1':2,'racers-2':2,elmina:1};
+ const expected={paradigm:3,'centro-beyblade':2,'centro-tcg':1,'racers-1':2,'racers-2':2,elmina:1,halloween:1};
  const films=events.filter(e=>e.videos?.length);assert.deepEqual(Object.fromEntries(films.map(e=>[e.id,e.videos.length])),expected);
- const all=films.flatMap(e=>e.videos);assert.equal(new Set(all.map(v=>v.src)).size,11);
+ const all=films.flatMap(e=>e.videos);assert.equal(new Set(all.map(v=>v.src)).size,12);
  const corrected=events.find(e=>e.id==='racers-1').videos.find(v=>v.src==='assets/videos/little-racers-2-event-film-01.mp4');assert.equal(corrected.title,'Little Racers I · Event Film');assert.equal(corrected.description,'A film from the first Little Racers Challenge.');assert.equal(corrected.poster,'assets/videos/little-racers-2-event-film-01.jpg');assert.ok(!(events.find(e=>e.id==='racers-2').videos||[]).some(v=>v.src===corrected.src));
  const first=events.find(e=>e.id==='racers-1').videos[0];assert.equal(first.title,'Official Event Recap · Part 3');assert.equal(first.src,'assets/videos/little-racers-1-recap-part-3.mp4');
  for(const film of all){assert.equal(film.type,'video/mp4');const video=readFileSync(new URL('../'+film.src,import.meta.url));assert.equal(video.subarray(4,8).toString(),'ftyp');assert.ok(video.length>1000000);const poster=readFileSync(new URL('../'+film.poster,import.meta.url));assert.equal(poster[0],0xff);assert.equal(poster[1],0xd8);}
