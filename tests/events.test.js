@@ -21,7 +21,7 @@ test('original posters and thumbnails exist for every event and IDs are unique',
 test('confirmed year correction and real Elmina registration are retained',()=>{
  assert.equal(events.find(e=>e.id==='justplay').startDate,'2026-09-13');
  assert.equal(events.find(e=>e.id==='elmina').registrationUrl,'https://forms.gle/xL64RhokrHdTP4376');
- assert.equal(events.filter(e=>e.kind==='weekly').length,13);
+ assert.equal(events.filter(e=>e.kind==='weekly').length,14);
 });
 
 
