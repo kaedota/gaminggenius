@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="referrer" content="no-referrer" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self' https://fpogdariltzvqzbhrhnl.supabase.co; img-src 'self' data:; base-uri 'none'; form-action 'self'" />
+    <title>GG Member · 指定账号内测</title>
+    <link rel="stylesheet" href="player.css" />
+  </head>
+  <body>
+    <header>
+      <a href="../index.html"
+        ><img src="../assets/gg-logo.png" alt="Gaming Genius" />GAMING GENIUS</a
+      ><span>PLAYER SYSTEM · V1</span>
+    </header>
+    <main>
+      <p class="eyebrow">YOUR PLAYER ID. YOUR BATTLE HISTORY.</p>
+      <h1>GG PLAYER<br /><em>CENTRE.</em></h1>
+      <p id="mode" class="notice">手机内测 · 仅指定账号可注册及登录 · 测试档案不代表正式成绩</p>
+      <nav aria-label="账号功能">
+        <button data-mode="login">登录</button
+        ><button data-mode="signup">注册</button
+        ><button data-mode="recover">找回账号</button
+        ><a href="../index.html#ranking">公开排行榜 ↗</a>
+      </nav>
+      <p id="status" role="status" aria-live="polite"></p>
+      <button id="retry" hidden>重试连接</button>
+      <section id="auth" class="panel">
+        <h2 id="auth-title">登录</h2>
+        <form id="auth-form">
+          <label
+            >邮箱<input
+              id="email"
+              type="email"
+              autocomplete="email"
+              required
+              maxlength="254" /></label
+          ><label id="password-label"
+            >密码<input
+              id="password"
+              type="password"
+              autocomplete="current-password"
+              minlength="12"
+              maxlength="128"
+              required
+          /></label>
+          <p>
+            注册后需验证邮箱。账号不等于选手档案；注册不会新建成绩或获得积分。请勿共用工作人员账号。
+          </p>
+          <div id="captcha"></div>
+          <button id="submit" type="submit">登录 →</button>
+        </form>
+        <p id="configuration" hidden>
+          真实注册及邮件找回尚未启用。可先查看只读预览，预览不会建立登录会话或提交申请。
+        </p>
+      </section>
+      <section id="recovery" class="panel" hidden>
+        <h2>设置新密码</h2>
+        <form id="reset-form">
+          <label
+            >新密码<input
+              id="new-password"
+              type="password"
+              autocomplete="new-password"
+              minlength="12"
+              required /></label
+          ><button>保存新密码</button>
+        </form>
+      </section>
+      <section id="account" hidden>
+        <div class="section-head">
+          <h2>MY PLAYERS</h2>
+          <button id="logout">退出账号</button>
+        </div>
+        <div id="players" class="cards"></div>
+        <section class="panel">
+          <h3>认领已有选手档案</h3>
+          <p>
+            先在公开排行榜查找 Player
+            ID。姓名相同不代表同一个人；请不要提交身份证、电话、地址等敏感资料。
+          </p>
+          <form id="claim-form">
+            <label
+              >Player ID<input
+                id="claim-id"
+                required
+                maxlength="40"
+                placeholder="GG-0001" /></label
+            ><label
+              >核对说明（10–500 字）<textarea
+                id="claim-evidence"
+                required
+                minlength="10"
+                maxlength="500"
+                placeholder="例如参赛日期、活动、使用的名字、由哪位工作人员核对。不要填敏感资料。"
+              ></textarea></label
+            ><button>提交认领申请</button>
+          </form>
+          <div id="claims"></div>
+        </section>
+        <details class="panel">
+          <summary>从未有 GG 成绩？建立新选手档案</summary>
+          <p>可替孩子建立独立档案。重复名字允许存在；请先核对已有记录。</p>
+          <form id="create-form">
+            <label
+              >显示名字<input id="new-name" required maxlength="80" /></label
+            ><label class="check"
+              ><input
+                id="checked-existing"
+                type="checkbox"
+                required
+              />我确认已查找已有记录，此选手尚无 GG Player ID。</label
+            ><button>建立永久 Player ID</button>
+          </form>
+        </details>
+        <section class="panel">
+          <h3>资料问题反馈</h3>
+          <form id="feedback-form">
+            <label
+              >Player ID<select id="feedback-player" required></select></label
+            ><label
+              >问题说明<textarea
+                id="feedback-message"
+                minlength="10"
+                maxlength="500"
+                required
+              ></textarea></label
+            ><button>提交给 GG</button>
+          </form>
+        </section>
+      </section>
+      <section id="mfa" class="panel" hidden>
+        <h2>工作人员双重验证</h2>
+        <p>管理员操作由服务端强制要求第二重验证。可使用支持 TOTP 的验证器。</p>
+        <button id="enroll">设置验证器</button>
+        <button id="reset-mfa" type="button" class="secondary" hidden>重新绑定待确认的验证器</button>
+        <div id="mfa-setup"></div>
+        <form id="mfa-form">
+          <label
+            >验证器验证码<input
+              id="mfa-code"
+              inputmode="numeric"
+              pattern="[0-9]{6}"
+              maxlength="6"
+              required
+              autocomplete="one-time-code" /></label
+          ><button>验证并打开后台</button>
+        </form>
+      </section>
+      <section id="admin" hidden>
+        <div class="section-head">
+          <h2>GG CONTROL ROOM</h2>
+          <button id="admin-refresh">刷新后台</button>
+        </div>
+        <form id="search-form">
+          <label
+            >搜索名字或 Player ID<input
+              id="admin-query"
+              maxlength="80" /></label
+          ><button>搜索选手</button>
+        </form>
+        <div id="admin-players" class="cards"></div>
+        <h3>绑定审核 / 资料反馈</h3>
+        <div id="admin-queue"></div>
+        <h3>操作记录</h3>
+        <div id="audit"></div>
+        <section class="panel" id="owner" hidden>
+          <h3>Owner · 指定测试账号及员工权限</h3>
+          <p>
+            账号必须先完成验证。每位员工使用自己的账号。此处不能创建或删除
+            Owner。
+          </p>
+          <form id="access-form">
+            <label>用户 UUID<input id="access-user" required /></label
+            ><label
+              >角色<select id="access-role">
+                <option value="player">玩家</option>
+                <option value="admin">管理员</option>
+              </select></label
+            ><label
+              >测试访问<select id="access-allowed">
+                <option value="true">允许</option>
+                <option value="false">停用</option>
+              </select></label
+            ><label
+              >原因<textarea
+                id="access-reason"
+                minlength="10"
+                maxlength="500"
+                required
+              ></textarea></label
+            ><button>保存权限</button>
+          </form>
+        </section>
+      </section>
+    </main>
+    <footer>
+      GG Player System V1 · 测试预览 · <a href="privacy.html">隐私说明</a>
+    </footer>
+    <script type="module" src="app.js?v=20261101-mfa-rebind-2"></script>
+  </body>
+</html>
