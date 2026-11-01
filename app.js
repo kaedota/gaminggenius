@@ -219,7 +219,7 @@ function handleHash() {
 }
 window.addEventListener('hashchange', handleHash);
 window.addEventListener('popstate', handleHash);
-getJSON('data/events.json').then(data => {
+getJSON('data/events.json?v=20261102-elmina').then(data => {
   events = data; startAnalytics('G-CYS5Q3VHJT', events.map(event => event.id)); renderFeaturedFilm(events, today, openEvent, dialog); renderUpcoming(); renderArchive(); renderWeekly(); handleHash();
 }).catch(() => {
   for (const id of ['event-grid', 'weekly-grid', 'upcoming-grid']) $(id).replaceChildren(el('p', 'Events could not load. Please refresh or contact GG.', 'load-state'));
