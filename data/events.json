@@ -168,6 +168,15 @@
     "thumbnail": "assets/posters/elmina-cup-2026-poster-20261031.jpeg",
     "videos": [
       {
+        "title": "Elmina Cup · New Official Promo",
+        "description": "Elmina Cup 2026 official promotional film.",
+        "src": "assets/videos/elmina-home-promo-20261102.mp4",
+        "poster": "assets/videos/elmina-home-promo-20261102.jpg",
+        "type": "video/mp4",
+        "width": 1080,
+        "height": 1920
+      },
+      {
         "title": "Elmina Cup · Event Film",
         "description": "Elmina Cup 2026 official event video.",
         "src": "assets/videos/elmina-event-film-20261102.mp4",
