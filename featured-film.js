@@ -1,6 +1,6 @@
 export function selectFeaturedFilm(events, today) {
-  const event = events.find(e => e.homepagePromo && e.endDate >= today && e.videos?.some(v => v.src === e.homepagePromo));
-  return event ? {event, film:event.videos.find(v => v.src === event.homepagePromo)} : null;
+  const event = events.find(e => e.homepagePromo && e.endDate >= today && (e.homepageVideo?.src === e.homepagePromo || e.videos?.some(v => v.src === e.homepagePromo)));
+  return event ? {event, film:event.homepageVideo?.src === event.homepagePromo ? event.homepageVideo : event.videos.find(v => v.src === event.homepagePromo)} : null;
 }
 export function renderFeaturedFilm(events, today, openEvent, dialog) {
   const section = document.getElementById('featured-film');

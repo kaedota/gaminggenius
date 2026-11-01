@@ -1,6 +1,6 @@
 import { setupEventGallery } from './event-gallery.js';
 import { startAnalytics } from './analytics.js?v=20261031';
-import { renderFeaturedFilm } from './featured-film.js';
+import { renderFeaturedFilm } from './featured-film.js?v=20261102-elmina';
 import { calculateRankings } from './ranking.js?v=20261031-final-points';
 import { eventState, sortNewest, upcomingEvents, malaysiaDate, seasonState, rankingEventLabel, matchesPlayer } from './event-utils.js';
 
