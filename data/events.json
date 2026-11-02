@@ -273,6 +273,23 @@
     ]
   },
   {
+    "id": "weekly-1103",
+    "title": "Weekly Night Battle",
+    "category": "beyblade",
+    "startDate": "2026-11-03",
+    "endDate": "2026-11-03",
+    "dateLabel": "03 NOV 2026",
+    "venue": "Gaming Genius Studio",
+    "description": "GG Season 01 ranking event · Regular Points ×1.",
+    "details": "Registration 7:30 PM; battle starts 8:30 PM. RM10 per slot, maximum two slots per person. Free drinks advertised. Four Swiss rounds up to four points, followed by Top 8 single elimination up to four points. First to fourth choose from the advertised UX-10 prize set; fifth to eighth receive a GG one-time entry pass.",
+    "featured": false,
+    "registrationUrl": null,
+    "kind": "weekly",
+    "time": "8:30 PM",
+    "poster": "assets/posters/weekly-night-battle-20261102-original.jpeg",
+    "thumbnail": "assets/posters/weekly-night-battle-20261102-original.jpeg"
+  },
+  {
     "id": "halloween",
     "title": "Halloween Night",
     "category": "beyblade",

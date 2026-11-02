@@ -169,6 +169,14 @@
       "scoringMode": "pending",
       "eligible": false,
       "discipline": "beyblade"
+    },
+    "weekly-1103": {
+      "title": "Weekly Night Battle",
+      "multiplier": 1,
+      "topCutSize": 8,
+      "scoringMode": "pending",
+      "eligible": true,
+      "discipline": "beyblade"
     }
   },
   "results": [
