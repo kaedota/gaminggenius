@@ -184,6 +184,15 @@
         "type": "video/mp4",
         "width": 1080,
         "height": 1920
+      },
+      {
+        "title": "Elmina Cup · No Idea",
+        "description": "Elmina Cup 2026 promotional video.",
+        "src": "assets/videos/elmina-no-idea.mp4",
+        "poster": "assets/videos/elmina-no-idea.jpg",
+        "type": "video/mp4",
+        "width": 1080,
+        "height": 1920
       }
     ],
     "homepagePromo": "assets/videos/elmina-home-promo-20261102.mp4",
