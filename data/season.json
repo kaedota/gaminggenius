@@ -1668,5 +1668,55 @@
     "GG-0023",
     "GG-0024",
     "GG-0025"
+  ],
+  "pendingResults": [
+    {
+      "event_id": "elmina",
+      "display_name": "Dhani"
+    },
+    {
+      "event_id": "elmina",
+      "display_name": "JY 1015"
+    },
+    {
+      "event_id": "elmina",
+      "display_name": "Lokystar"
+    },
+    {
+      "event_id": "elmina",
+      "display_name": "XD Moses"
+    },
+    {
+      "event_id": "elmina",
+      "display_name": "Xiao Tong"
+    },
+    {
+      "event_id": "elmina",
+      "display_name": "Skwong"
+    },
+    {
+      "event_id": "elmina",
+      "display_name": "JCW"
+    },
+    {
+      "event_id": "elmina",
+      "display_name": "Hilfiy"
+    },
+    {
+      "event_id": "elmina",
+      "display_name": "Izzukid"
+    },
+    {
+      "event_id": "elmina",
+      "display_name": "FaR1z"
+    },
+    {
+      "event_id": "elmina",
+      "display_name": "Ah Bean"
+    },
+    {
+      "event_id": "elmina",
+      "display_name": "Fizi"
+    }
   ]
 }
