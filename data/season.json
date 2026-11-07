@@ -182,6 +182,16 @@
       "participants": 37,
       "slots": 68,
       "pointsSource": "GG owner-confirmed totals. A/B slot awards consolidated by player."
+    },
+    "elmina-session-2": {
+      "title": "Elmina Cup · Session 2",
+      "multiplier": 2,
+      "topCutSize": null,
+      "scoringMode": "final-event",
+      "eligible": true,
+      "discipline": "beyblade",
+      "allowFinalPoints": true,
+      "pointsSource": "GG-approved Session 2 participation points; Top Cut pending."
     }
   },
   "results": [
@@ -1146,7 +1156,7 @@
       "event_id": "elmina",
       "date": "2026-11-07",
       "player_id": "GG-0069",
-      "display_name": "Elston Wong Yu H…",
+      "display_name": "Elston Wong Yu Heng",
       "placement": null,
       "participants": 82,
       "attendance": "attended",
@@ -1636,6 +1646,644 @@
       "attendance": "attended",
       "final_points": 10,
       "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0044",
+      "display_name": "Small potato",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0111",
+      "display_name": "Johnweak",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0112",
+      "display_name": "Med",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0113",
+      "display_name": "BLADER GTM",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0114",
+      "display_name": "Raizel",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0022",
+      "display_name": "Yz",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0115",
+      "display_name": "JiaJia",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0003",
+      "display_name": "Hong",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0030",
+      "display_name": "Clarence",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0058",
+      "display_name": "Adam Danial",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0116",
+      "display_name": "enemyte",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0016",
+      "display_name": "Sky",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0117",
+      "display_name": "Jim",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0061",
+      "display_name": "Mumar",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0075",
+      "display_name": "YumiCorn",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0118",
+      "display_name": "KJ",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0119",
+      "display_name": "EZY FAST",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0037",
+      "display_name": "Alphadic",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0069",
+      "display_name": "Elston Wong Yu Heng",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0068",
+      "display_name": "EMO C",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0077",
+      "display_name": "Bangau Hitam",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0120",
+      "display_name": "MYTH.Justin Voon",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0078",
+      "display_name": "IZZAH",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0080",
+      "display_name": "Essar",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0121",
+      "display_name": "Richy",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0081",
+      "display_name": "Mia",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0122",
+      "display_name": "Godfrey",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0123",
+      "display_name": "Neo",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0124",
+      "display_name": "Hikki",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0031",
+      "display_name": "Irene",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0025",
+      "display_name": "RK9",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0105",
+      "display_name": "CZ",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0009",
+      "display_name": "XD Jim",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0125",
+      "display_name": "Fadrix",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0126",
+      "display_name": "YummyYummy",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0127",
+      "display_name": "吴舒德",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0128",
+      "display_name": "Bey’yonce",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0004",
+      "display_name": "XD Jason",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0012",
+      "display_name": "Vincent",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0059",
+      "display_name": "Kelvin YC",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0129",
+      "display_name": "TwisterTwisties",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0060",
+      "display_name": "Tomi",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0130",
+      "display_name": "Eason Tan",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0131",
+      "display_name": "Adamboi",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0076",
+      "display_name": "Kafka",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0132",
+      "display_name": "Hikari",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0133",
+      "display_name": "Nick Tan",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0070",
+      "display_name": "NekoNikoNi",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0134",
+      "display_name": "Daddy Chill",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0072",
+      "display_name": "ShaunZ",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0135",
+      "display_name": "MYTH.Kenneth BM",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0074",
+      "display_name": "Qalif",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0136",
+      "display_name": "Turbo Turtle",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0082",
+      "display_name": "Blue Blaze",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0137",
+      "display_name": "Khayri Tham",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0138",
+      "display_name": "Ibrahim",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0139",
+      "display_name": "Waka Waka",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "date": "2026-11-07",
+      "player_id": "GG-0021",
+      "display_name": "Lengzai Boss",
+      "placement": null,
+      "participants": 70,
+      "attendance": "attended",
+      "final_points": 10,
+      "season_id": "season-01"
     }
   ],
   "archives": [],
@@ -1717,6 +2365,54 @@
     {
       "event_id": "elmina",
       "display_name": "Fizi"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "display_name": "我赢定了"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "display_name": "Farid"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "display_name": "Lim Jing Hong"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "display_name": "Wan"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "display_name": "Matthew"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "display_name": "MYTH.Andy"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "display_name": "Kimmy"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "display_name": "Buy Now Bey Later"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "display_name": "Damton93"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "display_name": "Rhinos"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "display_name": "Orange cat"
+    },
+    {
+      "event_id": "elmina-session-2",
+      "display_name": "Katseye"
     }
   ]
 }
