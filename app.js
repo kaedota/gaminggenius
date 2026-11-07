@@ -183,8 +183,23 @@ $('weekly-toggle').addEventListener('click', () => { weeklyExpanded = !weeklyExp
 
 function renderRankings() {
   const query = $('player-search').value.trim().toLocaleLowerCase();
+  const pending = (season.pendingResults || []).filter(entry => !(season.results || []).some(result =>
+    result.event_id === entry.event_id && result.display_name === entry.display_name));
+  const pendingByName = new Map();
+  for (const entry of pending) {
+    const label = (season.events?.[entry.event_id]?.title || entry.event_id) + ' · Pending';
+    const labels = pendingByName.get(entry.display_name) || [];
+    labels.push(label);
+    pendingByName.set(entry.display_name, labels);
+  }
+  const pendingMatches = [...pendingByName].filter(([name]) => name.toLocaleLowerCase().includes(query));
   const matches = rankings.filter(p => matchesPlayer(p,query));
-  $('ranking-body').replaceChildren(...matches.map(player => {
+  $('ranking-body').replaceChildren(...pendingMatches.map(([name, labels]) => {
+    const row = el('tr'), who = el('td');
+    who.append(el('span', name), ...labels.map(label => el('small', label)));
+    row.append(el('td', '—'), who, el('td', '—'), el('td', 'Pending'));
+    return row;
+  }), ...matches.map(player => {
     const row = el('tr'), who = el('td');
     const button = el('button', player.name, 'rank-player');
     button.addEventListener('click', () => {
@@ -192,15 +207,17 @@ function renderRankings() {
       $('dialog-art').append(el('p', 'ALL VERIFIED EVENT RESULTS COUNT', 'eyebrow'));
       $('dialog-description').textContent = `${player.results.length} verified events. All results count in ${season.name}.`;
       $('dialog-details').replaceChildren(...player.results.map(result => el('p', `${result.date} · ${result.event_title || result.event_id} (${result.event_id}) · ×${result.multiplier || 1} · ${result.final_points!==undefined?"GG-confirmed final points":`Place ${result.placement}`} · ${result.points} pts`)));
+      for (const label of pendingByName.get(player.name) || []) $('dialog-details').append(el('p', label));
       dialog.showModal();
     });
     who.append(button, el('small', player.id));
+    for (const label of pendingByName.get(player.name) || []) who.append(el('small', label));
     row.append(el('td', String(player.rank).padStart(2, '0')), who, el('td', String(player.results.length)), el('td', String(player.total)));
     return row;
   }));
-  const empty = $('ranking-empty'); empty.hidden = matches.length > 0;
-  if (!matches.length) {
-    if (rankings.length) empty.replaceChildren(el('h3', 'NO MATCHING PLAYERS'), el('p', 'Try a different name or GG player ID.'));
+  const empty = $('ranking-empty'); empty.hidden = matches.length + pendingMatches.length > 0;
+  if (!matches.length && !pendingMatches.length) {
+    if (rankings.length || pending.length) empty.replaceChildren(el('h3', 'NO MATCHING PLAYERS'), el('p', 'Try a different name or GG player ID.'));
     else empty.replaceChildren(el('h3','VERIFIED RESULTS'),el('p',seasonState(season).id==='upcoming'?'Standings will appear after the first GG ranking event.':'No verified results have been published for this season yet.'));
   }
 }
