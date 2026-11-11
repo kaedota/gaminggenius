@@ -221,7 +221,7 @@ async function loadAdmin() {
           p_name: name.value,
           p_reason: reason.value,
         });
-        await loadAdmin();
+        await loadAccount();
         status("名字已更正；积分 ID 和原始成绩未改变。");
       });
     };
@@ -235,7 +235,7 @@ async function loadAdmin() {
             p_player_id: p.player_id,
             p_reason: reason.value,
           });
-          await loadAdmin();
+          await loadAccount();
           status("已解除绑定。原始成绩和积分保留。");
         });
       card.append(unbind);
@@ -280,7 +280,7 @@ async function loadAdmin() {
               p_approve: yes,
               p_reason: r.value,
             });
-            await loadAdmin();
+            await loadAccount();
             status("申请已处理。");
           });
         };
@@ -489,7 +489,7 @@ $("search-form").onsubmit = (e) => {
   e.preventDefault();
   perform(loadAdmin);
 };
-$("admin-refresh").onclick = () => perform(loadAdmin);
+$("admin-refresh").onclick = () => perform(loadAccount);
 $("access-form").onsubmit = (e) => {
   e.preventDefault();
   perform(async () => {
