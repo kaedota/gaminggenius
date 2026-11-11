@@ -273,6 +273,22 @@ footer {
   max-width: 240px;
   width: 100%;
 }
+.directory-results {
+  max-height: 440px;
+  overflow-y: auto;
+}
+.directory-row {
+  padding: 18px 0;
+  border-top: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+.directory-row h3,
+.directory-row p {
+  margin: 0 0 10px;
+}
+.directory-row details {
+  margin-bottom: 14px;
+}
 @media (max-width: 650px) {
   header {
     padding: 16px 20px;

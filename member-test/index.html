@@ -7,7 +7,7 @@
     <meta name="referrer" content="no-referrer" />
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self' https://fpogdariltzvqzbhrhnl.supabase.co; img-src 'self' data:; base-uri 'none'; form-action 'self'" />
     <title>GG Member · 指定账号内测</title>
-    <link rel="stylesheet" href="player.css" />
+    <link rel="stylesheet" href="player.css?v=20261111-directory" />
   </head>
   <body>
     <header>
@@ -18,7 +18,7 @@
     <main>
       <p class="eyebrow">YOUR PLAYER ID. YOUR BATTLE HISTORY.</p>
       <h1>GG PLAYER<br /><em>CENTRE.</em></h1>
-      <p id="mode" class="notice">手机内测 · 仅指定账号可注册及登录 · 测试档案不代表正式成绩</p>
+      <p id="mode" class="notice">手机内测 · 仅指定账号可注册及登录 · 认领须经 GG 审核</p>
       <nav aria-label="账号功能">
 <a href="judge.html">赛事 / Judge 测试入口 ↗</a>
         <button data-mode="login">登录</button
@@ -28,6 +28,17 @@
       </nav>
       <p id="status" role="status" aria-live="polite"></p>
       <button id="retry" hidden>重试连接</button>
+      <section id="directory" class="panel" aria-labelledby="directory-title">
+        <h2 id="directory-title">查找我的比赛记录</h2>
+        <p>输入比赛名字或 GG ID，核对赛事记录后选择档案。同名选手请核对 GG ID 和参赛经历。</p>
+        <form id="directory-form">
+          <label>比赛名字或 GG ID<input id="directory-query" type="search" maxlength="80" placeholder="例如 JJ、Orange cat" /></label>
+          <button type="submit">查找选手</button>
+        </form>
+        <p id="directory-status" role="status" aria-live="polite">正在读取公开比赛记录…</p>
+        <div id="directory-results" class="directory-results"></div>
+        <p id="selected-player" class="notice" hidden></p>
+      </section>
       <section id="auth" class="panel">
         <h2 id="auth-title">登录</h2>
         <form id="auth-form">
@@ -79,8 +90,7 @@
         <section class="panel">
           <h3>认领已有选手档案</h3>
           <p>
-            先在公开排行榜查找 Player
-            ID。姓名相同不代表同一个人；请不要提交身份证、电话、地址等敏感资料。
+            可在上方按比赛名字查找并选择档案。申请由 GG 核对后绑定；请不要提交身份证、电话、地址等敏感资料。
           </p>
           <form id="claim-form">
             <label
@@ -200,6 +210,6 @@
     <footer>
       GG Player System V1 · 测试预览 · <a href="privacy.html">隐私说明</a>
     </footer>
-    <script type="module" src="app.js?v=20261101-mfa-rebind-2"></script>
+    <script type="module" src="app.js?v=20261111-directory"></script>
   </body>
 </html>

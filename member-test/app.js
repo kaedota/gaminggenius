@@ -2,6 +2,8 @@ import {selectTotpFactor,requiresLogin,removePendingTotp} from "./mfa-state.js";
 import config from "./config.js";
 import { connect, rpc, verified, safeError } from "./api.js";
 import { $, node, playerCard, jsonPanel } from "./ui.js";
+import { publicPlayerDirectory, searchPublicPlayers } from "./model.js?v=20261111-directory";
+let directory = [], selectedPlayer;
 let captchaToken, widgetId;
 let client,
   bundle,
@@ -32,7 +34,7 @@ const hidePrivate = () => {
 async function perform(fn) {
   if (busy) return;
   busy = true;
-  document.querySelectorAll("form button").forEach((b) => (b.disabled = true));
+  document.querySelectorAll("form:not(#directory-form) button").forEach((b) => (b.disabled = true));
   status("正在处理…");
   try {
     await fn();
@@ -53,7 +55,7 @@ async function perform(fn) {
   } finally {
     busy = false;
     document
-      .querySelectorAll("form button")
+      .querySelectorAll("form:not(#directory-form) button")
       .forEach((b) => (b.disabled = !client));
   }
 }
@@ -74,6 +76,44 @@ function authMode(m) {
   $("password").autocomplete =
     m === "signup" ? "new-password" : "current-password";
 }
+
+function renderDirectory() {
+  const query = $("directory-query").value;
+  const matches = searchPublicPlayers(directory, query);
+  $("directory-results").replaceChildren();
+  $("directory-status").textContent = !query.trim()
+    ? "输入比赛名字，查找已公布的积分记录。"
+    : matches.length
+      ? `找到 ${matches.length} 个档案。请核对后选择。`
+      : "没有找到该名字。可以换用其他比赛名字或 GG ID 查找。";
+  for (const player of matches) {
+    const row = node("article", "", "directory-row");
+    const info = node("div");
+    info.append(
+      node("h3", player.display_name),
+      node("p", `${player.player_id} · ${player.season_name} · ${player.total} 分`),
+    );
+    const view = node("details");
+    view.append(node("summary", "核对比赛记录"), playerCard(player, bundle));
+    const select = node("button", "选择这个档案", "secondary");
+    select.type = "button";
+    select.onclick = () => {
+      selectedPlayer = player;
+      $("claim-id").value = player.player_id;
+      $("selected-player").hidden = false;
+      $("selected-player").textContent = `已选择 ${player.display_name}（${player.player_id}）。登录后填写核对说明并提交认领。`;
+      const target = $("account").hidden ? $("auth") : $("claim-form");
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      (target === $("auth") ? $("email") : $("claim-evidence")).focus();
+    };
+    row.append(info, view, select);
+    $("directory-results").append(row);
+  }
+}
+$("directory-form").onsubmit = (event) => {
+  event.preventDefault();
+  renderDirectory();
+};
 document
   .querySelectorAll("[data-mode]")
   .forEach((b) => (b.onclick = () => authMode(b.dataset.mode)));
@@ -84,6 +124,9 @@ async function loadAccount() {
   const data = await rpc("gg_dashboard");
   $("auth").hidden = true;
   $("account").hidden = false;
+  if (selectedPlayer) {
+    $("selected-player").textContent = `已选择 ${selectedPlayer.display_name}（${selectedPlayer.player_id}）。请填写参赛核对说明，提交后由 GG 审核。`;
+  }
   $("players").replaceChildren(
     ...data.players.map((p) => playerCard(p, bundle)),
   );
@@ -470,6 +513,8 @@ async function boot() {
         return r.json();
       },
     );
+    directory = publicPlayerDirectory(bundle);
+    renderDirectory();
     client = await connect();
     if (config.turnstileSiteKey) {
       await new Promise((resolve, reject) => {
