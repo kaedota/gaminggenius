@@ -1,6 +1,6 @@
 import {selectTotpFactor,requiresLogin,removePendingTotp} from "./mfa-state.js";
 import config from "./config.js";
-import { connect, rpc, verified, safeError } from "./api.js";
+import { connect, rpc, verified, safeError } from "./api.js?v=20261112-recovery";
 import { $, node, playerCard, jsonPanel } from "./ui.js";
 import { publicPlayerDirectory, searchPublicPlayers } from "./model.js?v=20261111-directory";
 let directory = [], selectedPlayer;
@@ -64,7 +64,7 @@ function authMode(m) {
   $("auth-title").textContent = {
     login: "登录",
     signup: "注册并验证邮箱",
-    recover: "找回账号",
+    recover: "忘记密码",
   }[m];
   $("submit").textContent = {
     login: "登录 →",
@@ -75,6 +75,10 @@ function authMode(m) {
   $("password").required = m !== "recover";
   $("password").autocomplete =
     m === "signup" ? "new-password" : "current-password";
+  $("recovery-help").hidden = m !== "recover";
+  $("auth").hidden = false;
+  $("auth").scrollIntoView({ behavior: "smooth", block: "start" });
+  $("email").focus();
 }
 
 function renderDirectory() {
@@ -350,10 +354,33 @@ $("logout").onclick = () =>
 $("reset-form").onsubmit = (e) => {
   e.preventDefault();
   perform(async () => {
+    const password = $("new-password").value;
+    if (password !== $("confirm-password").value) {
+      status("两次输入的密码不一致，请重新确认。", true);
+      $("confirm-password").focus();
+      return;
+    }
+    const { data: assurance, error: assuranceError } =
+      await client.auth.mfa.getAuthenticatorAssuranceLevel();
+    if (assuranceError) throw assuranceError;
+    if (assurance.nextLevel === "aal2" && assurance.currentLevel !== "aal2") {
+      const { data: factors, error: factorError } = await client.auth.mfa.listFactors();
+      if (factorError) throw factorError;
+      const factor = selectTotpFactor(factors);
+      if (!factor || factor.status !== "verified") throw Error("MFA_REQUIRED");
+      factorId = factor.id;
+      $("mfa").hidden = false;
+      $("enroll").hidden = true;
+      $("reset-mfa").hidden = true;
+      status("此账号已启用双重验证。请先输入原验证器的当前验证码，再保存新密码。");
+      $("mfa-code").focus();
+      return;
+    }
     const { error } = await client.auth.updateUser({
-      password: $("new-password").value,
+      password,
     });
     $("new-password").value = "";
+    $("confirm-password").value = "";
     if (error) throw error;
     $("recovery").hidden = true;
     await client.auth.signOut();
@@ -482,7 +509,10 @@ $("mfa-form").onsubmit = (e) => {
     $("mfa-code").value = "";
     if (error) throw error;
     $("mfa-setup").replaceChildren();
-    await loadAccount();
+    if (!$("recovery").hidden) {
+      $("mfa").hidden = true;
+      status("双重验证通过，请点击保存新密码。");
+    } else await loadAccount();
   });
 };
 $("search-form").onsubmit = (e) => {
@@ -504,6 +534,8 @@ $("access-form").onsubmit = (e) => {
 };
 async function boot() {
   if (booted) return;
+  const callbackError = new URLSearchParams(location.hash.slice(1)).get("error_code")
+    || new URLSearchParams(location.search).get("error_code");
   hidePrivate();
   status("正在连接账号服务…");
   try {
@@ -544,14 +576,18 @@ async function boot() {
         status("已退出或会话已结束。");
       }
       if (event === "PASSWORD_RECOVERY") {
+        hidePrivate();
         $("auth").hidden = true;
         $("recovery").hidden = false;
+        status("找回链接已验证。请设置至少12个字符的新密码；完成后重新登录。");
+        $("recovery").scrollIntoView({ block: "start" });
       }
     });
     const { data, error } = await client.auth.getSession();
     if (error) throw error;
     if (data.session && $("recovery").hidden) await loadAccount();
-    else status("请登录已获准的测试账号。");
+    else if (callbackError) status(safeError({ code: callbackError }), true);
+    else if ($("recovery").hidden) status("请登录已获准的测试账号。");
   } catch (e) {
     status(safeError(e), true);
     $("configuration").hidden = false;

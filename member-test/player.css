@@ -326,3 +326,10 @@ footer {
     font-size: 27px;
   }
 }
+
+/* Keep phone inputs readable and avoid iOS focus zoom. */
+@media (max-width: 650px) {
+  input, textarea, select { font-size: 16px; }
+  form, .panel, .card { min-width: 0; }
+  header a { flex-wrap: wrap; overflow-wrap: anywhere; }
+}

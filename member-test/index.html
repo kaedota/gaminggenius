@@ -7,7 +7,7 @@
     <meta name="referrer" content="no-referrer" />
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self' https://fpogdariltzvqzbhrhnl.supabase.co; img-src 'self' data:; base-uri 'none'; form-action 'self'" />
     <title>GG Member · 指定账号内测</title>
-    <link rel="stylesheet" href="player.css?v=20261111-directory" />
+    <link rel="stylesheet" href="player.css?v=20261112-mobile" />
   </head>
   <body>
     <header>
@@ -23,7 +23,7 @@
 <a href="judge.html">赛事 / Judge 测试入口 ↗</a>
         <button data-mode="login">登录</button
         ><button data-mode="signup">注册</button
-        ><button data-mode="recover">找回账号</button
+        ><button data-mode="recover">忘记密码</button
         ><a href="../index.html#ranking">公开排行榜 ↗</a>
       </nav>
       <p id="status" role="status" aria-live="polite"></p>
@@ -47,6 +47,9 @@
               id="email"
               type="email"
               autocomplete="email"
+              autocapitalize="none"
+              spellcheck="false"
+              inputmode="email"
               required
               maxlength="254" /></label
           ><label id="password-label"
@@ -61,6 +64,7 @@
           <p>
             注册后需验证邮箱。账号不等于选手档案；注册不会新建成绩或获得积分。请勿共用工作人员账号。
           </p>
+          <p id="recovery-help" hidden>输入注册邮箱，检查收件箱及垃圾邮件。请在发起请求的同一设备、同一浏览器中打开最新邮件链接；手机请直接使用 Safari 或 Chrome，避免从 WhatsApp 内置浏览器切换。</p>
           <div id="captcha"></div>
           <button id="submit" type="submit">登录 →</button>
         </form>
@@ -70,6 +74,7 @@
       </section>
       <section id="recovery" class="panel" hidden>
         <h2>设置新密码</h2>
+        <p>至少12个字符。完成后需重新登录；原有比赛记录和积分不会改变。</p>
         <form id="reset-form">
           <label
             >新密码<input
@@ -77,8 +82,9 @@
               type="password"
               autocomplete="new-password"
               minlength="12"
+              maxlength="128"
               required /></label
-          ><button>保存新密码</button>
+          ><label>确认新密码<input id="confirm-password" type="password" autocomplete="new-password" minlength="12" maxlength="128" required /></label><button>保存新密码</button>
         </form>
       </section>
       <section id="account" hidden>
@@ -210,6 +216,6 @@
     <footer>
       GG Player System V1 · 测试预览 · <a href="privacy.html">隐私说明</a>
     </footer>
-    <script type="module" src="app.js?v=20261112-account-refresh"></script>
+    <script type="module" src="app.js?v=20261112-recovery"></script>
   </body>
 </html>

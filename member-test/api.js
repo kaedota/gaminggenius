@@ -38,6 +38,13 @@ export function safeError(error) {
   const m = error?.message || "";
   if (/Error sending (recovery|confirmation|invite|magic link) email/i.test(m)) return "验证邮件暂时无法发出，GG 发信服务需要检查。请联系 GG，不用重复注册。";
   const providerErrors = {
+    otp_expired: "找回链接已失效或已使用。请回到忘记密码页面重新发送，并使用最新邮件。",
+    flow_state_not_found: "请在发起找回密码的同一设备、同一浏览器中打开最新邮件链接。若换了浏览器，请在那个浏览器重新发送找回邮件。",
+    flow_state_expired: "找回请求已过期，请重新发送邮件。",
+    bad_code_verifier: "请在发起找回密码的同一浏览器打开最新邮件；不要使用无痕窗口或应用内浏览器切换。",
+    same_password: "新密码不能与原密码相同，请换一个新密码。",
+    weak_password: "密码不符合要求，请设置至少12个字符的新密码。",
+    over_email_send_rate_limit: "邮件发送过于频繁，请稍后再试，并先检查最新邮件和垃圾邮件。",
     mfa_verification_failed: "验证码不匹配。请使用当前的6位验证码；若持续失败，请重新绑定验证器并完整复制新密钥。",
     mfa_challenge_expired: "验证请求已过期，请输入验证器的新验证码后重试。",
     mfa_verification_rejected: "验证码尝试过于频繁，请稍后重试。",
