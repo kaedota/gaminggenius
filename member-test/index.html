@@ -28,6 +28,11 @@
       </nav>
       <p id="status" role="status" aria-live="polite"></p>
       <button id="retry" hidden>重试连接</button>
+      <section id="recovery-link" class="panel" hidden>
+        <h2>重设密码</h2>
+        <p>点击下方按钮验证这封邮件。链接只可使用一次；如果不是你发起的请求，请关闭页面。</p>
+        <button id="verify-recovery-link" type="button">继续重设密码</button>
+      </section>
       <section id="directory" class="panel" aria-labelledby="directory-title">
         <h2 id="directory-title">查找我的比赛记录</h2>
         <p>输入比赛名字或 GG ID，核对赛事记录后选择档案。同名选手请核对 GG ID 和参赛经历。</p>
@@ -64,7 +69,7 @@
           <p>
             注册后需验证邮箱。账号不等于选手档案；注册不会新建成绩或获得积分。请勿共用工作人员账号。
           </p>
-          <p id="recovery-help" hidden>输入注册邮箱，检查收件箱及垃圾邮件。请在发起请求的同一设备、同一浏览器中打开最新邮件链接；手机请直接使用 Safari 或 Chrome，避免从 WhatsApp 内置浏览器切换。</p>
+          <p id="recovery-help" hidden>输入注册邮箱，检查收件箱及垃圾邮件。打开最新邮件中的链接，再点击「继续重设密码」。新邮件支持在手机、电脑或其他浏览器打开。</p>
           <div id="captcha"></div>
           <button id="submit" type="submit">登录 →</button>
         </form>
@@ -216,6 +221,6 @@
     <footer>
       GG Player System V1 · 测试预览 · <a href="privacy.html">隐私说明</a>
     </footer>
-    <script type="module" src="app.js?v=20261112-recovery-marker"></script>
+    <script type="module" src="app.js?v=20261112-crossbrowser"></script>
   </body>
 </html>

@@ -1,11 +1,12 @@
 import {selectTotpFactor,requiresLogin,removePendingTotp} from "./mfa-state.js";
 import config from "./config.js";
-import { connect, rpc, verified, safeError } from "./api.js?v=20261112-callback";
-import { exchangeEmailCallback } from "./auth-callback.js?v=20261112-recovery-marker";
+import { connect, rpc, verified, safeError } from "./api.js?v=20261112-crossbrowser";
+import { exchangeEmailCallback, readRecoveryToken, verifyRecoveryToken } from "./auth-callback.js?v=20261112-crossbrowser";
 import { $, node, playerCard, jsonPanel } from "./ui.js";
 import { publicPlayerDirectory, searchPublicPlayers } from "./model.js?v=20261111-directory";
 let directory = [], selectedPlayer;
 let captchaToken, widgetId;
+let recoveryToken;
 let client,
   bundle,
   mode = "login",
@@ -399,6 +400,12 @@ $("reset-form").onsubmit = (e) => {
     status("密码已更新，请重新登录。");
   });
 };
+$("verify-recovery-link").onclick = () => perform(async () => {
+  const session = await verifyRecoveryToken(client.auth, recoveryToken);
+  recoveryToken = null;
+  $("recovery-link").hidden = true;
+  showRecovery(session.user.id);
+});
 $("claim-form").onsubmit = (e) => {
   e.preventDefault();
   perform(async () => {
@@ -551,6 +558,12 @@ async function boot() {
   hidePrivate();
   status("正在连接账号服务…");
   try {
+    recoveryToken = readRecoveryToken(callbackHref);
+    if (recoveryToken) {
+      const clean = new URL(location.href);
+      clean.hash = "";
+      history.replaceState(history.state, "", clean.href);
+    }
     bundle = await fetch("../data/season.json", { cache: "no-store" }).then(
       (r) => {
         if (!r.ok) throw Error("DATA_LOAD_FAILED");
@@ -559,7 +572,7 @@ async function boot() {
     );
     directory = publicPlayerDirectory(bundle);
     renderDirectory();
-    client = await connect({ manualCallback: hasCode });
+    client = await connect({ manualCallback: hasCode || !!recoveryToken });
     if (config.turnstileSiteKey) {
       await new Promise((resolve, reject) => {
         const script = document.createElement("script");
@@ -605,6 +618,13 @@ async function boot() {
     }
     const { data, error } = await client.auth.getSession();
     if (error) throw error;
+    if (recoveryToken) {
+      $("auth").hidden = true;
+      $("recovery-link").hidden = false;
+      status("已打开找回邮件。请点击「继续重设密码」验证这封邮件。");
+      $("recovery-link").scrollIntoView({ block: "start" });
+      return;
+    }
     if (data.session?.user?.id === sessionStorage.getItem("gg-password-recovery")) {
       showRecovery(data.session.user.id);
     }
