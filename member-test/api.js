@@ -14,7 +14,7 @@ export function publicKeyOnly(key) {
   }
 }
 
-export async function connect() {
+export async function connect({ manualCallback = false } = {}) {
   if (!config.enabled || !config.supabaseUrl || !config.publishableKey)
     throw Error("CONFIG_MISSING");
   if (
@@ -29,7 +29,7 @@ export async function connect() {
       storage: createAuthStorage(sessionStorage,localStorage),
       persistSession: true,
       autoRefreshToken: true,
-      detectSessionInUrl: true,
+      detectSessionInUrl: !manualCallback,
     },
   });
   return client;
@@ -37,11 +37,13 @@ export async function connect() {
 export function safeError(error) {
   const m = error?.message || "";
   if (/Error sending (recovery|confirmation|invite|magic link) email/i.test(m)) return "验证邮件暂时无法发出，GG 发信服务需要检查。请联系 GG，不用重复注册。";
+  if (/code verifier|PKCE/i.test(m)) return "当前浏览器无法验证这次找回请求。请在当前浏览器重新发送邮件，并在同一浏览器打开最新链接。";
   const providerErrors = {
     otp_expired: "找回链接已失效或已使用。请回到忘记密码页面重新发送，并使用最新邮件。",
     flow_state_not_found: "请在发起找回密码的同一设备、同一浏览器中打开最新邮件链接。若换了浏览器，请在那个浏览器重新发送找回邮件。",
     flow_state_expired: "找回请求已过期，请重新发送邮件。",
     bad_code_verifier: "请在发起找回密码的同一浏览器打开最新邮件；不要使用无痕窗口或应用内浏览器切换。",
+    pkce_code_verifier_not_found: "这个浏览器没有找回请求记录。请在当前浏览器重新发送邮件，再打开最新链接。",
     same_password: "新密码不能与原密码相同，请换一个新密码。",
     weak_password: "密码不符合要求，请设置至少12个字符的新密码。",
     over_email_send_rate_limit: "邮件发送过于频繁，请稍后再试，并先检查最新邮件和垃圾邮件。",

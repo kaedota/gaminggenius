@@ -1,6 +1,7 @@
 import {selectTotpFactor,requiresLogin,removePendingTotp} from "./mfa-state.js";
 import config from "./config.js";
-import { connect, rpc, verified, safeError } from "./api.js?v=20261112-recovery";
+import { connect, rpc, verified, safeError } from "./api.js?v=20261112-callback";
+import { exchangeEmailCallback } from "./auth-callback.js?v=20261112-callback";
 import { $, node, playerCard, jsonPanel } from "./ui.js";
 import { publicPlayerDirectory, searchPublicPlayers } from "./model.js?v=20261111-directory";
 let directory = [], selectedPlayer;
@@ -16,6 +17,14 @@ const status = (text, error = false) => {
   $("status").textContent = text;
   $("status").className = error ? "notice status-error" : "notice";
 };
+function showRecovery(userId) {
+  sessionStorage.setItem("gg-password-recovery", userId);
+  hidePrivate();
+  $("auth").hidden = true;
+  $("recovery").hidden = false;
+  status("找回链接已验证。请设置至少12个字符的新密码；完成后重新登录。");
+  $("recovery").scrollIntoView({ block: "start" });
+}
 const hidePrivate = () => {
   for (const id of ["account", "admin", "mfa", "owner"]) $(id).hidden = true;
   for (const id of [
@@ -383,6 +392,7 @@ $("reset-form").onsubmit = (e) => {
     $("confirm-password").value = "";
     if (error) throw error;
     $("recovery").hidden = true;
+    sessionStorage.removeItem("gg-password-recovery");
     await client.auth.signOut();
     hidePrivate();
     $("auth").hidden = false;
@@ -536,6 +546,8 @@ async function boot() {
   if (booted) return;
   const callbackError = new URLSearchParams(location.hash.slice(1)).get("error_code")
     || new URLSearchParams(location.search).get("error_code");
+  const callbackHref = location.href;
+  const hasCode = new URL(callbackHref).searchParams.has("code");
   hidePrivate();
   status("正在连接账号服务…");
   try {
@@ -547,7 +559,7 @@ async function boot() {
     );
     directory = publicPlayerDirectory(bundle);
     renderDirectory();
-    client = await connect();
+    client = await connect({ manualCallback: hasCode });
     if (config.turnstileSiteKey) {
       await new Promise((resolve, reject) => {
         const script = document.createElement("script");
@@ -569,22 +581,33 @@ async function boot() {
     }
     booted = true;
     $("retry").hidden = true;
-    client.auth.onAuthStateChange((event) => {
+    client.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_OUT") {
+        sessionStorage.removeItem("gg-password-recovery");
+        $("recovery").hidden = true;
         hidePrivate();
         $("auth").hidden = false;
         status("已退出或会话已结束。");
       }
       if (event === "PASSWORD_RECOVERY") {
-        hidePrivate();
-        $("auth").hidden = true;
-        $("recovery").hidden = false;
-        status("找回链接已验证。请设置至少12个字符的新密码；完成后重新登录。");
-        $("recovery").scrollIntoView({ block: "start" });
+        showRecovery(session.user.id);
       }
     });
+    if (hasCode) {
+      try {
+        const callback = await exchangeEmailCallback(client.auth, callbackHref);
+        if (callback?.recovery) showRecovery(callback.session.user.id);
+      } finally {
+        const clean = new URL(location.href);
+        clean.searchParams.delete("code");
+        history.replaceState(history.state, "", clean.href);
+      }
+    }
     const { data, error } = await client.auth.getSession();
     if (error) throw error;
+    if (data.session?.user?.id === sessionStorage.getItem("gg-password-recovery")) {
+      showRecovery(data.session.user.id);
+    }
     if (data.session && $("recovery").hidden) await loadAccount();
     else if (callbackError) status(safeError({ code: callbackError }), true);
     else if ($("recovery").hidden) status("请登录已获准的测试账号。");
