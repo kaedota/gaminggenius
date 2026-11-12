@@ -1,12 +1,14 @@
 import {selectTotpFactor,requiresLogin,removePendingTotp} from "./mfa-state.js";
 import config from "./config.js";
-import { connect, rpc, verified, safeError } from "./api.js?v=20261112-crossbrowser";
+import { googleEnabled, googleSignInUrl } from "./google-auth.js?v=20261112-google";
+import { connect, rpc, verified, safeError } from "./api.js?v=20261112-google";
 import { exchangeEmailCallback, readRecoveryToken, verifyRecoveryToken } from "./auth-callback.js?v=20261112-crossbrowser";
 import { $, node, playerCard, jsonPanel } from "./ui.js";
 import { publicPlayerDirectory, searchPublicPlayers } from "./model.js?v=20261111-directory";
 let directory = [], selectedPlayer;
 let captchaToken, widgetId;
 let recoveryToken;
+let canGoogle = false;
 let client,
   bundle,
   mode = "login",
@@ -44,7 +46,7 @@ const hidePrivate = () => {
 async function perform(fn) {
   if (busy) return;
   busy = true;
-  document.querySelectorAll("form:not(#directory-form) button").forEach((b) => (b.disabled = true));
+  document.querySelectorAll("form:not(#directory-form) button, #google-login").forEach((b) => (b.disabled = true));
   status("正在处理…");
   try {
     await fn();
@@ -65,12 +67,13 @@ async function perform(fn) {
   } finally {
     busy = false;
     document
-      .querySelectorAll("form:not(#directory-form) button")
+      .querySelectorAll("form:not(#directory-form) button, #google-login")
       .forEach((b) => (b.disabled = !client));
   }
 }
 function authMode(m) {
   mode = m;
+  $("google-auth").hidden = !canGoogle || m === "recover";
   $("auth-title").textContent = {
     login: "登录",
     signup: "注册并验证邮箱",
@@ -573,6 +576,8 @@ async function boot() {
     directory = publicPlayerDirectory(bundle);
     renderDirectory();
     client = await connect({ manualCallback: hasCode || !!recoveryToken });
+    canGoogle = await googleEnabled(config);
+    $("google-auth").hidden = !canGoogle || mode === "recover";
     if (config.turnstileSiteKey) {
       await new Promise((resolve, reject) => {
         const script = document.createElement("script");
@@ -639,6 +644,13 @@ async function boot() {
   }
 }
 $("retry").onclick = () => perform(boot);
+$("google-login").onclick = () => perform(async () => {
+  if (!canGoogle) throw Error("GOOGLE_UNAVAILABLE");
+  sessionStorage.removeItem("gg-password-recovery");
+  const url = await googleSignInUrl(client.auth, config, location.href);
+  status("正在前往 Google，请选择已获准的测试账号。");
+  location.assign(url);
+});
 window.addEventListener("focus", () => {
   if (client && !$("account").hidden && $("mfa").hidden) perform(loadAccount);
 });

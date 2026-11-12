@@ -39,6 +39,8 @@ export function safeError(error) {
   if (/Error sending (recovery|confirmation|invite|magic link) email/i.test(m)) return "验证邮件暂时无法发出，GG 发信服务需要检查。请联系 GG，不用重复注册。";
   if (/code verifier|PKCE/i.test(m)) return "当前浏览器无法验证这次找回请求。请在当前浏览器重新发送邮件，并在同一浏览器打开最新链接。";
   const providerErrors = {
+    access_denied: "Google 登录已取消或该账号尚未获准，请重新选择测试账号。",
+    provider_disabled: "Google 登录尚未启用，请先使用邮箱登录。",
     otp_expired: "找回链接已失效或已使用。请回到忘记密码页面重新发送，并使用最新邮件。",
     flow_state_not_found: "请在发起找回密码的同一设备、同一浏览器中打开最新邮件链接。若换了浏览器，请在那个浏览器重新发送找回邮件。",
     flow_state_expired: "找回请求已过期，请重新发送邮件。",
@@ -69,6 +71,8 @@ export function safeError(error) {
     "NOT_YOUR_PLAYER",
     "CONFIG_MISSING",
     "CAPTCHA_REQUIRED",
+    "GOOGLE_UNAVAILABLE",
+    "OAUTH_URL_INVALID",
   ];
   const code = known.find((k) => m.includes(k));
   return (
@@ -85,6 +89,8 @@ export function safeError(error) {
       NOT_YOUR_PLAYER: "你没有权限管理这份档案。",
       CONFIG_MISSING: "账号功能尚未连接测试身份服务。",
       CAPTCHA_REQUIRED: "请先完成登录保护验证。",
+      GOOGLE_UNAVAILABLE: "Google 登录暂时不可用，请使用邮箱登录。",
+      OAUTH_URL_INVALID: "登录跳转地址验证失败，请刷新页面或使用邮箱登录。",
     }[code] ||
     "操作未完成。请检查输入或网络后重试；登录失败时请确认邮箱已验证。"
   );
