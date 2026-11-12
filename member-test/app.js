@@ -1,7 +1,7 @@
 import {selectTotpFactor,requiresLogin,removePendingTotp} from "./mfa-state.js";
 import config from "./config.js";
 import { connect, rpc, verified, safeError } from "./api.js?v=20261112-callback";
-import { exchangeEmailCallback } from "./auth-callback.js?v=20261112-callback";
+import { exchangeEmailCallback } from "./auth-callback.js?v=20261112-recovery-marker";
 import { $, node, playerCard, jsonPanel } from "./ui.js";
 import { publicPlayerDirectory, searchPublicPlayers } from "./model.js?v=20261111-directory";
 let directory = [], selectedPlayer;

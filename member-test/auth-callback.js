@@ -6,5 +6,5 @@ export async function exchangeEmailCallback(auth, href) {
   const { data, error } = await auth.exchangeCodeForSession(code);
   if (error) throw error;
   if (!data?.session?.user?.id) throw Error('AUTH_REQUIRED');
-  return {session:data.session,recovery:data.redirectType === 'recovery'};
+  return {session:data.session,recovery:data.redirectType === 'PASSWORD_RECOVERY'};
 }
