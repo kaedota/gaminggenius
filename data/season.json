@@ -6618,13 +6618,5 @@
     "GG-0025"
   ],
   "pendingResults": [],
-  "pointAdjustments": [
-    {
-      "id": "rk9-missing-points-20261113",
-      "player_id": "GG-0025",
-      "points": 5,
-      "reason": "主办方确认：补回之前漏算的5分，原赛事未指定；独立于G3 battle night本场积分。",
-      "recordedAt": "2026-11-13"
-    }
-  ]
+  "pointAdjustments": []
 }
