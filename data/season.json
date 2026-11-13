@@ -236,6 +236,14 @@
       "recordedAt": "2026-11-13",
       "participants": 50,
       "pointsSource": "Kae-confirmed ordinary x1. Actual event date not provided; 2026-11-13 is entry date only."
+    },
+    "weekly-1112": {
+      "title": "Weekly Battle Night · G3 Tournament",
+      "multiplier": 1,
+      "topCutSize": 8,
+      "scoringMode": "final-event",
+      "eligible": true,
+      "discipline": "beyblade"
     }
   },
   "results": [

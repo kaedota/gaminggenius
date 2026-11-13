@@ -634,13 +634,64 @@
     "endDate": "2026-11-12",
     "dateLabel": "12 NOV 2026",
     "venue": "Gaming Genius Studio",
-    "description": "G3 Tournament · A night of Beyblade X battles at GG.",
+    "description": "GG Season 01 ranking event · Regular Points ×1.",
     "details": "Registration 7:30 PM; battle starts 8:30 PM. RM10 per slot. Free drinks advertised. Four Swiss rounds up to four points, followed by Top 8 single elimination up to four points. Advertised prizes: Gold Ragnarage Blade for first place, Gold Bit Y for second, Gold Ratchet 4-55 for third and Launcher Grip for fourth.",
     "featured": false,
     "registrationUrl": null,
     "kind": "weekly",
     "time": "8:30 PM",
     "poster": "assets/posters/weekly-night-battle-20261112.jpeg",
-    "thumbnail": "assets/posters/weekly-night-battle-20261112.jpeg"
+    "thumbnail": "assets/posters/weekly-night-battle-20261112.jpeg",
+    "photos": [
+      {
+        "src": "assets/photos/weekly-20261112-img_0803.jpg",
+        "thumbnail": "assets/photos/weekly-20261112-img_0803-thumb.jpg",
+        "width": 1440,
+        "height": 1920,
+        "alt": "Weekly Battle Night · 12 November 2026 · Event photo 1"
+      },
+      {
+        "src": "assets/photos/weekly-20261112-img_0805.jpg",
+        "thumbnail": "assets/photos/weekly-20261112-img_0805-thumb.jpg",
+        "width": 1440,
+        "height": 1920,
+        "alt": "Weekly Battle Night · 12 November 2026 · Event photo 2"
+      },
+      {
+        "src": "assets/photos/weekly-20261112-img_0808.jpg",
+        "thumbnail": "assets/photos/weekly-20261112-img_0808-thumb.jpg",
+        "width": 1440,
+        "height": 1920,
+        "alt": "Weekly Battle Night · 12 November 2026 · Event photo 3"
+      },
+      {
+        "src": "assets/photos/weekly-20261112-img_0809.jpg",
+        "thumbnail": "assets/photos/weekly-20261112-img_0809-thumb.jpg",
+        "width": 1440,
+        "height": 1920,
+        "alt": "Weekly Battle Night · 12 November 2026 · Event photo 4"
+      },
+      {
+        "src": "assets/photos/weekly-20261112-img_0814.jpg",
+        "thumbnail": "assets/photos/weekly-20261112-img_0814-thumb.jpg",
+        "width": 1440,
+        "height": 1920,
+        "alt": "Weekly Battle Night · 12 November 2026 · Event photo 5"
+      },
+      {
+        "src": "assets/photos/weekly-20261112-img_0811.jpg",
+        "thumbnail": "assets/photos/weekly-20261112-img_0811-thumb.jpg",
+        "width": 1440,
+        "height": 1920,
+        "alt": "Weekly Battle Night · 12 November 2026 · Event photo 6"
+      },
+      {
+        "src": "assets/photos/weekly-20261112-img_0812.jpg",
+        "thumbnail": "assets/photos/weekly-20261112-img_0812-thumb.jpg",
+        "width": 1440,
+        "height": 1920,
+        "alt": "Weekly Battle Night · 12 November 2026 · Event photo 7"
+      }
+    ]
   }
 ]
