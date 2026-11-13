@@ -625,5 +625,22 @@
     "time": "",
     "poster": "assets/posters/undated-prizes.webp",
     "thumbnail": "assets/posters/undated-prizes.webp"
+  },
+  {
+    "id": "weekly-1112",
+    "title": "Weekly Battle Night · G3 Tournament",
+    "category": "beyblade",
+    "startDate": "2026-11-12",
+    "endDate": "2026-11-12",
+    "dateLabel": "12 NOV 2026",
+    "venue": "Gaming Genius Studio",
+    "description": "G3 Tournament · A night of Beyblade X battles at GG.",
+    "details": "Registration 7:30 PM; battle starts 8:30 PM. RM10 per slot. Free drinks advertised. Four Swiss rounds up to four points, followed by Top 8 single elimination up to four points. Advertised prizes: Gold Ragnarage Blade for first place, Gold Bit Y for second, Gold Ratchet 4-55 for third and Launcher Grip for fourth.",
+    "featured": false,
+    "registrationUrl": null,
+    "kind": "weekly",
+    "time": "8:30 PM",
+    "poster": "assets/posters/weekly-night-battle-20261112.jpeg",
+    "thumbnail": "assets/posters/weekly-night-battle-20261112.jpeg"
   }
 ]
