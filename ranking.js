@@ -26,8 +26,9 @@ export function validateResults(rows,config) {
     const prefix='Row '+(i+1)+': ';
     for(const k of ['event_id','date','player_id','display_name'])if(typeof r[k]!=='string'||!r[k].trim())throw Error(prefix+'Missing '+k+'.');
     if(r.season_id && r.season_id!==config.id)throw Error(prefix+'Wrong season ID.');
-    if(!/^\d{4}-\d{2}-\d{2}$/.test(r.date)||!Number.isFinite(Date.parse(r.date))||new Date(r.date).toISOString().slice(0,10)!==r.date)throw Error(prefix+'Use a real date in YYYY-MM-DD format.');
-    if(config.startDate&&r.date<config.startDate || config.endDate&&r.date>config.endDate)throw Error(prefix+'Event is outside this season.');
+    const undated=r.date==='日期待补' && config.events?.[r.event_id]?.dateUnconfirmed===true;
+    if(!undated && (!/^\d{4}-\d{2}-\d{2}$/.test(r.date)||!Number.isFinite(Date.parse(r.date))||new Date(r.date).toISOString().slice(0,10)!==r.date))throw Error(prefix+'Use a real date in YYYY-MM-DD format.');
+    if(!undated && (config.startDate&&r.date<config.startDate || config.endDate&&r.date>config.endDate))throw Error(prefix+'Event is outside this season.');
     const event=eventSettings(config,r.event_id);
     if(config.enforceEligibility && (event.eligible!==true || event.discipline!=='beyblade'))throw Error(prefix+'This event is not a designated GG Beyblade ranking event.');
     if(![1,2].includes(event.multiplier))throw Error(prefix+'Multiplier must be 1 or 2.');
@@ -47,6 +48,11 @@ export function validateResults(rows,config) {
     if(names.has(r.player_id)&&names.get(r.player_id)!==r.display_name)throw Error(prefix+'Player ID has inconsistent display names.');names.set(r.player_id,r.display_name);
     const prior=events.get(r.event_id);if(prior&&(prior.date!==r.date||prior.participants!==r.participants))throw Error(prefix+'Event date or participant count is inconsistent.');events.set(r.event_id,r);
   }
+  const adjustmentIds=new Set();
+  for(const a of config.pointAdjustments||[]) {
+    if(!a.id || adjustmentIds.has(a.id) || typeof a.player_id!=='string' || !a.player_id.trim() || !Number.isSafeInteger(a.points) || a.points<=0 || typeof a.reason!=='string' || !a.reason.trim())throw Error('Invalid or duplicate points correction.');
+    adjustmentIds.add(a.id);
+  }
   return rows;
 }
 export function upsertResults(existing,incoming,config) {
@@ -64,8 +70,9 @@ export function calculateRankings(rows,config) {
     const event=eventSettings(config,r.event_id);
     players.get(r.player_id).results.push({...r,season_id:config.id,event_title:event.title,multiplier:event.multiplier,points});
   }
+  for(const a of config.pointAdjustments||[]) { const player=players.get(a.player_id); if(!player)throw Error('Correction player has no results.'); (player.adjustments||=[]).push({...a}); }
   const order=new Map((config.displayOrder||[]).map((id,i)=>[id,i]));
-  const list=[...players.values()].map(p=>{p.results.sort((a,b)=>a.date.localeCompare(b.date)||a.event_id.localeCompare(b.event_id));p.total=p.results.reduce((s,r)=>s+r.points,0);const places=p.results.map(r=>r.placement).filter(Number.isInteger);p.best=places.length?Math.min(...places):null;p.wins=p.results.filter(r=>r.placement===1).length;return p;}).sort((a,b)=>b.total-a.total||(order.get(a.id)??Infinity)-(order.get(b.id)??Infinity)||(a.best??Infinity)-(b.best??Infinity)||b.wins-a.wins||a.name.localeCompare(b.name));
+  const list=[...players.values()].map(p=>{p.results.sort((a,b)=>a.date.localeCompare(b.date)||a.event_id.localeCompare(b.event_id));p.total=p.results.reduce((s,r)=>s+r.points,0)+(p.adjustments||[]).reduce((s,a)=>s+a.points,0);const places=p.results.map(r=>r.placement).filter(Number.isInteger);p.best=places.length?Math.min(...places):null;p.wins=p.results.filter(r=>r.placement===1).length;return p;}).sort((a,b)=>b.total-a.total||(order.get(a.id)??Infinity)-(order.get(b.id)??Infinity)||(a.best??Infinity)-(b.best??Infinity)||b.wins-a.wins||a.name.localeCompare(b.name));
   list.forEach((p,i)=>{const prev=list[i-1];p.rank=prev&&prev.total===p.total&&prev.best===p.best&&prev.wins===p.wins?prev.rank:i+1;});return list;
 }
 export function startNextSeason(bundle,id,name) {

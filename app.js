@@ -1,7 +1,7 @@
 import { setupEventGallery } from './event-gallery.js';
 import { startAnalytics } from './analytics.js?v=20261031';
 import { renderFeaturedFilm } from './featured-film.js?v=20261102-elmina';
-import { calculateRankings } from './ranking.js?v=20261031-final-points';
+import { calculateRankings } from './ranking.js?v=20261113-corrections';
 import { eventState, sortNewest, upcomingEvents, malaysiaDate, seasonState, rankingEventLabel, matchesPlayer } from './event-utils.js';
 
 const $ = id => document.getElementById(id);
@@ -208,6 +208,7 @@ function renderRankings() {
       $('dialog-description').textContent = `${player.results.length} verified events. All results count in ${season.name}.`;
       $('dialog-details').replaceChildren(...player.results.map(result => el('p', `${result.date} · ${result.event_title || result.event_id} (${result.event_id}) · ×${result.multiplier || 1} · ${result.final_points!==undefined?"GG-confirmed final points":`Place ${result.placement}`} · ${result.points} pts`)));
       for (const label of pendingByName.get(player.name) || []) $('dialog-details').append(el('p', label));
+      for(const a of player.adjustments||[]) $('dialog-details').append(el('p', `积分补正 · +${a.points} pts · ${a.reason}`));
       dialog.showModal();
     });
     who.append(button, el('small', player.id));
