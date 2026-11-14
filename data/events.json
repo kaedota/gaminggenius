@@ -693,5 +693,22 @@
         "alt": "Weekly Battle Night · 12 November 2026 · Event photo 7"
       }
     ]
+  },
+  {
+    "id": "weekly-1117",
+    "title": "Night Battle · Weekly Tournament",
+    "category": "beyblade",
+    "startDate": "2026-11-17",
+    "endDate": "2026-11-17",
+    "dateLabel": "17 NOV 2026",
+    "venue": "Gaming Genius Station",
+    "description": "Tuesday Night Battle · Four Swiss rounds followed by Top 12.",
+    "details": "Registration 7:30 PM; battle starts 8:30 PM. Entry RM18; free drink advertised. Four Swiss rounds, followed by Top 12 single elimination. B4 Store Rules: Takara Tomy only; no Hasbro or Rare; no duplicate parts; 3-on-3. Scoring: Spin 1, Over 2, Burst 2, Xtreme 3. First to fourth choose prizes in order; fifth to eighth receive a GG one-time pass; ninth to twelfth receive a random part. See the original poster for prize details.",
+    "featured": false,
+    "registrationUrl": null,
+    "kind": "weekly",
+    "time": "8:30 PM",
+    "poster": "assets/posters/weekly-night-battle-20261117.webp",
+    "thumbnail": "assets/posters/weekly-night-battle-20261117-thumb.webp"
   }
 ]
