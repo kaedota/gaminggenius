@@ -1,0 +1,14 @@
+.site-account{position:relative;display:flex;align-items:center;min-width:0;font:inherit;color:inherit}
+.account-guest{display:flex;align-items:center;gap:7px;white-space:nowrap}
+.account-guest>span{opacity:.5}.account-dropdown{position:relative;max-width:160px}
+.account-dropdown>summary{cursor:pointer;list-style:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:12px 0;font-size:13px}
+.account-dropdown>summary::-webkit-details-marker{display:none}
+.account-menu{position:absolute;right:0;top:100%;min-width:160px;background:#111318;border:1px solid #343740;padding:6px;box-shadow:0 12px 30px #0008;z-index:40}
+.site-account .account-menu a,.site-account .account-menu button{display:block;width:100%;padding:10px 12px;font:inherit;font-size:13px;text-align:left;border:0;background:transparent;color:#f3f4f6;letter-spacing:0;text-decoration:none;min-height:44px}
+.site-account .account-menu a:after{display:none}
+.account-menu a:hover,.account-menu button:hover{background:#fa153c22}
+.account-dropdown>summary:focus-visible,.site-account button:focus-visible{outline:2px solid white;outline-offset:3px}
+.account-status{position:absolute;right:0;top:100%;font-size:11px;max-width:220px;background:#171a20;color:#f3f4f6;padding:5px 8px;z-index:40}
+.site-account>button{border:0;background:transparent;color:inherit;font:inherit;font-size:12px}
+.member-account{margin-left:auto}.member-account .account-guest a{padding:9px 4px}
+@media(max-width:640px){.account-dropdown{max-width:112px}.account-dropdown>summary{font-size:11px;letter-spacing:0}.account-guest{gap:5px}.site-header .account-guest a{font-size:12px;letter-spacing:0}.member-account{max-width:145px}}
