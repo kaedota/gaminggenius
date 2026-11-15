@@ -200,7 +200,7 @@ async function loadAccount() {
       }
     } else await loadAdmin();
   }
-  if ($("mfa").hidden) status("已连接指定测试账号。");
+  if ($("mfa").hidden) status("会员登录成功。");
 }
 async function loadAdmin() {
   await verified();
@@ -549,7 +549,7 @@ $("access-form").onsubmit = (e) => {
       p_allowed: $("access-allowed").value === "true",
       p_reason: $("access-reason").value,
     });
-    status("测试访问权限已保存并记录操作。");
+    status("账号访问权限已保存并记录操作。");
   });
 };
 async function boot() {
@@ -635,7 +635,7 @@ async function boot() {
     }
     if (data.session && $("recovery").hidden) await loadAccount();
     else if (callbackError) status(safeError({ code: callbackError }), true);
-    else if ($("recovery").hidden) status("请登录已获准的测试账号。");
+    else if ($("recovery").hidden) status("请使用 Google 或邮箱登录。");
   } catch (e) {
     status(safeError(e), true);
     $("configuration").hidden = false;
@@ -648,7 +648,7 @@ $("google-login").onclick = () => perform(async () => {
   if (!canGoogle) throw Error("GOOGLE_UNAVAILABLE");
   sessionStorage.removeItem("gg-password-recovery");
   const url = await googleSignInUrl(client.auth, config, location.href);
-  status("正在前往 Google，请选择已获准的测试账号。");
+  status("正在前往 Google，请选择你的账号。");
   location.assign(url);
 });
 window.addEventListener("focus", () => {

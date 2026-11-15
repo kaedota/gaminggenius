@@ -39,7 +39,7 @@ export function safeError(error) {
   if (/Error sending (recovery|confirmation|invite|magic link) email/i.test(m)) return "验证邮件暂时无法发出，GG 发信服务需要检查。请联系 GG，不用重复注册。";
   if (/code verifier|PKCE/i.test(m)) return "当前浏览器无法验证这次找回请求。请在当前浏览器重新发送邮件，并在同一浏览器打开最新链接。";
   const providerErrors = {
-    access_denied: "Google 登录已取消或该账号尚未获准，请重新选择测试账号。",
+    access_denied: "Google 登录已取消或当前账号暂时无法登录，请重试。",
     provider_disabled: "Google 登录尚未启用，请先使用邮箱登录。",
     otp_expired: "找回链接已失效或已使用。请回到忘记密码页面重新发送，并使用最新邮件。",
     flow_state_not_found: "请在发起找回密码的同一设备、同一浏览器中打开最新邮件链接。若换了浏览器，请在那个浏览器重新发送找回邮件。",
@@ -79,7 +79,7 @@ export function safeError(error) {
     {
       AUTH_REQUIRED: "会话已过期，请重新登录。",
       EMAIL_VERIFICATION_REQUIRED: "请先验证邮箱。",
-      PILOT_CLOSED: "账号身份已验证，但测试访问尚未开通。请联系 GG，无需重复注册。",
+      PILOT_CLOSED: "账号身份已验证，但会员访问尚未开通或已停用。请联系 GG，无需重复注册。",
       ADMIN_REQUIRED: "此操作仅限授权管理员。",
       MFA_REQUIRED: "请先完成管理员双重验证。",
       RATE_LIMITED: "操作过于频繁，请稍后重试。",
@@ -87,7 +87,7 @@ export function safeError(error) {
       PLAYER_ALREADY_BOUND: "该档案已绑定，不能重复批准。",
       PLAYER_NOT_AVAILABLE: "无法提交这份档案的申请，请联系 GG。",
       NOT_YOUR_PLAYER: "你没有权限管理这份档案。",
-      CONFIG_MISSING: "账号功能尚未连接测试身份服务。",
+      CONFIG_MISSING: "账号服务暂时未连接。",
       CAPTCHA_REQUIRED: "请先完成登录保护验证。",
       GOOGLE_UNAVAILABLE: "Google 登录暂时不可用，请使用邮箱登录。",
       OAUTH_URL_INVALID: "登录跳转地址验证失败，请刷新页面或使用邮箱登录。",

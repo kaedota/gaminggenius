@@ -6,7 +6,7 @@
     <meta name="robots" content="noindex,nofollow" />
     <meta name="referrer" content="no-referrer" />
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self' https://fpogdariltzvqzbhrhnl.supabase.co; img-src 'self' data:; base-uri 'none'; form-action 'self'" />
-    <title>GG Member · 指定账号内测</title>
+    <title>GG 会员中心</title>
     <link rel="stylesheet" href="player.css?v=20261112-mobile" />
   </head>
   <body>
@@ -18,9 +18,9 @@
     <main>
       <p class="eyebrow">YOUR PLAYER ID. YOUR BATTLE HISTORY.</p>
       <h1>GG PLAYER<br /><em>CENTRE.</em></h1>
-      <p id="mode" class="notice">手机内测 · 仅指定账号可注册及登录 · 认领须经 GG 审核</p>
+      <p id="mode" class="notice">GG 会员 · Google 或邮箱登录 · 选手档案认领须经 GG 审核</p>
       <nav aria-label="账号功能">
-<a href="judge.html">赛事 / Judge 测试入口 ↗</a>
+<a href="judge.html">裁判测试入口 ↗</a>
         <button data-mode="login">登录</button
         ><button data-mode="signup">注册</button
         ><button data-mode="recover">忘记密码</button
@@ -48,7 +48,7 @@
         <h2 id="auth-title">登录</h2>
         <div id="google-auth" hidden>
           <button id="google-login" type="button">使用 Google 账号继续</button>
-          <p>使用已获准的测试邮箱。也可以在下方使用邮箱和密码。</p>
+          <p>使用 Google 账号快捷登录，也可使用邮箱和密码。普通会员无需设置验证器。</p>
         </div>
         <form id="auth-form">
           <label
@@ -193,7 +193,7 @@
         <h3>操作记录</h3>
         <div id="audit"></div>
         <section class="panel" id="owner" hidden>
-          <h3>Owner · 指定测试账号及员工权限</h3>
+          <h3>Owner · 会员及员工权限</h3>
           <p>
             账号必须先完成验证。每位员工使用自己的账号。此处不能创建或删除
             Owner。
@@ -206,7 +206,7 @@
                 <option value="admin">管理员</option>
               </select></label
             ><label
-              >测试访问<select id="access-allowed">
+              >账号访问<select id="access-allowed">
                 <option value="true">允许</option>
                 <option value="false">停用</option>
               </select></label
@@ -223,8 +223,9 @@
       </section>
     </main>
     <footer>
-      GG Player System V1 · 测试预览 · <a href="privacy.html">隐私说明</a>
+      GG 会员中心 · <a href="privacy.html">隐私说明</a>
     </footer>
-    <script type="module" src="app.js?v=20261112-google"></script>
+    <script type="module" src="app.js?v=20261115-members"></script>
   </body>
 </html>
+
