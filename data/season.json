@@ -244,6 +244,14 @@
       "scoringMode": "final-event",
       "eligible": true,
       "discipline": "beyblade"
+    },
+    "weekly-1117": {
+      "title": "Night Battle · Weekly Tournament",
+      "multiplier": 1,
+      "topCutSize": 12,
+      "scoringMode": "final-event",
+      "eligible": true,
+      "discipline": "beyblade"
     }
   },
   "results": [
