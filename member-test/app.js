@@ -1,3 +1,4 @@
+import {mountAccount} from "../account-control.js?v=20261115";
 import {selectTotpFactor,requiresLogin,removePendingTotp} from "./mfa-state.js";
 import config from "./config.js";
 import { googleEnabled, googleSignInUrl } from "./google-auth.js?v=20261112-google";
@@ -6,6 +7,7 @@ import { exchangeEmailCallback, readRecoveryToken, verifyRecoveryToken } from ".
 import { $, node, playerCard, jsonPanel } from "./ui.js";
 import { publicPlayerDirectory, searchPublicPlayers } from "./model.js?v=20261111-directory";
 let directory = [], selectedPlayer;
+let disposeAccount;
 let captchaToken, widgetId;
 let recoveryToken;
 let canGoogle = false;
@@ -576,6 +578,8 @@ async function boot() {
     directory = publicPlayerDirectory(bundle);
     renderDirectory();
     client = await connect({ manualCallback: hasCode || !!recoveryToken });
+    disposeAccount?.();
+    disposeAccount = mountAccount($("member-account"), client.auth, () => rpc("gg_session"), "index.html");
     canGoogle = await googleEnabled(config);
     $("google-auth").hidden = !canGoogle || mode === "recover";
     if (config.turnstileSiteKey) {
@@ -635,7 +639,11 @@ async function boot() {
     }
     if (data.session && $("recovery").hidden) await loadAccount();
     else if (callbackError) status(safeError({ code: callbackError }), true);
-    else if ($("recovery").hidden) status("请使用 Google 或邮箱登录。");
+    else if ($("recovery").hidden) {
+      const requestedMode = new URL(location.href).searchParams.get("mode");
+      if (["login", "signup"].includes(requestedMode)) authMode(requestedMode);
+      status("请使用 Google 或邮箱登录。");
+    }
   } catch (e) {
     status(safeError(e), true);
     $("configuration").hidden = false;

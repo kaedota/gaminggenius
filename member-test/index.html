@@ -8,12 +8,13 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self' https://fpogdariltzvqzbhrhnl.supabase.co; img-src 'self' data:; base-uri 'none'; form-action 'self'" />
     <title>GG 会员中心</title>
     <link rel="stylesheet" href="player.css?v=20261112-mobile" />
-  </head>
+  <link rel="stylesheet" href="../account-nav.css?v=20261115">
+</head>
   <body>
     <header>
       <a href="../index.html"
         ><img src="../assets/gg-logo.png" alt="Gaming Genius" />GAMING GENIUS</a
-      ><span>PLAYER SYSTEM · V1</span>
+      ><div id="member-account" class="site-account member-account"><div class="account-guest"><a href="index.html?mode=login">登录</a><span>/</span><a href="index.html?mode=signup">注册</a></div></div>
     </header>
     <main>
       <p class="eyebrow">YOUR PLAYER ID. YOUR BATTLE HISTORY.</p>
@@ -225,7 +226,7 @@
     <footer>
       GG 会员中心 · <a href="privacy.html">隐私说明</a>
     </footer>
-    <script type="module" src="app.js?v=20261115-members"></script>
+    <script type="module" src="app.js?v=20261115-account"></script>
   </body>
 </html>
 
