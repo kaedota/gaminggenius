@@ -1,3 +1,4 @@
+import {message} from "../site-language.mjs?v=20261115";
 import {mountAccount} from "../account-control.js?v=20261115";
 import {selectTotpFactor,requiresLogin,removePendingTotp} from "./mfa-state.js";
 import config from "./config.js";
@@ -504,7 +505,7 @@ if (!$("reset-mfa")) {
   $("enroll").after(reset);
 }
 $("reset-mfa").onclick = () => {
-  if (!window.confirm("重新绑定会让旧的待确认密钥失效。请将新密钥完整替换到 KeePassXC 中，并保存保险库。是否继续？")) return;
+  if (!window.confirm(message("重新绑定会让旧的待确认密钥失效。请将新密钥完整替换到 KeePassXC 中，并保存保险库。是否继续？"))) return;
   perform(async () => {
     await removePendingTotp(client, factorId);
     factorId = null;
