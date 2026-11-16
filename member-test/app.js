@@ -144,6 +144,13 @@ async function loadAccount() {
   const data = await rpc("gg_dashboard");
   $("auth").hidden = true;
   $("account").hidden = false;
+  if (sessionStorage.getItem("gg-booking-return") === "booking.html" && !document.getElementById("return-to-booking")) {
+    const bookingLink = node("a", "继续游戏预约 / Continue game booking →", "button");
+    bookingLink.id = "return-to-booking";
+    bookingLink.href = "booking.html";
+    bookingLink.onclick = () => sessionStorage.removeItem("gg-booking-return");
+    $("account").prepend(bookingLink);
+  }
   if (selectedPlayer) {
     $("selected-player").textContent = `已选择 ${selectedPlayer.display_name}（${selectedPlayer.player_id}）。请填写参赛核对说明，提交后由 GG 审核。`;
   }
