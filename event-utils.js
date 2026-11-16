@@ -13,7 +13,7 @@ export function sortNewest(events) {
   return [...events].sort((a, b) => (b.startDate || '0000-00-00').localeCompare(a.startDate || '0000-00-00'));
 }
 export function upcomingEvents(events, today = malaysiaDate()) {
-  return events.filter(e => e.startDate && (e.endDate || e.startDate) >= today)
+  return events.filter(e => e.public !== false && (!e.status || e.status === 'confirmed') && e.startDate && (e.endDate || e.startDate) >= today)
     .sort((a, b) => a.startDate.localeCompare(b.startDate));
 }
 

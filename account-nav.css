@@ -12,3 +12,6 @@
 .site-account>button{border:0;background:transparent;color:inherit;font:inherit;font-size:12px}
 .member-account{margin-left:auto}.member-account .account-guest a{padding:9px 4px}
 @media(max-width:640px){.account-dropdown{max-width:112px}.account-dropdown>summary{font-size:11px;letter-spacing:0}.account-guest{gap:5px}.site-header .account-guest a{font-size:12px;letter-spacing:0}.member-account{max-width:145px}}
+
+/* Separate public links from account controls on small screens. */
+@media(max-width:640px){.gg-bilingual .site-header nav,.site-header nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;width:100%;align-items:center}.site-header nav>a{display:flex;align-items:center;justify-content:center;min-height:44px;padding:10px 4px;white-space:nowrap;letter-spacing:.3px;font-size:12px}.site-header .site-account{grid-column:1 / span 2;justify-content:center;min-height:44px;border-top:1px solid #242731}.site-header .site-account+a{border-top:1px solid #242731}.site-header .account-guest{gap:10px}.site-header .account-guest>a{padding:10px 4px;min-height:44px;white-space:nowrap}.site-header .account-dropdown{max-width:210px}.site-header .account-dropdown>summary{padding:10px 4px;min-height:44px}.site-header .account-menu{left:0;right:auto}}

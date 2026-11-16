@@ -34,3 +34,6 @@
   z-index: 1;
   background: #171920;
 }
+
+/* Current event artwork is selected from the shared public schedule. */
+.hero-current .hero-poster-open img{aspect-ratio:auto;max-height:560px;object-fit:contain;background:#0c0d10}.hero-current .hero-event-meta{margin:0 0 12px;color:var(--muted);font-size:13px}.hero-current .hero-placeholder{padding:45px 20px;border-left:3px solid var(--red);background:var(--surface)}.hero-current .hero-placeholder h1{font-size:clamp(48px,7vw,90px)}
