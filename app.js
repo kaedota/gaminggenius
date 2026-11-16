@@ -1,4 +1,4 @@
-import { renderPublicHero } from './public-hero.mjs?v=20261116-brand-v4';
+import { renderPublicHero } from './public-hero.mjs?v=20261116-elmina-recap';
 import { setupEventGallery } from './event-gallery.js';
 import { startAnalytics } from './analytics.js?v=20261031';
 import { renderFeaturedFilm } from './featured-film.js?v=20261102-elmina';

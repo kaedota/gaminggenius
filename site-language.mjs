@@ -2,7 +2,7 @@ import{pairs as publicPairs}from'./site-language-data.mjs?v=20261115';
 import{pairs as memberPairs}from'./site-member-language.mjs?v=20261115';
 import{pairs as contentPairs}from'./site-content-language.mjs?v=20261115';
 const normal=s=>s.replace(/\s+/g,' ').trim();
-const en=new Map(),zh=new Map();for(const[e,c]of[...publicPairs,...memberPairs,...contentPairs,['BOOK GAMING','游戏预约'],['VIEW EVENT DETAILS','查看赛事详情'],['UPCOMING EVENTS','近期赛事'],['PLAY. COMPETE. BELONG.','一起玩。一起比。一起成长。'],['Verification details (1–500 characters)','核对说明（1–500 字）'],['Reason (1–500 characters)','更正原因（1–500字）'],['Enter a short note, such as ok; up to 500 characters.','请填写简短说明，例如 ok；最多500字。']]){en.set(normal(e),e);en.set(normal(c),e);zh.set(normal(e),c);zh.set(normal(c),c);}
+const en=new Map(),zh=new Map();for(const[e,c]of[...publicPairs,...memberPairs,...contentPairs,['VIEW EVENT RECAP','查看赛事回顾'],['View Elmina Cup closing banner','查看 Elmina Cup 闭幕横幅'],['BOOK GAMING','游戏预约'],['VIEW EVENT DETAILS','查看赛事详情'],['UPCOMING EVENTS','近期赛事'],['PLAY. COMPETE. BELONG.','一起玩。一起比。一起成长。'],['Verification details (1–500 characters)','核对说明（1–500 字）'],['Reason (1–500 characters)','更正原因（1–500字）'],['Enter a short note, such as ok; up to 500 characters.','请填写简短说明，例如 ok；最多500字。']]){en.set(normal(e),e);en.set(normal(c),e);zh.set(normal(e),c);zh.set(normal(c),c);}
 export function translate(source,language){
  const value=normal(source),dict=language==='en'?en:zh;
  if(dict.has(value))return dict.get(value);
