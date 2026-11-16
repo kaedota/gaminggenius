@@ -1,4 +1,4 @@
-import {mountBookings} from './admin-booking.mjs?v=20261116-live';
+import {mountBookings} from './admin-booking.mjs?v=20261116-people';
 import {renderAnalytics} from './admin-analytics.mjs?v=20261116-account2';
 import {connect,rpc,safeError} from './api.js?v=20261112-google';
 import {selectTotpFactor} from './mfa-state.js';

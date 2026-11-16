@@ -1,4 +1,4 @@
-import {mountFloorAdmin} from './booking-live.mjs?v=20261116-live';
+import {mountFloorAdmin} from './booking-live.mjs?v=20261116-people';
 export function mountBookings(container,{rpc,t,onFailure}){
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const today=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Kuala_Lumpur',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
