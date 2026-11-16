@@ -59,6 +59,7 @@ export function safeError(error) {
   };
   if (providerErrors[error?.code]) return providerErrors[error.code];
   const known = [
+    "REASON_1_TO_500_CHARACTERS",
     "AUTH_REQUIRED",
     "EMAIL_VERIFICATION_REQUIRED",
     "PILOT_CLOSED",
@@ -77,6 +78,7 @@ export function safeError(error) {
   const code = known.find((k) => m.includes(k));
   return (
     {
+      REASON_1_TO_500_CHARACTERS: "请填写简短说明，例如 ok；最多500字。",
       AUTH_REQUIRED: "会话已过期，请重新登录。",
       EMAIL_VERIFICATION_REQUIRED: "请先验证邮箱。",
       PILOT_CLOSED: "账号身份已验证，但会员访问尚未开通或已停用。请联系 GG，无需重复注册。",

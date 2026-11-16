@@ -1,9 +1,9 @@
-import {message} from "../site-language.mjs?v=20261115";
+import {message} from "../site-language.mjs?v=20261116-notes";
 import {mountAccount} from "../account-control.js?v=20261115";
 import {selectTotpFactor,requiresLogin,removePendingTotp} from "./mfa-state.js";
 import config from "./config.js";
 import { googleEnabled, googleSignInUrl } from "./google-auth.js?v=20261112-google";
-import { connect, rpc, verified, safeError } from "./api.js?v=20261112-google";
+import { connect, rpc, verified, safeError } from "./api.js?v=20261116-notes";
 import { exchangeEmailCallback, readRecoveryToken, verifyRecoveryToken } from "./auth-callback.js?v=20261112-crossbrowser";
 import { $, node, playerCard, jsonPanel } from "./ui.js";
 import { publicPlayerDirectory, searchPublicPlayers } from "./model.js?v=20261111-directory";
@@ -240,7 +240,7 @@ async function loadAdmin() {
     name.required = true;
     name.setAttribute("aria-label", "新名字 " + p.player_id);
     const reason = node("textarea");
-    reason.minLength = 10;
+    reason.minLength = 1;
     reason.maxLength = 500;
     reason.required = true;
     reason.setAttribute("aria-label", "更正原因 " + p.player_id);
@@ -295,7 +295,7 @@ async function loadAdmin() {
       const f = node("form"),
         r = node("textarea");
       r.required = true;
-      r.minLength = 10;
+      r.minLength = 1;
       r.maxLength = 500;
       r.setAttribute("aria-label", "审核原因 " + c.id);
       const approve = node("button", "批准"),
