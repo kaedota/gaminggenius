@@ -17,4 +17,4 @@ export function createBookingApi(client){
  };
 }
 
-export const bookingMessages={AUTH_REQUIRED:'请先登录 GG 会员。',BOOKING_NOT_OPEN:'预约服务尚未开放。',SLOT_TAKEN:'这个时段刚被预约，请重新选择。',STATION_UNAVAILABLE:'该机位暂停开放。',INVALID_DATE:'这个时间已过或超出可预约范围。',OUTSIDE_OPENING_HOURS:'该时段超出营业时间。',TOO_MANY_ACTIVE_BOOKINGS:'最多同时保留3笔未结束预约，请先处理现有预约。',BOOKING_NOT_CANCELLABLE:'开场后或已收款的预约，请联系店员处理。',REQUEST_REUSED_WITH_DIFFERENT_DETAILS:'预约内容已变化，请重新确认。'};
+export const bookingMessages={STATION_SESSION_OVERRUN:'这台机位仍在使用中，请店员确认结束后再预约。',AUTH_REQUIRED:'请先登录 GG 会员。',BOOKING_NOT_OPEN:'预约服务尚未开放。',SLOT_TAKEN:'这个时段刚被预约，请重新选择。',STATION_UNAVAILABLE:'该机位暂停开放。',INVALID_DATE:'这个时间已过或超出可预约范围。',OUTSIDE_OPENING_HOURS:'该时段超出营业时间。',TOO_MANY_ACTIVE_BOOKINGS:'最多同时保留3笔未结束预约，请先处理现有预约。',BOOKING_NOT_CANCELLABLE:'开场后或已收款的预约，请联系店员处理。',REQUEST_REUSED_WITH_DIFFERENT_DETAILS:'预约内容已变化，请重新确认。'};
