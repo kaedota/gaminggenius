@@ -213,6 +213,12 @@ async function loadAdmin() {
     rpc("gg_admin_audit"),
   ]);
   $("admin").hidden = false;
+  if (!document.getElementById("unified-admin-link")) {
+    const link = node("a", "GG Control · 统一管理后台 ↗", "button");
+    link.id = "unified-admin-link";
+    link.href = "admin.html";
+    $("admin").prepend(link);
+  }
   $("mfa").hidden = true;
   $("owner").hidden = role !== "owner";
   $("admin-players").replaceChildren();
