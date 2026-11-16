@@ -1,4 +1,4 @@
-import {renderAnalytics} from './admin-analytics.mjs?v=20261116-stats';
+import {renderAnalytics} from './admin-analytics.mjs?v=20261116-account2';
 import {connect,rpc,safeError} from './api.js?v=20261112-google';
 import {selectTotpFactor} from './mfa-state.js';
 import {createAdminService} from './admin-service.mjs?v=20261116';
