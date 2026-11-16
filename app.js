@@ -77,7 +77,7 @@ function openEvent(event, updateHash = true) {
   if (event.registrationUrl && ['upcoming', 'today'].includes(state.id)) {
     $('dialog-actions').prepend(safeLink(event.registrationUrl, 'REGISTER NOW ↗', 'button red'));
   }
-  $('dialog-actions').append(safeLink(`mailto:gaminggeniusmy@gmail.com?subject=${encodeURIComponent(event.title + ' enquiry')}`, 'ASK GG ↗'));
+  $('dialog-actions').append(safeLink(document.querySelector('[data-link="community"]').href, 'ASK GG ↗'));
   const copy = el('button', 'COPY EVENT LINK ⧉', 'button outline');
   copy.addEventListener('click', async () => {
     try { await navigator.clipboard.writeText(new URL(`#event/${event.id}`, location.href).href); copy.textContent = 'LINK COPIED ✓'; }
