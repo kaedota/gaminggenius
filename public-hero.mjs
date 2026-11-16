@@ -1,9 +1,14 @@
 import {upcomingEvents} from './event-utils.js';
-export function heroEvent(events,today){return upcomingEvents(events,today)[0]||null;}
+// Explicit campaign opt-in: weekly events remain in the upcoming list below.
+export function heroEvent(events,today){return upcomingEvents(events,today).find(event=>event.homeHero===true)||null;}
 export function renderPublicHero(events,today,showMedia){
  const host=document.querySelector('#home .hero-copy');if(!host)return;
  const event=heroEvent(events,today);host.replaceChildren();
- if(!event){const box=document.createElement('div');box.className='hero-placeholder';const title=document.createElement('h1');title.textContent='PLAY. COMPETE. BELONG.';box.append(title);host.append(box);}
+ if(!event){
+  const title=document.createElement('h1');title.className='visually-hidden';title.textContent='Gaming Genius — Play, compete, belong.';
+  const image=document.createElement('img');image.src='assets/gg-brand-hero-20261116-v4.webp';image.alt='Gaming Genius — Play, compete, belong.';image.width=1672;image.height=941;image.fetchPriority='high';image.decoding='async';
+  const box=document.createElement('button');box.type='button';box.className='hero-poster-open';box.setAttribute('aria-label','View Gaming Genius poster');box.addEventListener('click',()=>showMedia(image.getAttribute('src'),title.textContent,'GAMING GENIUS','PLAY · COMPETE · BELONG'));box.append(image);host.append(title,box);
+ }
  else{
   const title=document.createElement('h1');title.className='visually-hidden';title.textContent=event.title;
   const meta=document.createElement('p');meta.className='hero-event-meta';meta.textContent=[event.dateLabel||event.startDate,event.time,event.venue].filter(Boolean).join(' · ');

@@ -1,4 +1,4 @@
-import { renderPublicHero } from './public-hero.mjs?v=20261116';
+import { renderPublicHero } from './public-hero.mjs?v=20261116-brand-v4';
 import { setupEventGallery } from './event-gallery.js';
 import { startAnalytics } from './analytics.js?v=20261031';
 import { renderFeaturedFilm } from './featured-film.js?v=20261102-elmina';
@@ -54,8 +54,8 @@ function resetDialog(label, title, meta, mediaOnly = false) {
   for (const id of ['dialog-art', 'dialog-description', 'dialog-metrics', 'dialog-details', 'dialog-actions']) $(id).replaceChildren();
   document.querySelector('.dialog-content').classList.toggle('media-only', mediaOnly);
 }
-function showMedia(path, title, label = 'GG / ORIGINAL PHOTOGRAPH') {
-  resetDialog(label, title, 'Original supplied image', true);
+function showMedia(path, title, label = 'GG / ORIGINAL PHOTOGRAPH', meta = 'Original supplied image') {
+  resetDialog(label, title, meta, true);
   const image = el('img'); image.src = path; image.alt = title;
   $('dialog-art').append(image);
   if (!dialog.open) dialog.showModal();
