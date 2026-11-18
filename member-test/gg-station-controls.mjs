@@ -67,6 +67,14 @@ export function mountStationControls(container, { request, language = 'zh' }) {
       const title = node('div', '', 'floor-title');
       title.append(node('h3', station.name), node('span', labels[station.status], 'floor-chip ' + station.status));
       card.append(title);
+      if (station.startedAt) {
+        const elapsed = node('p');
+        elapsed.dataset.started = station.startedAt;
+        elapsed.textContent = tr('已玩 ','Played ') + formatDuration(Math.floor(Math.max(0, Date.now() - Date.parse(station.startedAt)) / 60000));
+        card.append(elapsed);
+      } else if (Number.isFinite(station.lastPlayedMinutes)) {
+        card.append(node('small', tr('上次共玩 ','Last played ') + formatDuration(station.lastPlayedMinutes)));
+      }
       if (selected?.action.station === station.id) {
         const box = node('div', '', 'floor-confirm');
         box.append(node('p', selected.text));
@@ -91,16 +99,28 @@ export function mountStationControls(container, { request, language = 'zh' }) {
         });
       }
       if (station.status === 'active') {
-        const countdown = node('p', '', 'floor-countdown');
-        countdown.dataset.end = station.endAt;
-        card.append(countdown, node('small', tr('预计结束 ','Ends ') + clock.format(new Date(station.endAt))));
-        for (const minutes of [15, 30, 60]) {
-          actionButton(actions, '+' + minutes + tr(' 分钟',' min'),
-            station.name + tr(' 加时 ',' · Extend by ') + minutes + tr(' 分钟',' min'),
-            {action:'extend', station:station.id, minutes, expectedEnd:station.endAt});
+        if (station.manual && station.pending) {
+          card.append(node('p', tr('正在开启手动结束…','Enabling manual end…')));
+        } else if (station.manual) {
+          card.append(node('small', tr('手动结束 · 不自动关电视','Manual end · TV stays on')));
+        } else {
+          const countdown = node('p', '', 'floor-countdown');
+          countdown.dataset.end = station.endAt;
+          card.append(countdown, node('small', tr('预计结束 ','Ends ') + clock.format(new Date(station.endAt))));
+          if (station.extendRejected) {
+            card.append(node('p', tr('加时未生效，请核对剩余时间。','Extension failed. Check the remaining time.')));
+          }
+          for (const minutes of [15, 30, 60]) {
+            actionButton(actions, '+' + minutes + tr(' 分钟',' min'),
+              station.name + tr(' 加时 ',' · Extend by ') + minutes + tr(' 分钟',' min'),
+              {action:'extend', station:station.id, session:station.session, minutes, expectedEnd:station.endAt});
+          }
+          actionButton(actions, tr('继续玩 · 手动结束','Keep playing · Manual end'),
+            station.name + tr(' 将继续计时，直到你按结束。',' will keep counting until you press End.'),
+            {action:'extend', station:station.id, session:station.session, minutes:0, expectedEnd:station.endAt});
         }
         actionButton(actions, tr('结束','End'), tr('结束并关闭电视：','End and turn off ') + station.name,
-          {action:'end', station:station.id});
+          {action:'end', station:station.id, session:station.session});
       }
       if (station.status === 'reserved' && station.nextStart) {
         card.append(node('p', tr('预约开始 ','Booking starts ') + clock.format(new Date(station.nextStart))));
@@ -114,7 +134,18 @@ export function mountStationControls(container, { request, language = 'zh' }) {
     updateCountdowns();
   }
 
+  function formatDuration(minutes) {
+    const hours = Math.floor(minutes / 60);
+    const remainder = minutes % 60;
+    return hours ? tr(hours + '小时' + remainder + '分钟', hours + ' hr ' + remainder + ' min')
+      : tr(remainder + '分钟', remainder + ' min');
+  }
+
   function updateCountdowns() {
+    for (const elapsed of grid.querySelectorAll('[data-started]')) {
+      const minutes = Math.floor(Math.max(0, Date.now() - Date.parse(elapsed.dataset.started)) / 60000);
+      elapsed.textContent = tr('已玩 ','Played ') + formatDuration(minutes);
+    }
     for (const countdown of grid.querySelectorAll('[data-end]')) {
       const seconds = Math.max(0, Math.ceil((Date.parse(countdown.dataset.end) - Date.now()) / 1000));
       countdown.textContent = seconds
