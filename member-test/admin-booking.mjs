@@ -10,13 +10,37 @@ export function mountBookings(container,{rpc,t,onFailure}){
  void enableOfficialFloor(container.querySelector('#hardware-operations'),{rpc,t}).catch(()=>{});
  mountFloorAdmin(container.querySelector('#floor-operations'),{rpc,t,onFailure});
  const list=container.querySelector('#booking-admin-list'),status=container.querySelector('#booking-admin-status');
+ const dayForm=container.querySelector('#booking-day-form'), dayInput=container.querySelector('#booking-day');
+ const audit=container.querySelector('#booking-admin-audit');
+ function editing(){return list.contains(document.activeElement)||[...list.querySelectorAll('textarea,input[type=checkbox]')].some(field=>field.tagName==='TEXTAREA'?field.value.trim():field.checked);}
  const stamp=s=>new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Kuala_Lumpur',dateStyle:'short',timeStyle:'short',hour12:false}).format(new Date(s));
- async function load(){if(loading)return;loading=true;const own=++ticket;status.textContent=t('正在读取…','Loading…');list.replaceChildren();container.querySelector('#booking-admin-audit').replaceChildren();
-  try{const data=await rpc('gg_booking_admin_list',{p_date:selected});if(!container.isConnected||own!==ticket)return;if(!Array.isArray(data?.records)||!Array.isArray(data.audit))throw Error('DATA_FORMAT_INVALID');
+ async function load({background=false}={}){
+  if(loading||!container.isConnected)return;
+  loading=true;
+  const own=++ticket, requestDate=selected;
+  if(!background)status.textContent=t('正在读取…','Loading…');
+  try{const data=await rpc('gg_booking_admin_list',{p_date:requestDate});if(!container.isConnected||own!==ticket||requestDate!==selected||(background&&editing()))return;if(!Array.isArray(data?.records)||!Array.isArray(data.audit))throw Error('DATA_FORMAT_INVALID');
    status.textContent=t('已读取','Loaded')+' '+data.records.length+' / '+data.limit;
    list.innerHTML=data.records.map(h=>{const opts=[];const now=Date.now();if(h.status==='confirmed'){if(now>=Date.parse(h.start_at)-1800000&&now<Date.parse(h.end_at))opts.push('check_in');if(h.payment_status==='unpaid'){opts.push('cancel');if(now>=Date.parse(h.start_at)+900000)opts.push('no_show');}}if(h.status==='checked_in'){if(h.payment_status==='unpaid')opts.push('mark_paid','cancel');else opts.push('complete');}return `<article class="hold-card"><div><h3>${esc(h.station_id)} · ${esc(labels[h.status]||h.status)}</h3><p>${esc(stamp(h.start_at))} — ${esc(stamp(h.end_at))} · ${h.people}/4</p><p>${esc(h.member_email)} · RM${(h.cents/100).toFixed(2)} · ${h.payment_status==='paid'?t('已收款','Paid'):t('未收款','Unpaid')}</p><small>${esc(h.id)}</small>${opts.length?`<form class="booking-action" data-id="${esc(h.id)}" data-version="${h.version}"><label>${t('操作','Action')} <select name="action">${opts.map(a=>`<option value="${a}">${actions[a]}</option>`).join('')}</select></label><label>${t('处理说明（1–500字）','Reason (1–500 characters)')}<textarea name="reason" minlength="1" maxlength="500" required></textarea></label><label><input type="checkbox" required> ${t('已核对真实情况；收款操作仅在实际收到款项后使用。','I verified the facts; payment is recorded only after receiving the money.')}</label><button type="submit">${t('确认保存操作','Confirm action')}</button><p role="status"></p></form>`:''}</div></article>`;}).join('')||`<p>${t('该营业日没有预约。','No bookings for this business date.')}</p>`;
-   container.querySelector('#booking-admin-audit').innerHTML=data.audit.map(a=>`<p>${esc(stamp(a.created_at))} · ${esc(a.action)} · ${esc(a.target)} · ${esc(a.actor)} ${esc(a.detail?.reason||'')}</p>`).join('')||t('暂无操作记录。','No activity.');
+   audit.innerHTML=data.audit.map(a=>`<p>${esc(stamp(a.created_at))} · ${esc(a.action)} · ${esc(a.target)} · ${esc(a.actor)} ${esc(a.detail?.reason||'')}</p>`).join('')||t('暂无操作记录。','No activity.');
    list.querySelectorAll('form').forEach(form=>form.onsubmit=async ev=>{ev.preventDefault();if(loading)return;loading=true;const b=form.querySelector('button'),msg=form.querySelector('[role=status]');b.disabled=true;let saved=false;try{await rpc('gg_booking_admin_action',{p_id:form.dataset.id,p_action:form.elements.action.value,p_version:Number(form.dataset.version),p_reason:form.elements.reason.value});saved=true;loading=false;await load();}catch(err){if(!container.isConnected)return;msg.textContent=saved?t('已写入但刷新失败，请查询核对，不要重复操作。','Saved but refresh failed. Reload to verify before retrying.'):t('操作未完成，请刷新资料后核对状态。','Action not completed. Refresh and verify the state.');await onFailure(err);}finally{loading=false;if(b.isConnected)b.disabled=false;}});
-  }catch(err){if(container.isConnected){status.textContent=t('读取失败，不代表没有预约。','Loading failed; this does not mean there are no bookings.');await onFailure(err);}}finally{loading=false;}}
- container.querySelector('#booking-day-form').onsubmit=ev=>{ev.preventDefault();selected=container.querySelector('#booking-day').value;load();};load();
+  }catch(err){if(container.isConnected){status.textContent=t('读取失败，不代表没有预约。','Loading failed; this does not mean there are no bookings.');await onFailure(err);}}finally{loading=false;if(container.isConnected&&requestDate!==selected)void load();}}
+ function selectDate(){
+  if(!dayInput.value)return;
+  if(selected!==dayInput.value){selected=dayInput.value;list.replaceChildren();audit.replaceChildren();}
+  void load();
+ }
+ dayForm.onsubmit=ev=>{ev.preventDefault();selectDate();};
+ dayInput.addEventListener('change',selectDate);
+ function refreshInBackground(){
+  if(!container.isConnected){
+   clearInterval(timer);
+   document.removeEventListener('visibilitychange',refreshInBackground);
+   return;
+  }
+  if(!document.hidden&&!editing()&&document.activeElement!==dayInput)void load({background:true});
+ }
+ const timer=setInterval(refreshInBackground,15000);
+ document.addEventListener('visibilitychange',refreshInBackground);
+ void load();
 }
