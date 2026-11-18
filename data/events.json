@@ -709,6 +709,18 @@
     "kind": "weekly",
     "time": "8:30 PM",
     "poster": "assets/posters/weekly-night-battle-20261117-v2.webp",
-    "thumbnail": "assets/posters/weekly-night-battle-20261117-v2-thumb.webp"
+    "thumbnail": "assets/posters/weekly-night-battle-20261117-v2-thumb.webp",
+    "videos": [
+      {
+        "title": "Weekly Night Battle · 17 November 2026 · Event Recap",
+        "description": "Highlights from the 17 November 2026 Weekly Night Battle.",
+        "src": "assets/videos/weekly-night-battle-20261117-recap-01.mp4",
+        "poster": "assets/videos/weekly-night-battle-20261117-recap-01.jpg",
+        "type": "video/mp4",
+        "width": 720,
+        "height": 1280,
+        "durationSeconds": 64.02
+      }
+    ]
   }
 ]
