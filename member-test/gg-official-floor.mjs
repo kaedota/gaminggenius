@@ -1,4 +1,4 @@
-import { mountStationControls } from './gg-station-controls.mjs?v=20261118-inline';
+import { mountStationControls } from './gg-station-controls.mjs?v=20261119-manual';
 
 const packages = { PS5:[2800,5200,7200], Switch:[1800,3400,4800] };
 
@@ -17,7 +17,7 @@ function controlsState(data, language) {
       if (managed) {
         if (managed.pending && managed.action === 'start') status = 'starting';
         else if (managed.pending && managed.action === 'end') status = 'stopping';
-        else status = managed.result === 'rejected' ? 'attention' : 'active';
+        else status = managed.result === 'rejected' && managed.action !== 'extend' ? 'attention' : 'active';
       }
       return {
         id: row.id,
@@ -26,6 +26,11 @@ function controlsState(data, language) {
         status,
         nextStart: row.next_start,
         endAt: managed?.end_at,
+        startedAt: managed?.started_at,
+        manual: managed?.manual === true,
+        pending: managed?.pending === true,
+        extendRejected: managed?.action === 'extend' && managed.result === 'rejected',
+        lastPlayedMinutes: data.recent_play?.[row.id],
         packages: [...(data.test_station === row.id ? [{ minutes:5, test:true }] : []), ...(packages[platform] || []).map((amount, index) => ({ amount, minutes:60 * (index + 1) }))]
       };
     })
@@ -35,6 +40,9 @@ function controlsState(data, language) {
 export function mountOfficialFloor(container, { rpc, language = 'zh' }) {
   let view;
   const messages = {
+    MANUAL_SLOT_TAKEN: ['该机位已有后续预约或占用，请用分钟加时。','This station has a later booking or block. Extend by minutes instead.'],
+    FLOOR_SESSION_CHANGED: ['机位时间已更新，请刷新后重试。','Session time changed. Refresh and try again.'],
+    ALREADY_MANUAL: ['已切换为手动结束。','Manual end is already enabled.'],
     SLOT_TAKEN: ['时段已有预约，请换机位或缩短时间。','This time overlaps a booking.'],
     STORE_COMPUTER_OFFLINE: ['店内电脑未连接。','The store computer is offline.'],
     OUTSIDE_OPENING_HOURS: ['超出营业时间。','Outside opening hours.'],
@@ -54,7 +62,7 @@ export function mountOfficialFloor(container, { rpc, language = 'zh' }) {
       try {
         await rpc('gg_desk_command', {
           p_request: crypto.randomUUID(), p_station: station.id, p_action: action,
-          p_minutes: input.minutes ?? null, p_session: station.session ?? null,
+          p_minutes: input.minutes ?? null, p_session: input.session ?? null,
           p_expected_end: input.expectedEnd ?? null
         });
       } catch (error) {
