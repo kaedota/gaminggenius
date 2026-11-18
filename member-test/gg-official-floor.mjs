@@ -26,7 +26,7 @@ function controlsState(data, language) {
         status,
         nextStart: row.next_start,
         endAt: managed?.end_at,
-        packages: [...(row.id === 'PS5-1' && data.active_stations?.length === 1 ? [{ minutes:5, test:true }] : []), ...(packages[platform] || []).map((amount, index) => ({ amount, minutes:60 * (index + 1) }))]
+        packages: [...(data.test_station === row.id ? [{ minutes:5, test:true }] : []), ...(packages[platform] || []).map((amount, index) => ({ amount, minutes:60 * (index + 1) }))]
       };
     })
   };

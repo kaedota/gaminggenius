@@ -1,4 +1,4 @@
-import {enableOfficialFloor} from './gg-official-floor.mjs?v=20261118-inline';
+import {enableOfficialFloor} from './gg-official-floor.mjs?v=20261119-station';
 import {mountFloorAdmin} from './booking-live.mjs?v=20261118-floor';
 export function mountBookings(container,{rpc,t,onFailure}){
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
