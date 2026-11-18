@@ -79,8 +79,8 @@ export function mountStationControls(container, { request, language = 'zh' }) {
 
       if (station.status === 'free') {
         station.packages.forEach(plan => {
-          const duration = tr(plan.minutes / 60 + ' 小时', plan.minutes / 60 + ' hr');
-          actionButton(actions, duration + ' · ' + currency.format(plan.amount / 100),
+          const duration = plan.test ? tr('试点测试 · 5 分钟','Pilot test · 5 min') : tr(plan.minutes / 60 + ' 小时', plan.minutes / 60 + ' hr');
+          actionButton(actions, plan.test ? duration : duration + ' · ' + currency.format(plan.amount / 100),
             tr('开台：','Start ') + station.name + ' · ' + duration,
             {action:'start', station:station.id, minutes:plan.minutes}, true);
         });
