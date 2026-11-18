@@ -1,0 +1,13 @@
+.gg-hardware-panel { background:#1b1e24; border:1px solid #343840; border-radius:14px; margin-bottom:18px; padding:18px; }
+.gg-hardware-panel h2 { margin:0 0 5px; }
+.gg-hardware-panel p,.gg-hardware-panel small { color:#aeb5c0; }
+.gg-hardware-panel .floor-layout { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr)); gap:12px; margin-top:12px; }
+.gg-hardware-panel .floor-station { background:#101114; border:1px solid #343840; padding:14px; border-radius:10px; }
+.gg-hardware-panel .floor-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+.gg-hardware-panel button { background:#252a32; color:#eef0f4; border:1px solid #464c57; border-radius:7px; padding:8px 10px; }
+.gg-hardware-panel button:disabled { opacity:.5; cursor:default; }
+.gg-hardware-panel .floor-countdown { color:#a9caff; font-size:23px; font-variant-numeric:tabular-nums; }
+.gg-hardware-panel .floor-notice:empty { display:none; }
+.gg-hardware-panel .floor-dialog { background:#1b1e24; color:#eef0f4; border:1px solid #464c57; border-radius:12px; padding:20px; }
+.gg-hardware-panel .floor-dialog::backdrop { background:#000a; }
+.gg-hardware-panel .floor-dialog button { margin-right:8px; }
