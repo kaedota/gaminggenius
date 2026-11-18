@@ -25,27 +25,19 @@ export function mountStationControls(container, { request, language = 'zh' }) {
   const notice = node('p', '', 'floor-notice');
   notice.setAttribute('role', 'status');
   const grid = node('div', '', 'floor-layout');
-  const dialog = node('dialog', '', 'floor-dialog');
-  const question = node('h2');
-  const confirm = node('button', tr('确认','Confirm'), 'primary');
-  const cancel = node('button', tr('取消','Cancel'));
-  cancel.autofocus = true;
-  cancel.onclick = () => dialog.close();
-  dialog.append(question, confirm, cancel);
-  container.replaceChildren(notice, grid, dialog);
+  container.replaceChildren(notice, grid);
 
   function choose(text, action) {
-    selected = action;
-    question.textContent = text;
-    dialog.showModal();
+    selected = {text, action};
+    render();
+    grid.querySelector('.floor-confirm button')?.focus();
   }
 
-  confirm.onclick = async () => {
+  async function submitSelected() {
     if (busy || !selected) return;
-    const action = selected;
+    const action = selected.action;
     revision += 1;
     selected = undefined;
-    dialog.close();
     busy = true;
     lastError = '';
     render();
@@ -57,7 +49,7 @@ export function mountStationControls(container, { request, language = 'zh' }) {
       busy = false;
       render();
     }
-  };
+  }
 
   function actionButton(parent, title, hint, action, primary = false) {
     const button = node('button', title, primary ? 'primary' : '');
@@ -75,6 +67,19 @@ export function mountStationControls(container, { request, language = 'zh' }) {
       const title = node('div', '', 'floor-title');
       title.append(node('h3', station.name), node('span', labels[station.status], 'floor-chip ' + station.status));
       card.append(title);
+      if (selected?.action.station === station.id) {
+        const box = node('div', '', 'floor-confirm');
+        box.append(node('p', selected.text));
+        const confirmButton = node('button', labels[station.status] === labels.free ? tr('确认开台','Start') : tr('确认','Confirm'), 'primary');
+        confirmButton.type = 'button';
+        confirmButton.onclick = submitSelected;
+        const cancelButton = node('button', tr('取消','Cancel'));
+        cancelButton.type = 'button';
+        cancelButton.onclick = () => { selected = undefined; render(); };
+        box.append(confirmButton, cancelButton);
+        card.append(box);
+        return card;
+      }
       const actions = node('div', '', 'floor-actions');
 
       if (station.status === 'free') {
@@ -119,7 +124,7 @@ export function mountStationControls(container, { request, language = 'zh' }) {
   }
 
   async function refresh() {
-    if (disposed || busy || refreshing || dialog.open || grid.contains(document.activeElement)) return;
+    if (disposed || busy || refreshing || selected || grid.contains(document.activeElement)) return;
     refreshing = true;
     const before = revision;
     try {

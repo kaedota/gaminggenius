@@ -1,4 +1,4 @@
-import { mountStationControls } from './gg-station-controls.mjs?v=20261118-short';
+import { mountStationControls } from './gg-station-controls.mjs?v=20261118-inline';
 
 const packages = { PS5:[2800,5200,7200], Switch:[1800,3400,4800] };
 

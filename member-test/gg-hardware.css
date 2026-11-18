@@ -11,3 +11,8 @@
 .gg-hardware-panel .floor-dialog { background:#1b1e24; color:#eef0f4; border:1px solid #464c57; border-radius:12px; padding:20px; }
 .gg-hardware-panel .floor-dialog::backdrop { background:#000a; }
 .gg-hardware-panel .floor-dialog button { margin-right:8px; }
+
+.gg-hardware-panel .floor-confirm { margin-top:13px; padding:12px; border:1px solid #464c57; border-radius:9px; }
+.gg-hardware-panel .floor-confirm p { margin:0 0 10px; }
+.gg-hardware-panel .floor-confirm button { margin-right:8px; }
+.gg-hardware-panel .floor-confirm .primary { background:#b51f35; border-color:#e75b71; color:#fff; }
