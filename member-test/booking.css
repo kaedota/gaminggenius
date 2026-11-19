@@ -13,3 +13,7 @@
 
 /* Keep the single review action visible on mobile; no duplicate mobile bar exists. */
 @media(max-width:760px){.summary .primary{display:flex;min-height:48px;justify-content:center;align-items:center}.summary-note{display:block}}
+
+.station .station-status{color:#a9acb3}
+.station .station-status[data-availability="occupied"]{color:#ff8585;font-weight:700}
+.station .station-status[data-availability="available"]{color:#83e6a8;font-weight:700}
