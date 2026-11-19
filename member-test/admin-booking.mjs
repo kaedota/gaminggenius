@@ -1,3 +1,4 @@
+import {mountBookingMail} from './booking-email-status.mjs?v=20261119-mail';
 import {enableOfficialFloor} from './gg-official-floor.mjs?v=20261119-expand-bookings';
 import {mountFloorAdmin} from './booking-live.mjs?v=20261118-floor';
 export function mountBookings(container,{rpc,t,onFailure}){
@@ -42,5 +43,6 @@ export function mountBookings(container,{rpc,t,onFailure}){
  }
  const timer=setInterval(refreshInBackground,15000);
  document.addEventListener('visibilitychange',refreshInBackground);
+ mountBookingMail(container,{rpc,t});
  void load();
 }
