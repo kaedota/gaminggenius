@@ -1,4 +1,4 @@
-import { mountStationControls } from './gg-station-controls.mjs?v=20261119-manual';
+import { mountStationControls } from './gg-station-controls.mjs?v=20261119-station-bookings';
 
 const packages = { PS5:[2800,5200,7200], Switch:[1800,3400,4800] };
 
@@ -12,7 +12,7 @@ function controlsState(data, language) {
       const platform = row.id.split('-')[0];
       const number = row.id.split('-')[1];
       const managed = data.desk_sessions.find(session => session.station === row.id);
-      let status = row.state === 'free' ? 'free' : 'reserved';
+      let status = row.state;
       if (row.state === 'in_use' || row.overdue) status = 'attention';
       if (managed) {
         if (managed.pending && managed.action === 'start') status = 'starting';
@@ -25,6 +25,8 @@ function controlsState(data, language) {
         name: platform + ' ' + number + (language === 'zh' ? ' 号' : ''),
         status,
         nextStart: row.next_start,
+        bookings: data.station_bookings?.[row.id]?.entries ?? [],
+        bookingCount: data.station_bookings?.[row.id]?.count ?? 0,
         endAt: managed?.end_at,
         startedAt: managed?.started_at,
         manual: managed?.manual === true,
@@ -84,7 +86,7 @@ export async function enableOfficialFloor(container, {rpc, t}) {
   const section = document.createElement('section');
   section.className = 'panel gg-hardware-panel';
   const title = document.createElement('h2');
-  title.textContent = t('网页开台试点','Website station controls');
+  title.textContent = t('大厅机位 · 开台与预约','Lobby stations · Controls & bookings');
   const description = document.createElement('p');
   description.textContent = t('这里会操作实体电视，并自动更新官网占用。','These controls operate the TV and update website availability.');
   const body = document.createElement('div');
