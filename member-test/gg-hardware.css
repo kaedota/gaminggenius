@@ -16,3 +16,9 @@
 .gg-hardware-panel .floor-confirm p { margin:0 0 10px; }
 .gg-hardware-panel .floor-confirm button { margin-right:8px; }
 .gg-hardware-panel .floor-confirm .primary { background:#b51f35; border-color:#e75b71; color:#fff; }
+
+.gg-hardware-panel .floor-bookings { margin:8px 0 12px; }
+.gg-hardware-panel .floor-bookings summary { cursor:pointer; color:#ff8787; }
+.gg-hardware-panel .floor-bookings summary small { display:block; margin:4px 0; }
+.gg-hardware-panel .floor-bookings ul { margin:8px 0 0; padding-left:20px; color:#eef0f4; font-size:.875rem; }
+.gg-hardware-panel .floor-bookings li + li { margin-top:5px; }
