@@ -17,3 +17,8 @@
 .station .station-status{color:#a9acb3}
 .station .station-status[data-availability="occupied"]{color:#ff8585;font-weight:700}
 .station .station-status[data-availability="available"]{color:#83e6a8;font-weight:700}
+
+.booking-location{display:grid;gap:6px;margin-top:16px;color:#d9dce3;font-size:12px}
+.booking-location a{color:#a9caff;text-decoration:underline;text-underline-offset:3px}
+.live-floor-panel{margin-top:22px;color:#d9dce3}
+.live-floor-panel>summary{cursor:pointer;width:fit-content;padding:8px 0}

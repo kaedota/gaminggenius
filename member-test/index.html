@@ -17,15 +17,20 @@
       ><div id="member-account" class="site-account member-account"><div class="account-guest"><a href="index.html?mode=login">登录</a><span>/</span><a href="index.html?mode=signup">注册</a></div></div>
     </header>
     <main>
-      <p class="eyebrow">YOUR PLAYER ID. YOUR BATTLE HISTORY.</p>
-      <h1>GG PLAYER<br /><em>CENTRE.</em></h1>
+      <p id="player-eyebrow" class="eyebrow">YOUR PLAYER ID. YOUR BATTLE HISTORY.</p>
+      <h1 id="player-title">GG PLAYER<br /><em>CENTRE.</em></h1>
+      <section id="booking-auth-context" class="panel" hidden data-no-translate>
+        <h1 id="booking-auth-title"></h1>
+        <p id="booking-auth-detail"></p>
+        <a id="booking-auth-back" href="booking.html"></a>
+      </section>
       <p id="mode" class="notice">GG 会员 · Google 或邮箱登录 · 选手档案认领须经 GG 审核</p>
-      <nav aria-label="账号功能">
-<a href="judge.html">裁判测试入口 ↗</a>
+      <nav id="account-functions" aria-label="账号功能">
+<a data-player-only href="judge.html">裁判测试入口 ↗</a>
         <button data-mode="login">登录</button
         ><button data-mode="signup">注册</button
         ><button data-mode="recover">忘记密码</button
-        ><a href="../index.html#ranking">公开排行榜 ↗</a>
+        ><a data-player-only href="../index.html#ranking">公开排行榜 ↗</a>
       </nav>
       <p id="status" role="status" aria-live="polite"></p>
       <button id="retry" hidden>重试连接</button>
@@ -72,7 +77,8 @@
               required
           /></label>
           <p>
-            注册后需验证邮箱。账号不等于选手档案；注册不会新建成绩或获得积分。请勿共用工作人员账号。
+            <span id="account-registration-note">注册后需验证邮箱。账号不等于选手档案；注册不会新建成绩或获得积分。请勿共用工作人员账号。</span>
+            <span id="booking-registration-note" data-no-translate hidden></span>
           </p>
           <p id="recovery-help" hidden>输入注册邮箱，检查收件箱及垃圾邮件。打开最新邮件中的链接，再点击「继续重设密码」。新邮件支持在手机、电脑或其他浏览器打开。</p>
           <div id="captcha"></div>
@@ -226,7 +232,7 @@
     <footer>
       GG 会员中心 · <a href="privacy.html">隐私说明</a>
     </footer>
-    <script type="module" src="app.js?v=20261116-notes"></script>
+    <script type="module" src="app.js?v=20261119-guest-booking"></script>
   </body>
 </html>
 

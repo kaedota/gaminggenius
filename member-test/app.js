@@ -7,6 +7,48 @@ import { connect, rpc, verified, safeError } from "./api.js?v=20261116-notes";
 import { exchangeEmailCallback, readRecoveryToken, verifyRecoveryToken } from "./auth-callback.js?v=20261112-crossbrowser";
 import { $, node, playerCard, jsonPanel } from "./ui.js";
 import { publicPlayerDirectory, searchPublicPlayers } from "./model.js?v=20261111-directory";
+const bookingContext = new URLSearchParams(location.search).get('from') === 'booking' ||
+  sessionStorage.getItem('gg-booking-return') === 'booking.html';
+
+function showBookingContext(language = localStorage.getItem('gg-language')) {
+  const en = language === 'en';
+  const text = (zh, english) => en ? english : zh;
+  $("booking-auth-context").hidden = false;
+  $("booking-auth-title").textContent = text('登录以继续预约','Sign in to continue booking');
+  $("booking-auth-back").textContent = text('← 返回预约','← Back to booking');
+  $("booking-registration-note").textContent = text('首次使用邮箱注册需验证邮箱。','Verify your email when registering with an email address.');
+  $("booking-registration-note").hidden = false;
+  for (const id of ["player-eyebrow", "player-title", "mode", "directory", "account-registration-note"]) $(id).hidden = true;
+  for (const link of document.querySelectorAll('[data-player-only]')) link.hidden = true;
+  let selection;
+  try { selection = JSON.parse(sessionStorage.getItem('gg-booking-selection')); } catch {}
+  const detail = $("booking-auth-detail");
+  const intro = text('登录后会自动返回预约。','You’ll return to your booking after signing in.');
+  if (!selection || !/^(PS5|Switch)-[123]$/.test(selection.station) ||
+      !/^\d{4}-\d{2}-\d{2}$/.test(selection.date) || !Number.isInteger(selection.start) ||
+      ![60,120,180].includes(selection.minutes) || ![1,2,3,4].includes(selection.people)) {
+    detail.textContent = intro;
+    return;
+  }
+  const clock = minute => (minute >= 1440 ? text('次日 ','Next day ') : '') +
+    String(Math.floor(minute / 60) % 24).padStart(2,'0') + ':' + String(minute % 60).padStart(2,'0');
+  const platform = selection.station.startsWith('PS5-') ? 'PS5' : 'Nintendo Switch';
+  const number = selection.station.slice(-1);
+  const parts = [platform + text(' ' + number + ' 号',' Station ' + number), selection.date,
+    clock(selection.start) + '–' + clock(selection.start + selection.minutes),
+    selection.people + text(' 人', selection.people === 1 ? ' player' : ' players')];
+  if (Number.isInteger(selection.quotedCents) && selection.quotedCents > 0) {
+    parts.push(new Intl.NumberFormat('en-MY',{style:'currency',currency:'MYR',maximumFractionDigits:2}).format(selection.quotedCents/100));
+  }
+  detail.textContent = parts.join(' · ');
+}
+
+if (bookingContext) {
+  sessionStorage.setItem('gg-booking-return','booking.html');
+  showBookingContext();
+  window.addEventListener('gg-language-change', event => showBookingContext(event.detail.language));
+}
+
 let directory = [], selectedPlayer;
 let disposeAccount;
 let captchaToken, widgetId;
@@ -93,8 +135,10 @@ function authMode(m) {
     m === "signup" ? "new-password" : "current-password";
   $("recovery-help").hidden = m !== "recover";
   $("auth").hidden = false;
-  $("auth").scrollIntoView({ behavior: "smooth", block: "start" });
-  $("email").focus();
+  if (!bookingContext) {
+    $("auth").scrollIntoView({ behavior: "smooth", block: "start" });
+    $("email").focus();
+  }
 }
 
 function renderDirectory() {
@@ -141,16 +185,13 @@ async function loadAccount() {
   await verified();
   const s = await rpc("gg_session");
   role = s.role;
+  if (bookingContext) {
+    location.replace("booking.html?resume=1");
+    return;
+  }
   const data = await rpc("gg_dashboard");
   $("auth").hidden = true;
   $("account").hidden = false;
-  if (sessionStorage.getItem("gg-booking-return") === "booking.html" && !document.getElementById("return-to-booking")) {
-    const bookingLink = node("a", "继续游戏预约 / Continue game booking →", "button");
-    bookingLink.id = "return-to-booking";
-    bookingLink.href = "booking.html";
-    bookingLink.onclick = () => sessionStorage.removeItem("gg-booking-return");
-    $("account").prepend(bookingLink);
-  }
   if (selectedPlayer) {
     $("selected-player").textContent = `已选择 ${selectedPlayer.display_name}（${selectedPlayer.player_id}）。请填写参赛核对说明，提交后由 GG 审核。`;
   }
@@ -583,14 +624,14 @@ async function boot() {
       clean.hash = "";
       history.replaceState(history.state, "", clean.href);
     }
-    bundle = await fetch("../data/season.json", { cache: "no-store" }).then(
-      (r) => {
-        if (!r.ok) throw Error("DATA_LOAD_FAILED");
-        return r.json();
-      },
-    );
-    directory = publicPlayerDirectory(bundle);
-    renderDirectory();
+    if (!bookingContext) {
+      bundle = await fetch("../data/season.json", { cache: "no-store" }).then((response) => {
+        if (!response.ok) throw Error("DATA_LOAD_FAILED");
+        return response.json();
+      });
+      directory = publicPlayerDirectory(bundle);
+      renderDirectory();
+    }
     client = await connect({ manualCallback: hasCode || !!recoveryToken });
     disposeAccount?.();
     disposeAccount = mountAccount($("member-account"), client.auth, () => rpc("gg_session"), "index.html");
