@@ -5,7 +5,7 @@ export function mountStationControls(container, { request, language = 'zh' }) {
   const date = new Intl.DateTimeFormat(language === 'zh' ? 'zh-CN' : 'en-GB', {
     timeZone: 'Asia/Kuala_Lumpur', year: 'numeric', month: 'short', day: 'numeric'
   });
-  const expandedBookings = new Set();
+  const bookingExpansion = new Map();
   const labels = {
     closed: tr('未营业','Closed'), paused: tr('暂停使用','Unavailable'),
     free: tr('空闲','Available'), reserved: tr('已预约','Reserved'), starting: tr('正在开台','Starting'),
@@ -73,11 +73,10 @@ export function mountStationControls(container, { request, language = 'zh' }) {
 
   function bookingsPanel(station) {
     const details = node('details', '', 'floor-bookings');
-    details.open = expandedBookings.has(station.id);
+    details.open = bookingExpansion.get(station.id) ?? station.bookings.length > 1;
     details.ontoggle = () => {
       if (!details.isConnected) return;
-      if (details.open) expandedBookings.add(station.id);
-      else expandedBookings.delete(station.id);
+      bookingExpansion.set(station.id, details.open);
     };
     const summary = node('summary');
     summary.dataset.bookingStation = station.id;
