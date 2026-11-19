@@ -2,7 +2,12 @@ export function mountStationControls(container, { request, language = 'zh' }) {
   const tr = (zh, en) => language === 'zh' ? zh : en;
   const currency = new Intl.NumberFormat('en-MY', { style: 'currency', currency: 'MYR' });
   const clock = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kuala_Lumpur', hour: '2-digit', minute: '2-digit' });
+  const date = new Intl.DateTimeFormat(language === 'zh' ? 'zh-CN' : 'en-GB', {
+    timeZone: 'Asia/Kuala_Lumpur', year: 'numeric', month: 'short', day: 'numeric'
+  });
+  const expandedBookings = new Set();
   const labels = {
+    closed: tr('未营业','Closed'), paused: tr('暂停使用','Unavailable'),
     free: tr('空闲','Available'), reserved: tr('已预约','Reserved'), starting: tr('正在开台','Starting'),
     active: tr('使用中','In use'), stopping: tr('正在结束','Ending'), attention: tr('需处理','Needs attention')
   };
@@ -58,15 +63,52 @@ export function mountStationControls(container, { request, language = 'zh' }) {
     parent.append(button);
   }
 
+  function bookingTime(booking) {
+    const start = new Date(booking.start_at);
+    const end = new Date(booking.end_at);
+    const firstDay = date.format(start);
+    const lastDay = date.format(end);
+    return firstDay + ' · ' + clock.format(start) + '–' + (lastDay === firstDay ? '' : lastDay + ' ') + clock.format(end);
+  }
+
+  function bookingsPanel(station) {
+    const details = node('details', '', 'floor-bookings');
+    details.open = expandedBookings.has(station.id);
+    details.ontoggle = () => {
+      if (!details.isConnected) return;
+      if (details.open) expandedBookings.add(station.id);
+      else expandedBookings.delete(station.id);
+    };
+    const summary = node('summary');
+    summary.dataset.bookingStation = station.id;
+    summary.append(
+      node('strong', tr(station.bookingCount + ' 笔预约', station.bookingCount + (station.bookingCount === 1 ? ' booking' : ' bookings'))),
+      node('small', bookingTime(station.bookings[0]))
+    );
+    const list = node('ul');
+    for (const entry of station.bookings) {
+      const item = node('li', bookingTime(entry));
+      if (entry.status === 'checked_in') item.append(node('small', tr(' · 已签到',' · Checked in')));
+      list.append(item);
+    }
+    details.append(summary, list);
+    if (station.bookingCount > station.bookings.length) {
+      details.append(node('small', tr('显示最近 10 笔。其他预约请按日期查看。','Showing the next 10. Browse the daily booking list for more.')));
+    }
+    return details;
+  }
+
   function render() {
     if (disposed || !container.isConnected) return;
     notice.textContent = lastError || (snapshot?.connected ? '' : tr('店内电脑未连接，暂不能开台。','Store computer is offline.'));
     if (!snapshot) return;
+    const focusedStation = document.activeElement?.dataset.bookingStation;
     grid.replaceChildren(...snapshot.stations.map(station => {
       const card = node('article', '', 'floor-station');
       const title = node('div', '', 'floor-title');
       title.append(node('h3', station.name), node('span', labels[station.status], 'floor-chip ' + station.status));
       card.append(title);
+      if (station.bookings.length) card.append(bookingsPanel(station));
       if (station.startedAt) {
         const elapsed = node('p');
         elapsed.dataset.started = station.startedAt;
@@ -122,7 +164,7 @@ export function mountStationControls(container, { request, language = 'zh' }) {
         actionButton(actions, tr('结束','End'), tr('结束并关闭电视：','End and turn off ') + station.name,
           {action:'end', station:station.id, session:station.session});
       }
-      if (station.status === 'reserved' && station.nextStart) {
+      if (station.status === 'reserved' && station.nextStart && !station.bookings.length) {
         card.append(node('p', tr('预约开始 ','Booking starts ') + clock.format(new Date(station.nextStart))));
       }
       if (station.status === 'attention') {
@@ -131,6 +173,10 @@ export function mountStationControls(container, { request, language = 'zh' }) {
       card.append(actions);
       return card;
     }));
+    if (focusedStation) {
+      [...grid.querySelectorAll('[data-booking-station]')]
+        .find(summary => summary.dataset.bookingStation === focusedStation)?.focus({preventScroll:true});
+    }
     updateCountdowns();
   }
 
@@ -155,7 +201,7 @@ export function mountStationControls(container, { request, language = 'zh' }) {
   }
 
   async function refresh() {
-    if (disposed || busy || refreshing || selected || grid.contains(document.activeElement)) return;
+    if (disposed || busy || refreshing || selected || (grid.contains(document.activeElement) && !document.activeElement.dataset.bookingStation)) return;
     refreshing = true;
     const before = revision;
     try {
