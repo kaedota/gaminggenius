@@ -22,3 +22,7 @@
 .booking-location a{color:#a9caff;text-decoration:underline;text-underline-offset:3px}
 .live-floor-panel{margin-top:22px;color:#d9dce3}
 .live-floor-panel>summary{cursor:pointer;width:fit-content;padding:8px 0}
+
+#booking-contact-form label {display:block;margin:14px 0 6px;font-weight:700}
+#booking-phone {width:100%;padding:12px;color:#f1f2f5;background:#111317;border:1px solid #616571;border-radius:6px}
+#booking-phone-note a {color:#a9caff;text-decoration:underline}
