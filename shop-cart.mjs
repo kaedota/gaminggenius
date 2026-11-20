@@ -1,5 +1,5 @@
 import{SIZES,PRODUCTS,normaliseCart,subtotal,money}from'./cart-model.mjs?v=20261120';
-import{mountCheckout}from'./shop-checkout.mjs?v=20261121';
+import{mountCheckout,shopCall}from'./shop-checkout.mjs?v=20261121b';
 const key='gg-shop-cart-v1';let cart=[];try{cart=normaliseCart(JSON.parse(localStorage.getItem(key)||'[]'));}catch{}
 const t=(en,zh)=>document.documentElement.lang.startsWith('zh')?zh:en;
 const el=(tag,text,cls)=>{const e=document.createElement(tag);if(text)e.textContent=text;if(cls)e.className=cls;return e;};
