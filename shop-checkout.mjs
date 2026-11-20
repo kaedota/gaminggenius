@@ -8,11 +8,12 @@ let client;const connection=()=>client?Promise.resolve(client):connect().then(c=
 async function call(action,data={}){const c=await connection();const{data:session}=await c.auth.getSession();const response=await fetch(config.supabaseUrl+'/functions/v1/gg-shop',{method:'POST',headers:{'Content-Type':'application/json',apikey:config.publishableKey,...(session.session?{Authorization:'Bearer '+session.session.access_token}:{})},body:JSON.stringify({action,...data})});const body=await response.json();if(!response.ok)throw Error(body.error||'REQUEST_FAILED');return body;}
 const messages={AUTH_REQUIRED:['Sign in to continue.','请先登录。'],SHOP_CLOSED:['Checkout is not open yet.','结账尚未开放。'],OUT_OF_STOCK:['Not enough stock. Change the quantity and retry.','库存不足，请修改数量。'],TOO_MANY_PENDING:['You have two pending orders. Pay or cancel one below first.','已有两笔待付款订单，请先付款或取消其中一笔。'],ORDER_RECONCILING:['Order is being checked. Do not create another payment; refresh your orders or contact GG.','订单正在核对，请勿重复下单；请刷新订单或联系 GG。'],PROVIDER_UNAVAILABLE:['Payment provider unavailable. Check your order before retrying.','付款服务暂不可用，请先检查订单后再重试。']};
 const errorText=e=>messages[e.message]?t(...messages[e.message]):t('Not completed. Check the details and your orders before retrying.','未完成，请检查资料及订单后重试。');
+export {call as shopCall};
 export function mountCheckout(container,getCart){
  container.replaceChildren();const heading=el('h3'),form=el('form'),status=el('p',null,'checkout-note'),summary=el('p',null,'checkout-note'),submit=el('button',null,'button red'),orders=el('section',null,'shop-orders');status.setAttribute('role','status');
  const fields={};const captions=[];
  function field(key,en,zh,required=true){const label=el('label'),caption=el('span'),input=el('input');input.name=key;input.required=required;input.maxLength=key==='line1'?250:100;input.autocomplete=({name:'name',phone:'tel',line1:'street-address',city:'address-level2',postcode:'postal-code'})[key]||'off';input.setAttribute('aria-label',en+' / '+zh);label.append(caption,input);fields[key]=input;captions.push({caption,en,zh});return label;}
- const contact=el('div',null,'checkout-grid');contact.append(field('name','Recipient name','收货人姓名'),field('phone','Mobile number','联系电话'));fields.phone.type='tel';fields.phone.pattern='\\+?[0-9 -]{8,20}';fields.phone.maxLength=20;
+ const contact=el('div',null,'checkout-grid');contact.append(field('name','Recipient name','收货人姓名'),field('phone','Mobile number','联系电话'));fields.phone.type='tel';fields.phone.pattern='[+]?[0-9 ]{8,20}';fields.phone.maxLength=20;
  const deliveryLabel=el('label'),deliveryCaption=el('span'),delivery=el('select');for(const value of['pickup','shipping']){const option=el('option');option.value=value;delivery.append(option);}deliveryLabel.append(deliveryCaption,delivery);
  const address=el('div',null,'checkout-grid');address.append(field('line1','Street address','详细地址'),field('city','City','城市'),field('postcode','Postcode','邮编'));fields.postcode.pattern='[0-9]{5}';fields.postcode.maxLength=5;
  const stateLabel=el('label'),stateCaption=el('span'),state=el('select');state.required=true;state.setAttribute('aria-label','State / 州属');const blank=el('option');blank.value='';state.append(blank);for(const s of states){const o=el('option',s);o.value=s;state.append(o);}stateLabel.append(stateCaption,state);address.append(stateLabel);
@@ -33,6 +34,7 @@ export function mountCheckout(container,getCart){
  delivery.onchange=render;state.onchange=render;window.addEventListener('gg-language-change',render);window.addEventListener('gg-shop-cart-change',render);
  render();(async()=>{try{catalog=await call('catalog');const c=await connection();const result=await c.auth.getUser();user=result.data.user;render();const returned=new URLSearchParams(location.search).get("order");if(user&&returned&&/^[0-9a-f-]{36}$/i.test(returned)){try{await call("refresh",{id:returned});}catch(e){status.textContent=errorText(e);}}await list();}catch(e){status.textContent=errorText(e);}})();
 }
+
 
 
 
