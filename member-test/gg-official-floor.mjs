@@ -1,4 +1,4 @@
-import { mountStationControls } from './gg-station-controls.mjs?v=20261121-pool-v1';
+import { mountStationControls } from './gg-station-controls.mjs?v=20261121-cancel-entry-v2';
 
 const packages = { PS5:[2800,5200,7200], Switch:[1800,3400,4800] };
 
@@ -39,7 +39,7 @@ function controlsState(data, language) {
   };
 }
 
-export function mountOfficialFloor(container, { rpc, language = 'zh' }) {
+export function mountOfficialFloor(container, { rpc, language = 'zh', onManageBooking }) {
   let view;
   const messages = {
     MANUAL_SLOT_TAKEN: ['该机位已有后续预约或占用，请用分钟加时。','This station has a later booking or block. Extend by minutes instead.'],
@@ -57,6 +57,7 @@ export function mountOfficialFloor(container, { rpc, language = 'zh' }) {
   }
   return mountStationControls(container, {
     language,
+    onManageBooking,
     async request(action, input) {
       if (action === 'state') return read();
       const station = view?.stations.find(row => row.id === input.station);
@@ -77,7 +78,7 @@ export function mountOfficialFloor(container, { rpc, language = 'zh' }) {
   });
 }
 
-export async function enableOfficialFloor(container, {rpc, t}) {
+export async function enableOfficialFloor(container, {rpc, t, onManageBooking}) {
   if (!container?.isConnected) return;
   let initial;
   try { initial = await rpc('gg_desk_state'); } catch { return; }
@@ -92,6 +93,6 @@ export async function enableOfficialFloor(container, {rpc, t}) {
   const body = document.createElement('div');
   section.append(title, description, body);
   container.replaceChildren(section);
-  mountOfficialFloor(body, {rpc, language:t('zh','en')});
+  mountOfficialFloor(body, {rpc, language:t('zh','en'), onManageBooking});
 }
 

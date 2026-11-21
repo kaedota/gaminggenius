@@ -1,6 +1,6 @@
 import{createOpsAlerts}from'./ops-alerts.mjs?v=20261121-notify';
 import{mountShopAdmin}from'./admin-shop.mjs?v=20261121-notify';
-import {mountBookings} from './admin-booking.mjs?v=20261121-pool-v1';
+import {mountBookings} from './admin-booking.mjs?v=20261121-cancel-entry-v2';
 import {renderAnalytics} from './admin-analytics.mjs?v=20261116-account2';
 import {connect,rpc,safeError} from './api.js?v=20261116-notes';
 import {selectTotpFactor} from './mfa-state.js';

@@ -1,4 +1,4 @@
-export function mountStationControls(container, { request, language = 'zh' }) {
+export function mountStationControls(container, { request, language = 'zh', onManageBooking }) {
   const tr = (zh, en) => language === 'zh' ? zh : en;
   const currency = new Intl.NumberFormat('en-MY', { style: 'currency', currency: 'MYR' });
   const clock = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kuala_Lumpur', hour: '2-digit', minute: '2-digit' });
@@ -107,7 +107,13 @@ export function mountStationControls(container, { request, language = 'zh' }) {
       const title = node('div', '', 'floor-title');
       title.append(node('h3', station.name), node('span', labels[station.status], 'floor-chip ' + station.status));
       card.append(title);
-      if (station.bookings.length) card.append(bookingsPanel(station));
+      if (station.bookings.length) {
+        card.append(bookingsPanel(station));
+        const manage = node('button', tr('管理／取消预约','Manage / cancel booking'));
+        manage.type='button';
+        manage.onclick=()=>onManageBooking?.(station.id,station.bookings[0].start_at);
+        card.append(manage);
+      }
       if (station.startedAt) {
         const elapsed = node('p');
         elapsed.dataset.started = station.startedAt;
