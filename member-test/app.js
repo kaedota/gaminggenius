@@ -1,3 +1,4 @@
+import{createOpsAlerts}from'./ops-alerts.mjs?v=20261121-notify';
 import {message} from "../site-language.mjs?v=20261116-notes";
 import {mountAccount} from "../account-control.js?v=20261115";
 import {selectTotpFactor,requiresLogin,removePendingTotp} from "./mfa-state.js";
@@ -7,6 +8,7 @@ import { connect, rpc, verified, safeError } from "./api.js?v=20261116-notes";
 import { exchangeEmailCallback, readRecoveryToken, verifyRecoveryToken } from "./auth-callback.js?v=20261112-crossbrowser";
 import { $, node, playerCard, jsonPanel } from "./ui.js";
 import { publicPlayerDirectory, searchPublicPlayers } from "./model.js?v=20261111-directory";
+const opsAlerts=createOpsAlerts({rpc,t:(zh,en)=>{try{return localStorage.getItem('gg-language')==='en'?en:zh;}catch{return zh;}},onFailure:error=>status(safeError(error),true)});
 const bookingContext = new URLSearchParams(location.search).get('from') === 'booking' ||
   sessionStorage.getItem('gg-booking-return') === 'booking.html';
 
@@ -74,6 +76,7 @@ function showRecovery(userId) {
   $("recovery").scrollIntoView({ block: "start" });
 }
 const hidePrivate = () => {
+  opsAlerts?.stop();
   for (const id of ["account", "admin", "mfa", "owner"]) $(id).hidden = true;
   for (const id of [
     "players",
@@ -98,6 +101,7 @@ async function perform(fn) {
   } catch (e) {
     status(safeError(e), true);
     if ((e.message || "").includes("MFA_REQUIRED")) {
+      opsAlerts.stop();
       $("admin").hidden = true;
       $("owner").hidden = true;
       $("admin-players").replaceChildren();
@@ -261,6 +265,7 @@ async function loadAdmin() {
     rpc("gg_admin_audit"),
   ]);
   $("admin").hidden = false;
+  opsAlerts.start();
   if (!document.getElementById("unified-admin-link")) {
     const link = node("a", "GG Control · 统一管理后台 ↗", "button");
     link.id = "unified-admin-link";
