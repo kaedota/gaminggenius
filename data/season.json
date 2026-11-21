@@ -256,6 +256,14 @@
       "participants": 38,
       "slots": 68,
       "pointsSource": "Kae-approved totals: each non-qualifying slot receives 5 points; the qualifying slot receives 20/15/10/7 by final placement. One consolidated result per player; no additional participation award."
+    },
+    "weekly-1124": {
+      "title": "Weekly Battle Night · G3 Tournament",
+      "multiplier": 1,
+      "topCutSize": 8,
+      "scoringMode": "final-event",
+      "eligible": true,
+      "discipline": "beyblade"
     }
   },
   "results": [
