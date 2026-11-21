@@ -722,5 +722,22 @@
         "durationSeconds": 64.02
       }
     ]
+  },
+  {
+    "id": "weekly-1124",
+    "title": "Weekly Battle Night · G3 Tournament",
+    "category": "beyblade",
+    "startDate": "2026-11-24",
+    "endDate": "2026-11-24",
+    "dateLabel": "24 NOV 2026",
+    "venue": "Gaming Genius Station",
+    "description": "GG Season 01 ranking event · Regular Points ×1.",
+    "details": "Registration 7:30 PM; battle starts 8:30 PM. Entry RM20. Four Swiss rounds followed by Top 8 single elimination. Free drink included. See the poster for the advertised prizes.",
+    "featured": false,
+    "registrationUrl": null,
+    "kind": "weekly",
+    "time": "8:30 PM",
+    "poster": "assets/posters/weekly-night-battle-20261124.jpg",
+    "thumbnail": "assets/posters/weekly-night-battle-20261124.jpg"
   }
 ]
