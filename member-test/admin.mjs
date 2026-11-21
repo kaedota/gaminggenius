@@ -1,5 +1,5 @@
 import{mountShopAdmin}from'./admin-shop.mjs?v=20261121';
-import {mountBookings} from './admin-booking.mjs?v=20261119-mail';
+import {mountBookings} from './admin-booking.mjs?v=20261121-fpx';
 import {renderAnalytics} from './admin-analytics.mjs?v=20261116-account2';
 import {connect,rpc,safeError} from './api.js?v=20261116-notes';
 import {selectTotpFactor} from './mfa-state.js';
