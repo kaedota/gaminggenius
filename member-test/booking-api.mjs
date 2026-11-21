@@ -6,7 +6,7 @@ export function createBookingApi(client){
  const call=async(name,args={})=>{const{data,error}=await client.rpc(name,args);if(error)throw error;return data;};
  const member=async()=>{const{data,error}=await client.auth.getUser();if(error)throw error;if(!data?.user)throw Error('AUTH_REQUIRED');await call('gg_session');return data.user;};
  return{
-  catalog:async()=>{const c=await call('gg_booking_catalog');const p=await payment('catalog').catch(()=>({enabled:false}));return {...c,fpx_enabled:p.enabled};},
+  catalog:async()=>{const c=await call('gg_booking_catalog');const p=await payment('catalog').catch(()=>({enabled:false}));return {...c,enabled:c.enabled&&p.enabled,fpx_enabled:p.enabled,payment_method:'fpx'};},
   payment,
   availability:date=>call('gg_booking_availability',{p_date:date}),
   async hold({station,date,startMinute,minutes,people,requestId,phone}){
