@@ -1,4 +1,4 @@
-import{mountSimulators}from'./simulator-controls.mjs?v=20261122-simulators';
+import{mountSimulators}from'./simulator-local-controls.mjs?v=20261122-local-v1';
 import {mountBookingMail} from './booking-email-status.mjs?v=20261119-mail';
 import {enableOfficialFloor} from './gg-official-floor.mjs?v=20261121-cancel-entry-v2';
 import {mountFloorAdmin} from './booking-live.mjs?v=20261118-floor';
