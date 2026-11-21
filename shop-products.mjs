@@ -1,5 +1,5 @@
-import './shop-cart.mjs?v=20261121c';
-import{shopCall}from'./shop-checkout.mjs?v=20261121c';
+import './shop-cart.mjs?v=20261121-public';
+import{shopCall}from'./shop-checkout.mjs?v=20261121-public';
 const t=(en,zh)=>document.documentElement.lang.startsWith('zh')?zh:en;
 const controls=[];
 let stockCopy=null,stockCount=null;
