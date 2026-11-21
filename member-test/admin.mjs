@@ -1,5 +1,5 @@
 import{createOpsAlerts}from'./ops-alerts.mjs?v=20261121-notify';
-import{mountShopAdmin}from'./admin-shop.mjs?v=20261121-notify';
+import{mountShopAdmin}from'./admin-shop.mjs?v=20261121-bx52';
 import {mountBookings} from './admin-booking.mjs?v=20261121-cancel-entry-v2';
 import {renderAnalytics} from './admin-analytics.mjs?v=20261116-account2';
 import {connect,rpc,safeError} from './api.js?v=20261116-notes';
@@ -61,4 +61,3 @@ window.addEventListener('pagehide',()=>{++epoch;clearPrivate();app.replaceChildr
 window.addEventListener('pageshow',ev=>{if(ev.persisted&&service)load();});
 const opsAlerts=createOpsAlerts({rpc,t,onFailure:handleFailure,onOpen:(event,url)=>{const target=new URL(url);history.replaceState(null,'',target.pathname+target.search+target.hash);navigate(target.hash.slice(1)||'overview');}});
 try{client=await connect({manualCallback:true});service=createAdminService(client,rpc);client.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT'){++epoch;gate(t('后台已关闭','Admin closed'),t('已退出或会话结束，请重新登录。','Signed out or session ended. Please sign in again.'));}});await load();}catch(err){gate(t('无法连接后台','Unable to connect'),errorText(err));}
-
