@@ -1,10 +1,13 @@
+import {createBookingPaymentApi} from './booking-payment.mjs?v=20261121-fpx';
 // Integration boundary for the EXISTING GG Supabase client. No new client,
 // token persistence, account, role, password or OAuth setup is introduced.
 export function createBookingApi(client){
+ const payment=createBookingPaymentApi(client);
  const call=async(name,args={})=>{const{data,error}=await client.rpc(name,args);if(error)throw error;return data;};
  const member=async()=>{const{data,error}=await client.auth.getUser();if(error)throw error;if(!data?.user)throw Error('AUTH_REQUIRED');await call('gg_session');return data.user;};
  return{
-  catalog:()=>call('gg_booking_catalog'),
+  catalog:async()=>{const c=await call('gg_booking_catalog');const p=await payment('catalog').catch(()=>({enabled:false}));return {...c,fpx_enabled:p.enabled};},
+  payment,
   availability:date=>call('gg_booking_availability',{p_date:date}),
   async hold({station,date,startMinute,minutes,people,requestId,phone}){
    await member();
@@ -15,9 +18,11 @@ export function createBookingApi(client){
    // Never accepts a price, identity, payment status or expiry from the browser.
    return call('gg_booking_reserve_with_phone',{p_station:station,p_date:date,p_start:startMinute,p_minutes:minutes,p_people:people,p_request:requestId,p_phone:normalized});
   },
-  async mine(){await member();return call('gg_booking_mine');},
+  async mine(){await member();const rows=await call('gg_booking_mine');const payments=rows.some(h=>h.payment_method==='fpx')?await payment('mine'):[];return rows.map(h=>({...h,fpx:payments.find(p=>p.id===h.id)}));},
   async cancelUnpaidHold(id){await member();return call('gg_booking_cancel_reservation',{p_id:id});}
  };
 }
 
 export const bookingMessages={INVALID_CONTACT_PHONE:'请输入有效的联系电话，例如 012-345 6789 或 +60 12 345 6789。',STATION_SESSION_OVERRUN:'这台机位仍在使用中，请店员确认结束后再预约。',AUTH_REQUIRED:'请先登录 GG 会员。',BOOKING_NOT_OPEN:'预约服务尚未开放。',SLOT_TAKEN:'这个时段刚被预约，请重新选择。',STATION_UNAVAILABLE:'该机位暂停开放。',INVALID_DATE:'这个时间已过或超出可预约范围。',OUTSIDE_OPENING_HOURS:'该时段超出营业时间。',TOO_MANY_ACTIVE_BOOKINGS:'最多同时保留3笔未结束预约，请先处理现有预约。',BOOKING_NOT_CANCELLABLE:'开场后或已收款的预约，请联系店员处理。',REQUEST_REUSED_WITH_DIFFERENT_DETAILS:'预约内容已变化，请重新确认。'};
+
+
