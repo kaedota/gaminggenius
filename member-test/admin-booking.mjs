@@ -1,3 +1,4 @@
+import{mountSimulators}from'./simulator-controls.mjs?v=20261122-simulators';
 import {mountBookingMail} from './booking-email-status.mjs?v=20261119-mail';
 import {enableOfficialFloor} from './gg-official-floor.mjs?v=20261121-cancel-entry-v2';
 import {mountFloorAdmin} from './booking-live.mjs?v=20261118-floor';
@@ -7,8 +8,9 @@ export function mountBookings(container,{rpc,t,onFailure}){
  const labels={confirmed:t('已确认','Confirmed'),checked_in:t('已签到','Checked in'),completed:t('已完成','Completed'),cancelled:t('已取消','Cancelled'),no_show:t('未到场','No show')};
  const actions={check_in:t('到店签到','Check in'),mark_paid:t('登记已收款','Record payment received'),complete:t('结束游玩','Complete session'),cancel:t('取消并释放机位','Cancel and release station'),no_show:t('标记未到场','Mark no show')};
  const targetBooking=new URLSearchParams(location.search).get('booking');const requestedDay=new URLSearchParams(location.search).get('booking_date');let selected=/^\d{4}-\d{2}-\d{2}$/.test(requestedDay||'')?requestedDay:today,loading=false,ticket=0;let targetShown=false;
- container.innerHTML=`<div id="hardware-operations"></div><div id="floor-operations"></div><section class="panel"><div class="panel-head"><div><h2>${t('游戏预约 · 到店安排机位','Gaming bookings · Staff station assignment')}</h2><p>${t('马来西亚营业日 · 最多200笔；下方显示该日最近100条操作记录。','Malaysia business date · Up to 200 bookings and latest 100 actions for that day.')}</p></div><a href="booking.html">${t('打开预约页 ↗','Booking page ↗')}</a></div><form id="booking-day-form" class="toolbar"><label>${t('营业日','Business date')} <input id="booking-day" type="date" value="${selected}" required></label><button type="submit">${t('查询 / 刷新','Load / Refresh')}</button></form><p>${t('迟到15分钟后可标记未到场；不会自动释放。收款登记只记录店内实际收到的费用，不会向顾客扣款。员工可取消已付款预约并释放机位；原付款保留，退款须人工审核。换机位不会开关电视。','After 15 minutes, staff may mark a no-show. There is no automatic release. Recording payment logs money already received; it does not charge the customer. Staff may cancel paid bookings and release the station. Payment is retained for manual refund review. Assigning a station does not switch the TV.')}</p><p id="booking-admin-status" role="status"></p><div id="booking-admin-list"></div><details><summary>${t('预约操作记录','Booking activity')}</summary><div id="booking-admin-audit"></div></details></section>`;
+ container.innerHTML=`<div id="hardware-operations"></div><div id="simulator-operations"></div><div id="floor-operations"></div><section class="panel"><div class="panel-head"><div><h2>${t('游戏预约 · 到店安排机位','Gaming bookings · Staff station assignment')}</h2><p>${t('马来西亚营业日 · 最多200笔；下方显示该日最近100条操作记录。','Malaysia business date · Up to 200 bookings and latest 100 actions for that day.')}</p></div><a href="booking.html">${t('打开预约页 ↗','Booking page ↗')}</a></div><form id="booking-day-form" class="toolbar"><label>${t('营业日','Business date')} <input id="booking-day" type="date" value="${selected}" required></label><button type="submit">${t('查询 / 刷新','Load / Refresh')}</button></form><p>${t('迟到15分钟后可标记未到场；不会自动释放。收款登记只记录店内实际收到的费用，不会向顾客扣款。员工可取消已付款预约并释放机位；原付款保留，退款须人工审核。换机位不会开关电视。','After 15 minutes, staff may mark a no-show. There is no automatic release. Recording payment logs money already received; it does not charge the customer. Staff may cancel paid bookings and release the station. Payment is retained for manual refund review. Assigning a station does not switch the TV.')}</p><p id="booking-admin-status" role="status"></p><div id="booking-admin-list"></div><details><summary>${t('预约操作记录','Booking activity')}</summary><div id="booking-admin-audit"></div></details></section>`;
  void enableOfficialFloor(container.querySelector('#hardware-operations'),{rpc,t,onManageBooking:manageFromStation}).catch(()=>{});
+ mountSimulators(container.querySelector('#simulator-operations'),{rpc,t});
  mountFloorAdmin(container.querySelector('#floor-operations'),{rpc,t,onFailure});
  const list=container.querySelector('#booking-admin-list'),status=container.querySelector('#booking-admin-status');
  const dayForm=container.querySelector('#booking-day-form'), dayInput=container.querySelector('#booking-day');
@@ -59,6 +61,3 @@ export function mountBookings(container,{rpc,t,onFailure}){
  mountBookingMail(container,{rpc,t});
  void load();
 }
-
-
-
