@@ -5,4 +5,5 @@ export function slotStart(date,start){return new Date(date+'T00:00:00+08:00').va
 export function validStarts(date,minutes,now=Date.now()){const {open,close}=bounds(date);return Array.from({length:Math.max(0,Math.floor((close-open-minutes)/60)+1)},(_,i)=>open+i*60).filter(m=>slotStart(date,m)>now);}
 export function overlaps(rows,station,date,start,minutes){const a=slotStart(date,start),b=a+minutes*60000;return rows.some(r=>r.station_id===station&&Date.parse(r.start_at)<b&&Date.parse(r.end_at)>a);}
 export function money(cents){return'RM'+(cents/100).toFixed(cents%100?2:0);}
-export function selectionKey(s){return[s.station,s.date,s.start,s.minutes,s.people].join('|');}
+export function selectionKey(s){return[s.type||s.station?.split('-')[0],s.date,s.start,s.minutes,s.people].join('|');}
+

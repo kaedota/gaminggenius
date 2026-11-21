@@ -131,11 +131,11 @@ export function mountStationControls(container, { request, language = 'zh' }) {
       }
       const actions = node('div', '', 'floor-actions');
 
-      if (station.status === 'free') {
-        station.packages.forEach(plan => {
-          const duration = plan.test ? tr('试点测试 · 5 分钟','Pilot test · 5 min') : tr(plan.minutes / 60 + ' 小时', plan.minutes / 60 + ' hr');
+      if (station.status === 'free' || station.status === 'closed') {
+        station.packages.filter(plan=>station.status==='free'||plan.test).forEach(plan => {
+          const duration = plan.test ? tr('测试5分钟','Test 5 minutes') : tr(plan.minutes / 60 + ' 小时', plan.minutes / 60 + ' hr');
           actionButton(actions, plan.test ? duration : duration + ' · ' + currency.format(plan.amount / 100),
-            tr('开台：','Start ') + station.name + ' · ' + duration,
+            (plan.test?tr('员工设备测试，不计游玩收费；5分钟后关闭电视：','Staff equipment test, no gaming charge; TV switches off after 5 minutes: '):tr('开台：','Start ')) + station.name + ' · ' + duration,
             {action:'start', station:station.id, minutes:plan.minutes}, true);
         });
       }
@@ -228,5 +228,6 @@ export function mountStationControls(container, { request, language = 'zh' }) {
 
   return () => { disposed = true; clearInterval(timer); };
 }
+
 
 

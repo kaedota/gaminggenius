@@ -1,4 +1,4 @@
-import { mountStationControls } from './gg-station-controls.mjs?v=20261119-expand-bookings';
+import { mountStationControls } from './gg-station-controls.mjs?v=20261121-pool-v1';
 
 const packages = { PS5:[2800,5200,7200], Switch:[1800,3400,4800] };
 
@@ -33,7 +33,7 @@ function controlsState(data, language) {
         pending: managed?.pending === true,
         extendRejected: managed?.action === 'extend' && managed.result === 'rejected',
         lastPlayedMinutes: data.recent_play?.[row.id],
-        packages: [...(data.test_station === row.id ? [{ minutes:5, test:true }] : []), ...(packages[platform] || []).map((amount, index) => ({ amount, minutes:60 * (index + 1) }))]
+        packages: [...(data.test_stations?.includes(row.id) ? [{ minutes:5, test:true }] : []), ...(packages[platform] || []).map((amount, index) => ({ amount, minutes:60 * (index + 1) }))]
       };
     })
   };
@@ -94,3 +94,4 @@ export async function enableOfficialFloor(container, {rpc, t}) {
   container.replaceChildren(section);
   mountOfficialFloor(body, {rpc, language:t('zh','en')});
 }
+
