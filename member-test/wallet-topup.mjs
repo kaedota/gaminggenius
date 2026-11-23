@@ -1,9 +1,16 @@
 import{memberText}from'./gg-member.mjs?v=20261123-v1';
 const el=(tag,text)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;return n;};
-export function renderTopup(root,{data,call,t,reload,active}){
- if(!data.member||!data.topups_enabled)return;
- root.replaceChildren(el('h2',t('会员充值','Top up')),el('p',t('小额充值按实付入账，不含赠送。店内大额充值赠送方案请联系员工。','Small top-ups credit the amount paid, without a bonus. Ask staff about larger in-store bonus plans.')));
- const form=el('form'),label=el('label',t('充值金额','Amount')),select=el('select');for(const cents of[1000,2000,5000]){const option=el('option','RM '+cents/100);option.value=String(cents);select.append(option);}label.append(select);const submit=el('button',t('通过 FPX 充值 →','Top up with FPX →'));submit.type='submit';const status=el('p','');status.setAttribute('role','status');form.append(label,submit,status);
- form.onsubmit=async e=>{e.preventDefault();submit.disabled=true;const cents=Number(select.value);let request;try{request=JSON.parse(sessionStorage.getItem('gg-member-topup')||'null');}catch{}if(!request||request.cents!==cents){request={cents,id:crypto.randomUUID()};sessionStorage.setItem('gg-member-topup',JSON.stringify(request));}try{const result=await call('create_topup',{cents,request_id:request.id});if(!active())return;if(result.state==='settled'){sessionStorage.removeItem('gg-member-topup');await reload();return;}if(!/^https:\/\/www\.billplz\.com\/bills\/[A-Za-z0-9_-]+$/.test(result.bill_url||''))throw Error('MEMBER_PAYMENT_REVIEW');location.assign(result.bill_url);}catch(error){if(active())status.textContent=memberText(t,error);}finally{if(active()&&submit.isConnected)submit.disabled=false;}};root.append(form);
+export function renderTopup(root,{data,t}){
+ if(!data.member)return;
+ root.replaceChildren(el('h2',t('会员充值奖励','Member top-up rewards')));
+ root.append(el('p',t('首次开通储值会员须充值 RM100，赠送 RM20，总到账 RM120。已开通会员可选择 RM50 起的充值档位。','Activate a stored-value membership with RM100 and receive RM20 extra: RM120 total. Existing members can top up from RM50.')));
+ const table=el('table'),caption=el('caption',t('充值奖励表','Top-up rewards'));
+ table.append(caption);
+ const head=el('thead'),heading=el('tr');
+ for(const label of[t('实付充值','You pay'),t('赠送余额','Bonus'),t('总到账','Total credit')]){const th=el('th',label);th.scope='col';heading.append(th);}head.append(heading);table.append(head);
+ const body=el('tbody');
+ for(const [paid,bonus] of [[50,5],[100,20],[300,70],[500,150],[1000,350]]){const row=el('tr');for(const amount of[paid,bonus,paid+bonus])row.append(el('td','RM '+amount.toFixed(2)));body.append(row);}table.append(body);root.append(table);
+ const note=el('p',t('线上充值奖励暂未开放。请到店充值，完成后点击「刷新余额／积分」查看。','Online bonus top-ups are not open yet. Top up in store, then refresh your balance / points.'));
+ note.className='gg-member-warning';root.append(note);
 }
 export function topupActions(root,{row,call,t,reload,active}){if(row.kind!=='topup'||row.state!=='due')return;if(/^https:\/\/www\.billplz\.com\/bills\/[A-Za-z0-9_-]+$/.test(row.bill_url||'')){const pay=el('a',t('继续付款','Continue payment'));pay.href=row.bill_url;root.append(pay);}const refresh=el('button',t('核对付款／入账','Check payment / credit'));refresh.type='button';refresh.onclick=async()=>{refresh.disabled=true;try{await call('refresh_topup',{id:row.id});if(active())await reload();}catch(error){if(active())refresh.textContent=memberText(t,error);}};root.append(refresh);}
