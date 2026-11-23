@@ -168,6 +168,28 @@
     "thumbnail": "assets/posters/elmina-cup-2026-poster-20261031.jpeg",
     "videos": [
       {
+        "title": "Elmina Cup · Official Recap",
+        "titleZh": "Elmina Cup · 完整回顾",
+        "description": "GG X Beyblade · Elmina Cup 2026.",
+        "src": "assets/videos/elmina-recap-20261123.mp4",
+        "poster": "assets/videos/elmina-recap-20261123.jpg",
+        "type": "video/mp4",
+        "width": 960,
+        "height": 540,
+        "durationSeconds": 159.4
+      },
+      {
+        "title": "Elmina Cup · Beyblade BGM",
+        "titleZh": "Elmina Cup · Beyblade 音乐版",
+        "description": "GG X Beyblade · Beyblade BGM version.",
+        "src": "assets/videos/elmina-recap-bgm-20261123.mp4",
+        "poster": "assets/videos/elmina-recap-bgm-20261123.jpg",
+        "type": "video/mp4",
+        "width": 1280,
+        "height": 720,
+        "durationSeconds": 67.93
+      },
+      {
         "title": "Elmina Cup · New Official Promo",
         "description": "Elmina Cup 2026 official promotional film.",
         "src": "assets/videos/elmina-home-promo-20261102.mp4",
@@ -204,7 +226,11 @@
       "type": "video/mp4",
       "width": 1080,
       "height": 1920
-    }
+    },
+    "homepageFilms": [
+      "assets/videos/elmina-recap-20261123.mp4",
+      "assets/videos/elmina-recap-bgm-20261123.mp4"
+    ]
   },
   {
     "id": "racers-1",

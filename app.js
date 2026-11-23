@@ -1,3 +1,4 @@
+import { renderHomeRecaps } from './home-recaps.mjs?v=20261123-v1';
 import { renderPublicHero } from './public-hero.mjs?v=20261116-elmina-recap';
 import { setupEventGallery } from './event-gallery.js';
 import { startAnalytics } from './analytics.js?v=20261031';
@@ -238,8 +239,8 @@ function handleHash() {
 }
 window.addEventListener('hashchange', handleHash);
 window.addEventListener('popstate', handleHash);
-getJSON('data/events.json?v=20261102-elmina').then(data => {
-  events = data; renderPublicHero(events, today, showMedia); startAnalytics('G-CYS5Q3VHJT', events.map(event => event.id)); renderFeaturedFilm(events, today, openEvent, dialog); renderUpcoming(); renderArchive(); renderWeekly(); handleHash();
+getJSON('data/events.json?v=20261123-elmina-recaps').then(data => {
+  events = data; renderHomeRecaps(events, dialog); renderPublicHero(events, today, showMedia); startAnalytics('G-CYS5Q3VHJT', events.map(event => event.id)); renderFeaturedFilm(events, today, openEvent, dialog); renderUpcoming(); renderArchive(); renderWeekly(); handleHash();
 }).catch(() => {
   for (const id of ['event-grid', 'weekly-grid', 'upcoming-grid']) $(id).replaceChildren(el('p', 'Events could not load. Please refresh or contact GG.', 'load-state'));
 });
