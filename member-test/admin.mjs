@@ -1,4 +1,4 @@
-import{mountMemberAdmin}from'./admin-member.mjs?v=20261123-v1';
+import{mountMemberAdmin}from'./admin-member.mjs?v=20261123-v2';
 import{createOpsAlerts}from'./ops-alerts.mjs?v=20261121-notify';
 import{mountShopAdmin}from'./admin-shop.mjs?v=20261121-bx52';
 import {mountBookings} from './admin-booking.mjs?v=20261123-member-v1';
