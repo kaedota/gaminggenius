@@ -1,4 +1,4 @@
-import { renderHomeRecaps } from './home-recaps.mjs?v=20261123-v1';
+import { renderHomeRecaps } from './home-recaps.mjs?v=20261123-v2';
 import { renderPublicHero } from './public-hero.mjs?v=20261116-elmina-recap';
 import { setupEventGallery } from './event-gallery.js';
 import { startAnalytics } from './analytics.js?v=20261031';

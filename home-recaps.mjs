@@ -32,7 +32,7 @@ export function renderHomeRecaps(events, dialog) {
  new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;sync();},{threshold:0.2}).observe(frame);
  if(dialog)new MutationObserver(sync).observe(dialog,{attributes:true,attributeFilter:['open']});
  document.addEventListener('visibilitychange',sync);window.addEventListener('pagehide',pause);
- window.addEventListener('gg-language-change',translate);new MutationObserver(translate).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+ window.addEventListener('gg-language-change',translate);window.addEventListener('storage',event=>{if(event.key==='gg-language')translate();});
  reduced.addEventListener('change',()=>{if(reduced.matches)pause();else sync();});
  select(0);
 }
