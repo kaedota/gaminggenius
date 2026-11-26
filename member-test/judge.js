@@ -224,7 +224,16 @@ function draw(){
  drawHostControls();const board=$('#board');board.replaceChildren();if(!current){board.textContent=operationHold?'原赛操作待核对，请勿重复提交':userRole==='owner'&&$('#source').value==='ggfull20261126'?'尚未建立全新模拟赛。请使用上方主办方控制，建立后再手动开始Swiss。':'尚无原引擎缓存，请联系主办方。';return;}
  const entries=new Map(current.entries.map(entry=>[entry.id,entry]));board.append(el('h2',{},current.title));
  if(snapshotIssues(current).length)board.append(el('p',{className:'notice',role:'alert'},current.review?.note||'原引擎分组资料需要核对，本场只读；原缓存和比分保留。'));
- if(current.state==='complete')board.append(el('p',{className:'notice'},'赛事结束 · 冠军：'+(current.champions||[]).map(id=>entries.get(id)?.name||id).join(' / ')));
+ if(current.state==='complete'){
+  const completed=el('p',{className:'notice completed-result'},'比赛已完成 · 只读');
+  const champions=current.champions;
+  if(current.source==='challonge-v2.1'&&current.readOnly===true&&!operationHold&&!snapshotIssues(current).length&&
+   Array.isArray(champions)&&champions.length&&new Set(champions).size===champions.length&&
+   champions.every(id=>typeof id==='string'&&entries.has(id)&&typeof entries.get(id).name==='string'&&entries.get(id).name.trim())){
+   completed.append(el('span',{className:'source-champion'},' · 冠军：'+champions.map(id=>entries.get(id).name).join(' / ')));
+  }
+  board.append(completed);
+ }
  const track=el('div',{className:'round-track'});
  for(const round of roundColumns(current)){
   const column=el('section',{className:'round-column'});column.append(el('h3',{},`${round.group?round.group+' 组 · ':''}${round.swiss?'Swiss':'淘汰赛'} · 第${round.round}轮`));
@@ -254,7 +263,7 @@ async function refresh(){
  try{
   const access=await api('/access',{slug:$('#source').value});userRole=access.role;allowed=true;
   const cached=await api('/snapshot',{slug:$('#source').value});current=cached.snapshot;recordings=Array.isArray(cached.recordings)?cached.recordings:[];uncertainMatchIds=new Set(cached.uncertainMatchIds||[]);operationHold=cached.operationHold===true;writesEnabled=!!cached.writesEnabled&&!operationHold&&(!current||!snapshotIssues(current).length);
-  $('#permission').textContent=(access.role==='owner'?'Owner':'Judge')+' · 仅限本场'+(operationHold?' · 只读（原赛操作待核对，请勿重复提交）':!current?' · 尚无赛事缓存':writesEnabled?' · 可录分':snapshotIssues(current).length?' · 只读（分组资料待核对）':' · 只读（录分未开放或额度不足）');$('#message').textContent=operationHold?'原赛操作待核对，请勿重复提交':'权限检查通过。';
+  $('#permission').textContent=(access.role==='owner'?'Owner':'Judge')+' · 仅限本场'+(operationHold?' · 只读（原赛操作待核对，请勿重复提交）':!current?' · 尚无赛事缓存':snapshotIssues(current).length?' · 只读（分组资料待核对）':current.state==='complete'?' · 比赛已完成 · 只读':writesEnabled?' · 可录分':' · 只读（录分未开放或额度不足）');$('#message').textContent=operationHold?'原赛操作待核对，请勿重复提交':'权限检查通过。';
  }catch(error){
   current=null;recordings=[];uncertainMatchIds.clear();inspection=null;allowed=false;writesEnabled=false;operationHold=false;userRole=null;
   if(error.message==='MFA_REQUIRED'){const {data:factors,error:factorError}=await client.auth.mfa.listFactors();if(factorError)throw factorError;const factor=selectTotpFactor(factors,factorId);factorId=factor?.id||null;$('#mfa').hidden=false;$('#enroll').hidden=!!factorId;}
