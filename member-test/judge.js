@@ -1,5 +1,5 @@
 import {snapshotIssues,roundColumns} from './source-view.mjs?v=20261124-stage-v1';
-import {FINISH_TYPES,FINISH_POINTS,FINISH_RULESET,deriveFinishScore,derivePlayerStats,sourceMatchFingerprint} from './source-finishes.mjs?v=20261126-finish-v1';
+import {FINISH_TYPES,FINISH_POINTS,FINISH_RULESET,deriveFinishScore,derivePlayerStats,sourceMatchFingerprint} from './source-finishes.mjs?v=20261126-fresh-v1';
 import {createClient} from './vendor/supabase.js';
 import config from './config.js';
 import {createAuthStorage} from './auth-storage.js';
@@ -169,24 +169,33 @@ function drawStats(entries){
 }
 
 function drawHostControls(){
- const existing=$('#host-controls');if(existing)existing.remove();if(userRole!=='owner'||$('#source').value!=='ggfull20261101')return;
- const box=el('section',{className:'card',id:'host-controls'}),state=current?.state||'未初始化',held=snapshotIssues(current).length>0;
- box.append(el('h2',{},'完整模拟赛 · 主办方控制'),el('p',{},'裁判负责录分，阶段切换由 Owner 确认。'));
- const controls=[['refresh','刷新赛事']];
+ const existing=$('#host-controls');if(existing)existing.remove();
+ const slug=$('#source').value,fresh=slug==='ggfull20261126';
+ if(userRole!=='owner'||!['ggfull20261101','ggfull20261126'].includes(slug))return;
+ const box=el('section',{className:'card',id:'host-controls'}),state=current?.state||'未初始化',held=!!current&&snapshotIssues(current).length>0;
+ box.append(el('h2',{},fresh?'全新模拟赛 · 主办方控制':'完整模拟赛 · 主办方控制'),el('p',{},'裁判负责录分，阶段切换由 Owner 确认。'));
+ const controls=current?[['refresh','刷新赛事']]:[];
+ if(!current&&fresh){controls.push(['setup','建立全新模拟赛']);box.append(el('p',{},'建立8名模拟选手的全新赛事后，再手动开始Swiss。旧赛事和比分保留。'));}
  if(held){
   box.append(el('p',{className:'notice'},'赛事资料待核对，阶段切换已关闭。'));
+ }
+ if(current){
   const inspect=el('button',{type:'button',className:'secondary'},'查看原赛分组');
   inspect.onclick=()=>{if(busy)return;run(async()=>{const result=await api('/inspect',{slug:$('#source').value,requestId:crypto.randomUUID()});inspection=result.inspection;drawHostControls();$('#message').textContent='已读取原赛分组资料；比分和待核对状态保持不变。';});};box.append(inspect);
  }
- else if(state==='pending')controls.push(['start_group_stage','正式开始3轮Swiss']);
- else if(state==='group_stages_underway'&&current.rounds.some(round=>round.number===3)&&allMatches().every(match=>['complete','bye'].includes(match.status)))controls.push(['finalize_group_stage','确认Swiss结束及Top4晋级']);
- else if(state==='group_stages_finalized')controls.push(['start','开始Top4淘汰赛']);
- else if(state==='awaiting_review')controls.push(['finalize','确认结束比赛，发布最终结果']);
+ if(!held&&state==='pending')controls.push(['start_group_stage','正式开始3轮Swiss']);
+ else if(!held&&state==='group_stages_underway'&&current.rounds.some(round=>round.number===3)&&allMatches().every(match=>['complete','bye'].includes(match.status)))controls.push(['finalize_group_stage','确认Swiss结束及Top4晋级']);
+ else if(!held&&state==='group_stages_finalized')controls.push(['start','开始Top4淘汰赛']);
+ else if(!held&&state==='awaiting_review')controls.push(['finalize','确认结束比赛，发布最终结果']);
  for(const [control,label]of controls){
-  const button=el('button',{type:'button',disabled:control!=='refresh'&&!writesEnabled},label);let confirmed=false;
-  button.onclick=()=>{if(busy||button.disabled)return;if(!confirmed){confirmed=true;button.textContent='确认：'+label;return;}run(async()=>{await api('/control',{slug:$('#source').value,control,expectedState:current?.state||null,requestId:crypto.randomUUID()});await refresh();$('#message').textContent='赛事状态已核对。';});};box.append(button);
+  const button=el('button',{type:'button',disabled:control!=='refresh'&&!writesEnabled},label);let confirmed=false,requestId=null;
+  button.onclick=()=>{if(busy||button.disabled)return;if(!confirmed){confirmed=true;requestId=crypto.randomUUID();button.textContent='确认：'+label;return;}run(async()=>{
+   if(control==='setup')await api('/setup',{slug,requestId});
+   else await api('/control',{slug,control,expectedState:current?.state||null,requestId});
+   await refresh();$('#message').textContent=control==='setup'?'全新模拟赛已建立。请核对选手，再手动开始Swiss。':'赛事状态已核对。';
+  });};box.append(button);
  }
- if(inspection?.slug===current?.slug)box.append(inspectionPanel(inspection));
+ if(inspection&&inspection.slug===current?.slug)box.append(inspectionPanel(inspection));
  $('#board').before(box);
 }
 
@@ -204,7 +213,7 @@ function inspectionPanel(data){
 }
 
 function draw(){
- drawHostControls();const board=$('#board');board.replaceChildren();if(!current){board.textContent='尚无原引擎缓存，请联系主办方。';return;}
+ drawHostControls();const board=$('#board');board.replaceChildren();if(!current){board.textContent=userRole==='owner'&&$('#source').value==='ggfull20261126'?'尚未建立全新模拟赛。请使用上方主办方控制，建立后再手动开始Swiss。':'尚无原引擎缓存，请联系主办方。';return;}
  const entries=new Map(current.entries.map(entry=>[entry.id,entry]));board.append(el('h2',{},current.title));
  if(snapshotIssues(current).length)board.append(el('p',{className:'notice',role:'alert'},current.review?.note||'原引擎分组资料需要核对，本场只读；原缓存和比分保留。'));
  if(current.state==='complete')board.append(el('p',{className:'notice'},'赛事结束 · 冠军：'+(current.champions||[]).map(id=>entries.get(id)?.name||id).join(' / ')));
@@ -236,8 +245,8 @@ async function refresh(){
  if(!signed){current=null;recordings=[];uncertainMatchIds.clear();drafts.clear();inspection=null;draw();$('#message').textContent='请登录已获授权的测试账号。';return;}
  try{
   const access=await api('/access',{slug:$('#source').value});userRole=access.role;allowed=true;
-  const cached=await api('/snapshot',{slug:$('#source').value});current=cached.snapshot;recordings=Array.isArray(cached.recordings)?cached.recordings:[];uncertainMatchIds=new Set(cached.uncertainMatchIds||[]);writesEnabled=!!cached.writesEnabled&&!snapshotIssues(current).length;
-  $('#permission').textContent=(access.role==='owner'?'Owner':'Judge')+' · 仅限本场'+(writesEnabled?' · 可录分':snapshotIssues(current).length?' · 只读（分组资料待核对）':' · 只读（录分未开放或额度不足）');$('#message').textContent='权限检查通过。';
+  const cached=await api('/snapshot',{slug:$('#source').value});current=cached.snapshot;recordings=Array.isArray(cached.recordings)?cached.recordings:[];uncertainMatchIds=new Set(cached.uncertainMatchIds||[]);writesEnabled=!!cached.writesEnabled&&(!current||!snapshotIssues(current).length);
+  $('#permission').textContent=(access.role==='owner'?'Owner':'Judge')+' · 仅限本场'+(!current?' · 尚无赛事缓存':writesEnabled?' · 可录分':snapshotIssues(current).length?' · 只读（分组资料待核对）':' · 只读（录分未开放或额度不足）');$('#message').textContent='权限检查通过。';
  }catch(error){
   current=null;recordings=[];uncertainMatchIds.clear();inspection=null;allowed=false;writesEnabled=false;userRole=null;
   if(error.message==='MFA_REQUIRED'){const {data:factors,error:factorError}=await client.auth.mfa.listFactors();if(factorError)throw factorError;const factor=selectTotpFactor(factors,factorId);factorId=factor?.id||null;$('#mfa').hidden=false;$('#enroll').hidden=!!factorId;}

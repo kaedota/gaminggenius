@@ -8,7 +8,7 @@ export const FINISH_RULESET = 'beyblade-x-first-to-4-v1';
 export const MATCH_TARGET = 4;
 export const MAX_DECISIVE_BATTLES = 7;
 
-const TEST_SLUGS = new Set(['unwlah3a', 'kjhh8b0r', 'ggfull20261101']);
+const TEST_SLUGS = new Set(['unwlah3a', 'kjhh8b0r', 'ggfull20261101', 'ggfull20261126']);
 const fail = code => { throw Error(code); };
 const validId = value => typeof value === 'string' && value.length > 0 &&
   value.length <= 200 && value.trim() === value && !/[\u0000-\u001f\u007f]/.test(value);
