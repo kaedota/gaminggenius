@@ -280,3 +280,41 @@ details.compact-match{display:block;padding:0;border:0;margin:0 0 8px}
 .compact-hint{font-size:12px;margin:0 0 12px}
 @media(max-width:600px){.round-track>.round-column{flex-basis:270px}.round-track{gap:12px}.compact-match{font-size:12px}}
 .group-board{margin:20px 0 32px;min-width:0;max-width:100%}.group-board-title{font-size:20px;margin:0 0 12px;padding:10px 12px;border-left:4px solid #ff0048;background:#191116}.group-board .round-column>h3{margin-top:0}
+/* The expanded judge editor stays inside one mobile-width match column. */
+.finish-editor,.editor-fields{min-width:0;margin:0;padding:0;border:0}
+.finish-editor *{box-sizing:border-box}
+.finish-editor .editor-fields>label:first-child{margin-top:0}
+.finish-editor textarea{min-height:68px}
+.finish-editor .finish-score{display:block;padding:12px;margin:12px 0;text-align:center;background:#24262d;font-size:24px;font-weight:700;font-variant-numeric:tabular-nums}
+.finish-player{margin:12px 0 16px;min-width:0}
+.finish-player h4{margin:0 0 8px;font-size:14px;overflow-wrap:anywhere}
+.finish-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.compact-editor .finish-buttons button{min-height:46px;padding:10px 4px;font-size:13px;white-space:nowrap}
+.finish-buttons button:disabled{cursor:default}
+.battle-list{padding-left:22px;margin:12px 0;overflow-wrap:anywhere;font-size:13px;line-height:1.6}
+.manual-score-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.manual-score-row input{font-size:20px;text-align:center}
+.finish-editor [type=submit]{width:100%;min-height:46px;margin-top:6px}
+.editor-alert:empty{display:none}
+.editor-alert{font-size:13px;color:#ffd5df;line-height:1.6}
+.finish-editor .notice{font-size:12px;padding:10px}
+.finish-editor [hidden]{display:none!important}
+.editor-fields{min-width:0;padding:0;margin:0;border:0}
+.finish-player{min-width:0;margin:12px 0}
+.finish-player h4{margin:0 0 8px;overflow-wrap:anywhere;font-size:14px}
+.finish-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.finish-buttons button{min-height:48px;padding:10px 4px;font-size:14px;font-weight:600}
+.finish-score{display:block;text-align:center;padding:12px 6px;background:#24262d;font-size:24px;font-weight:700;font-variant-numeric:tabular-nums}
+.battle-list{padding-left:24px;font-size:12px;line-height:1.7;overflow-wrap:anywhere}
+.manual-score-row label{min-width:0;overflow-wrap:anywhere}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px}
+.stat-player{padding:14px;border:1px solid #373941;min-width:0}
+.stat-player h3{font-size:16px;overflow-wrap:anywhere;margin:0 0 10px}
+.stat-player p{font-size:13px;line-height:1.6}
+.stat-player details{padding:10px;margin:8px 0 0}
+.stat-player summary{font-size:13px;min-height:32px}
+.finish-counts th,.finish-counts td{padding:7px 3px;font-size:11px;white-space:normal}
+.source-inspection .table-scroll{max-height:360px}
+.source-inspection td{white-space:normal;overflow-wrap:anywhere;min-width:90px}
+#host-controls>button{margin:4px 8px 4px 0}
+@media(max-width:600px){.round-track>.round-column{flex-basis:calc(100vw - 44px)}.compact-editor{margin-left:0;padding:12px}.finish-player h4{font-size:15px}.stats-grid{grid-template-columns:1fr}}
