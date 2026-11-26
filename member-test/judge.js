@@ -7,7 +7,7 @@ import {selectTotpFactor} from './mfa-state.js';
 
 const $=selector=>document.querySelector(selector);
 const client=createClient(config.supabaseUrl,config.publishableKey,{auth:{storage:createAuthStorage(sessionStorage,localStorage),flowType:'pkce',persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-let userRole=null,writesEnabled=false,allowed=false,factorId=null,current=null,busy=false;
+let userRole=null,writesEnabled=false,allowed=false,factorId=null,current=null,busy=false,operationHold=false;
 let recordings=[],uncertainMatchIds=new Set(),inspection=null;
 const drafts=new Map();
 const messages={
@@ -48,7 +48,7 @@ function verifiedBattles(match,recording){
 }
 function hasDownstream(match){return current.rounds.some(round=>round.number>match.round);}
 function canEditMatch(match){
- return allowed&&writesEnabled&&!snapshotIssues(current).length&&!uncertainMatchIds.has(match.id)&&!!match.b&&match.walkover!==true&&['pending','complete'].includes(match.status)&&
+ return allowed&&writesEnabled&&!operationHold&&!snapshotIssues(current).length&&!uncertainMatchIds.has(match.id)&&!!match.b&&match.walkover!==true&&['pending','complete'].includes(match.status)&&
   (!current.state||['group_stages_underway','underway','awaiting_review'].includes(current.state))&&
   !(match.status!=='complete'&&current.rounds.some(round=>round.number>match.round&&round.matches.some(next=>next.status==='complete')));
 }
@@ -60,7 +60,13 @@ async function api(path,data){
 async function run(fn){
  if(busy)return;busy=true;document.querySelectorAll('.editor-fields').forEach(field=>field.disabled=true);
  try{$('#message').textContent='处理中…';await fn();}
- catch(error){$('#message').textContent=messages[error.message]||'操作未完成，请核对输入或稍后重试。';}
+ catch(error){
+  const message=messages[error.message]||'操作未完成，请核对输入或稍后重试。';
+  if(error.message==='SOURCE_OPERATION_NEEDS_REVIEW'){
+   try{await refresh();}catch{/* Keep the original uncertainty message if the read fails. */}
+  }
+  $('#message').textContent=message;
+ }
  finally{busy=false;document.querySelectorAll('.editor-fields').forEach(field=>field.disabled=false);}
 }
 function battleList(battles,entries){
@@ -146,6 +152,7 @@ function mountScoreEditor(container,match,recording,entries,{scoreLocked=false}=
 
 function drawStats(entries){
  const section=el('section',{className:'card judge-stats'});section.append(el('h2',{},'本场胜率（内测）'));
+ if(operationHold)section.append(el('p',{className:'notice'},'原赛操作待核对，请勿重复提交。以下仅显示此前已核对记录。'));
  if(snapshotIssues(current).length){section.append(el('p',{className:'muted'},'分组资料核对后显示统计'));return section;}
  const matches=new Map(allMatches().map(match=>[match.id,match]));
  const usable=recordings.filter(record=>record.slug===current.slug&&!uncertainMatchIds.has(record.matchId)).map(record=>{
@@ -174,19 +181,20 @@ function drawHostControls(){
  if(userRole!=='owner'||!['ggfull20261101','ggfull20261126'].includes(slug))return;
  const box=el('section',{className:'card',id:'host-controls'}),state=current?.state||'未初始化',held=!!current&&snapshotIssues(current).length>0;
  box.append(el('h2',{},fresh?'全新模拟赛 · 主办方控制':'完整模拟赛 · 主办方控制'),el('p',{},'裁判负责录分，阶段切换由 Owner 确认。'));
- const controls=current?[['refresh','刷新赛事']]:[];
- if(!current&&fresh){controls.push(['setup','建立全新模拟赛']);box.append(el('p',{},'建立8名模拟选手的全新赛事后，再手动开始Swiss。旧赛事和比分保留。'));}
- if(held){
+ const controls=current&&!operationHold?[['refresh','刷新赛事']]:[];
+ if(!current&&fresh&&!operationHold){controls.push(['setup','建立全新模拟赛']);box.append(el('p',{},'建立8名模拟选手的全新赛事后，再手动开始Swiss。旧赛事和比分保留。'));}
+ if(operationHold)box.append(el('p',{className:'notice'},'原赛操作待核对，请勿重复提交'));
+ else if(held){
   box.append(el('p',{className:'notice'},'赛事资料待核对，阶段切换已关闭。'));
  }
- if(current){
+ if(current||operationHold){
   const inspect=el('button',{type:'button',className:'secondary'},'查看原赛分组');
   inspect.onclick=()=>{if(busy)return;run(async()=>{const result=await api('/inspect',{slug:$('#source').value,requestId:crypto.randomUUID()});inspection=result.inspection;drawHostControls();$('#message').textContent='已读取原赛分组资料；比分和待核对状态保持不变。';});};box.append(inspect);
  }
- if(!held&&state==='pending')controls.push(['start_group_stage','正式开始3轮Swiss']);
- else if(!held&&state==='group_stages_underway'&&current.rounds.some(round=>round.number===3)&&allMatches().every(match=>['complete','bye'].includes(match.status)))controls.push(['finalize_group_stage','确认Swiss结束及Top4晋级']);
- else if(!held&&state==='group_stages_finalized')controls.push(['start','开始Top4淘汰赛']);
- else if(!held&&state==='awaiting_review')controls.push(['finalize','确认结束比赛，发布最终结果']);
+ if(!operationHold&&!held&&state==='pending')controls.push(['start_group_stage','正式开始3轮Swiss']);
+ else if(!operationHold&&!held&&state==='group_stages_underway'&&current.rounds.some(round=>round.number===3)&&allMatches().every(match=>['complete','bye'].includes(match.status)))controls.push(['finalize_group_stage','确认Swiss结束及Top4晋级']);
+ else if(!operationHold&&!held&&state==='group_stages_finalized')controls.push(['start','开始Top4淘汰赛']);
+ else if(!operationHold&&!held&&state==='awaiting_review')controls.push(['finalize','确认结束比赛，发布最终结果']);
  for(const [control,label]of controls){
   const button=el('button',{type:'button',disabled:control!=='refresh'&&!writesEnabled},label);let confirmed=false,requestId=null;
   button.onclick=()=>{if(busy||button.disabled)return;if(!confirmed){confirmed=true;requestId=crypto.randomUUID();button.textContent='确认：'+label;return;}run(async()=>{
@@ -213,7 +221,7 @@ function inspectionPanel(data){
 }
 
 function draw(){
- drawHostControls();const board=$('#board');board.replaceChildren();if(!current){board.textContent=userRole==='owner'&&$('#source').value==='ggfull20261126'?'尚未建立全新模拟赛。请使用上方主办方控制，建立后再手动开始Swiss。':'尚无原引擎缓存，请联系主办方。';return;}
+ drawHostControls();const board=$('#board');board.replaceChildren();if(!current){board.textContent=operationHold?'原赛操作待核对，请勿重复提交':userRole==='owner'&&$('#source').value==='ggfull20261126'?'尚未建立全新模拟赛。请使用上方主办方控制，建立后再手动开始Swiss。':'尚无原引擎缓存，请联系主办方。';return;}
  const entries=new Map(current.entries.map(entry=>[entry.id,entry]));board.append(el('h2',{},current.title));
  if(snapshotIssues(current).length)board.append(el('p',{className:'notice',role:'alert'},current.review?.note||'原引擎分组资料需要核对，本场只读；原缓存和比分保留。'));
  if(current.state==='complete')board.append(el('p',{className:'notice'},'赛事结束 · 冠军：'+(current.champions||[]).map(id=>entries.get(id)?.name||id).join(' / ')));
@@ -240,15 +248,15 @@ function draw(){
 }
 
 async function refresh(){
- userRole=null;allowed=false;writesEnabled=false;const {data}=await client.auth.getSession(),signed=!!data.session;
+ userRole=null;allowed=false;writesEnabled=false;operationHold=false;const {data}=await client.auth.getSession(),signed=!!data.session;
  $('#login').hidden=signed;$('#logout').hidden=!signed;$('#mfa').hidden=true;$('#permission').textContent=signed?'正在核对赛事权限…':'请先登录，赛事仅供已授权裁判查看。';
  if(!signed){current=null;recordings=[];uncertainMatchIds.clear();drafts.clear();inspection=null;draw();$('#message').textContent='请登录已获授权的测试账号。';return;}
  try{
   const access=await api('/access',{slug:$('#source').value});userRole=access.role;allowed=true;
-  const cached=await api('/snapshot',{slug:$('#source').value});current=cached.snapshot;recordings=Array.isArray(cached.recordings)?cached.recordings:[];uncertainMatchIds=new Set(cached.uncertainMatchIds||[]);writesEnabled=!!cached.writesEnabled&&(!current||!snapshotIssues(current).length);
-  $('#permission').textContent=(access.role==='owner'?'Owner':'Judge')+' · 仅限本场'+(!current?' · 尚无赛事缓存':writesEnabled?' · 可录分':snapshotIssues(current).length?' · 只读（分组资料待核对）':' · 只读（录分未开放或额度不足）');$('#message').textContent='权限检查通过。';
+  const cached=await api('/snapshot',{slug:$('#source').value});current=cached.snapshot;recordings=Array.isArray(cached.recordings)?cached.recordings:[];uncertainMatchIds=new Set(cached.uncertainMatchIds||[]);operationHold=cached.operationHold===true;writesEnabled=!!cached.writesEnabled&&!operationHold&&(!current||!snapshotIssues(current).length);
+  $('#permission').textContent=(access.role==='owner'?'Owner':'Judge')+' · 仅限本场'+(operationHold?' · 只读（原赛操作待核对，请勿重复提交）':!current?' · 尚无赛事缓存':writesEnabled?' · 可录分':snapshotIssues(current).length?' · 只读（分组资料待核对）':' · 只读（录分未开放或额度不足）');$('#message').textContent=operationHold?'原赛操作待核对，请勿重复提交':'权限检查通过。';
  }catch(error){
-  current=null;recordings=[];uncertainMatchIds.clear();inspection=null;allowed=false;writesEnabled=false;userRole=null;
+  current=null;recordings=[];uncertainMatchIds.clear();inspection=null;allowed=false;writesEnabled=false;operationHold=false;userRole=null;
   if(error.message==='MFA_REQUIRED'){const {data:factors,error:factorError}=await client.auth.mfa.listFactors();if(factorError)throw factorError;const factor=selectTotpFactor(factors,factorId);factorId=factor?.id||null;$('#mfa').hidden=false;$('#enroll').hidden=!!factorId;}
   $('#permission').textContent=messages[error.message]||'没有查看或写入权限。';throw error;
  }finally{draw();}
@@ -259,5 +267,5 @@ $('#logout').onclick=()=>run(async()=>{const {error}=await client.auth.signOut()
  $('#check').onclick=()=>run(refresh);$('#source').onchange=()=>{inspection=null;run(refresh);};
 $('#enroll').onclick=()=>run(async()=>{const {data,error}=await client.auth.mfa.enroll({factorType:'totp',friendlyName:'GG Judge Test'});if(error)throw error;factorId=data.id;const image=el('img',{src:data.totp.qr_code,alt:'验证器绑定二维码'}),text=el('p',{},'手动设置密钥（仅自行保存到验证器）：'+data.totp.secret);$('#setup').replaceChildren(image,text);$('#enroll').hidden=true;$('#message').textContent='请自行绑定验证器，再输入当前验证码。';});
 $('#mfa-form').onsubmit=event=>{event.preventDefault();const code=event.target.elements.code.value;event.target.elements.code.value='';run(async()=>{if(!factorId)throw Error('MFA_REQUIRED');const {error}=await client.auth.mfa.challengeAndVerify({factorId,code});if(error)throw error;$('#setup').replaceChildren();await refresh();});};
-client.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT'){allowed=false;writesEnabled=false;userRole=null;current=null;recordings=[];uncertainMatchIds.clear();drafts.clear();inspection=null;draw();$('#permission').textContent='已退出，查看及写入权限已关闭。';}});
+client.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT'){allowed=false;writesEnabled=false;operationHold=false;userRole=null;current=null;recordings=[];uncertainMatchIds.clear();drafts.clear();inspection=null;draw();$('#permission').textContent='已退出，查看及写入权限已关闭。';}});
 await run(refresh);
