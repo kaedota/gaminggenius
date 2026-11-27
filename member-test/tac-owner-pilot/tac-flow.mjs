@@ -1,4 +1,4 @@
-import {initialState, reduce, secondsLeft, resendLeft} from './model.mjs';
+import {initialState, reduce, secondsLeft, resendLeft, safeReview, isUuid} from './model.mjs';
 import {createTacAdapter} from './api-adapter.mjs';
 
 const errors = {
@@ -37,9 +37,20 @@ const clock = seconds => Math.floor(seconds / 60) + ':' + String(seconds % 60).p
 const minutes = value => String(Math.floor(value / 60)).padStart(2, '0') + ':' + String(value % 60).padStart(2, '0');
 const money = value => 'RM ' + (Number(value) / 100).toFixed(2);
 
-export function mountTacFlow(root, {call, context, language = 'zh', demo = false, demoHint = '', now = () => Date.now()}) {
+export function mountTacFlow(root, {call, context, language = 'zh', demo = false, demoHint = '', now = () => Date.now(), recovered = null}) {
   const api = createTacAdapter(call);
   let state = initialState(context), lang = language, disposed = false;
+  if(recovered){
+    if(!isUuid(recovered.request_id)||!isUuid(recovered.challenge_id))throw Error('TAC_RESPONSE_INVALID');
+    state={...state,requestId:recovered.request_id,busy:true,operation:'start'};
+    if(recovered.result){
+      const r=recovered.result;if(r.state!=='verified_dry_run'||r.dry_run!==true||r.charged!==false||r.booking_confirmed!==false||!isUuid(r.receipt_id))throw Error('TAC_RESPONSE_INVALID');
+      state={...state,phase:'done',busy:false,operation:null,review:safeReview(r.review,state.context),receiptId:r.receipt_id,result:{state:r.state,charged:false,bookingConfirmed:false}};
+    }else{
+      state=reduce(state,{type:'STARTED',epoch:state.epoch,response:{challenge_id:recovered.challenge_id,expires_in:recovered.expires_in,retry_after:Math.max(1,recovered.retry_after),dry_run:true}},now());
+      if(state.phase!=='code')throw Error('TAC_RESPONSE_INVALID');
+    }
+  }
   const t = (zh, en) => lang === 'zh' ? zh : en;
   const dispatch = event => {state = reduce(state, event, now()); return state;};
   function button(text, handler, secondary = false) {
@@ -115,6 +126,7 @@ export function mountTacFlow(root, {call, context, language = 'zh', demo = false
     const resend = root.querySelector('[data-tac-resend]');
     if (resend) { const remaining = resendLeft(state, now()); resend.disabled = state.busy || remaining > 0;
       resend.textContent = remaining ? t(`${remaining}秒后可重发`, `Resend in ${remaining}s`) : t(demo ? '重新演示发送' : '重新发送 TAC', demo ? 'Simulate resend' : 'Resend TAC'); }
+    if(resend){resend.disabled=true;resend.textContent=t('本次测试不重发短信','No SMS resend in this test');}
     const verifyButton = root.querySelector('[data-tac-verify]');
     if (verifyButton) verifyButton.disabled = state.busy || secondsLeft(state, now()) === 0;
   }
@@ -138,11 +150,11 @@ export function mountTacFlow(root, {call, context, language = 'zh', demo = false
       card.append(note(t('输入你在 GG 登记的会员手机号。验证通过后才显示会员资料。', 'Enter the mobile number registered with GG. Membership details appear only after verification.')));
       const form = node('form'), label = node('label', t('会员手机号码', 'Member mobile number'));
       const input = node('input'); input.id = 'gg-tac-phone'; input.type = 'tel'; input.inputMode = 'tel'; input.autocomplete = 'tel'; input.maxLength = 32; input.value = state.phone; input.placeholder = '012-345 6789'; input.required = true; input.disabled = state.busy; label.append(input);
-      const submit = button(state.busy ? t('处理中…', 'Processing…') : t(demo ? '演示发送 TAC' : '发送 TAC', demo ? 'Simulate TAC request' : 'Send TAC'), () => {});
+      const submit = button(state.busy ? t('正在发送并核对（最多约2分钟）…', 'Sending and checking (up to about 2 minutes)…') : t(demo ? '演示发送 TAC' : '发送 TAC', demo ? 'Simulate TAC request' : 'Send TAC'), () => {});
       submit.type = 'submit'; form.append(label, submit); form.onsubmit = event => {event.preventDefault(); void send(input.value);}; card.append(form);
       card.append(note(t('TAC有效期5分钟，每次验证只能使用一次。', 'TACs expire after 5 minutes and can be used once.')));
     } else if (state.phase === 'code') {
-      card.append(note(t(demo ? '已模拟发送至 ' : '验证码发送号码：', demo ? 'Simulated request for ' : 'Code destination: ') + maskPhone(state.phone)));
+      card.append(note(state.phone ? t('原请求号码：','Original request number: ')+maskPhone(state.phone) : t('仅填写已经收到的原短信TAC；这里不会重发短信。','Enter only the original SMS TAC already received. No SMS will be resent here.')));
       const timer = node('p', undefined, 'gg-tac-timer'); timer.append(document.createTextNode(t('剩余有效时间 ', 'Time remaining ')));
       const value = node('strong', clock(secondsLeft(state, now()))); value.dataset.tacClock = ''; timer.append(value); card.append(timer);
       const form = node('form'), label = node('label', t('6位 TAC', '6-digit TAC')), input = node('input');
