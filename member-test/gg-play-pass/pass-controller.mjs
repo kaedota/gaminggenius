@@ -1,4 +1,4 @@
-import{OFFER,FLOW,isUuid,normalizePhone,contextKey,safeCatalog,safeWallet,safeSelection,safeAvailability,safeReview,safeOrder,safeRedemption,safeAccount,safeCancellation}from'./pass-model.mjs';
+import{OFFER,FLOW,isUuid,normalizePhone,contextKey,safeCatalog,safeWallet,safeSelection,safeAvailability,safeReview,safeOrder,safeRedemption,safeAccount,safeCancellation}from'./pass-model.mjs?v=wallet-v3';
 const clone=x=>JSON.parse(JSON.stringify(x));
 const BUSY=new Set(['sending','verifying','submitting','recovering','closing','loading_wallet','cancelling','recovering_cancel']);
 const KEY='gg-gta-pass-reference-v1:';

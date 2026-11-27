@@ -2,8 +2,8 @@ import{connect}from'../api.js?v=20261116-notes';
 import{createPassApi}from'./pass-api.mjs';
 import{createPassHttpBridge}from'./http-bridge.mjs';
 import config from'../config.js';
-import{createPassController}from'./pass-controller.mjs';
-import{mountPassPage}from'./pass-app.mjs';
+import{createPassController}from'./pass-controller.mjs?v=wallet-v3';
+import{mountPassPage}from'./pass-app.mjs?v=wallet-v3';
 const root=document.getElementById('app');let view,controller,client,subscription,active=true,language='zh';try{language=localStorage.getItem('gg-language')==='en'?'en':'zh';}catch{}
 const languageChanged=value=>{try{localStorage.setItem('gg-language',value);}catch{}};
 try{client=await connect({manualCallback:true});const{data,error}=await client.auth.getUser();if(error||!data?.user)throw Error('AUTH_REQUIRED');const user=data.user;const sessionCheck=await client.rpc('gg_session');if(sessionCheck.error)throw sessionCheck.error;
