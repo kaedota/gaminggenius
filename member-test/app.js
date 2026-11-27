@@ -1,4 +1,5 @@
-import{createOpsAlerts}from'./ops-alerts.mjs?v=20261121-notify';
+import{resolveAuthReturn,rememberAuthReturn,clearAuthReturn}from'./pass-auth-return.mjs?v=gta-pass-20261128-v1';
+import{createOpsAlerts}from'./ops-alerts.mjs?v=20261128-pass-v1';
 import {message} from "../site-language.mjs?v=20261116-notes";
 import {mountAccount} from "../account-control.js?v=20261115";
 import {selectTotpFactor,requiresLogin,removePendingTotp} from "./mfa-state.js";
@@ -9,8 +10,9 @@ import { exchangeEmailCallback, readRecoveryToken, verifyRecoveryToken } from ".
 import { $, node, playerCard, jsonPanel } from "./ui.js";
 import { publicPlayerDirectory, searchPublicPlayers } from "./model.js?v=20261111-directory";
 const opsAlerts=createOpsAlerts({rpc,t:(zh,en)=>{try{return localStorage.getItem('gg-language')==='en'?en:zh;}catch{return zh;}},onFailure:error=>status(safeError(error),true)});
-const bookingContext = new URLSearchParams(location.search).get('from') === 'booking' ||
-  sessionStorage.getItem('gg-booking-return') === 'booking.html';
+const authReturn=resolveAuthReturn(new URLSearchParams(location.search).get('from'),sessionStorage);
+const bookingContext=authReturn==='booking';
+const passesContext=authReturn==='passes';
 
 function showBookingContext(language = localStorage.getItem('gg-language')) {
   const en = language === 'en';
@@ -45,10 +47,24 @@ function showBookingContext(language = localStorage.getItem('gg-language')) {
   detail.textContent = parts.join(' · ');
 }
 
-if (bookingContext) {
-  sessionStorage.setItem('gg-booking-return','booking.html');
-  showBookingContext();
-  window.addEventListener('gg-language-change', event => showBookingContext(event.detail.language));
+function showPassesContext(language=localStorage.getItem('gg-language')){
+  const en=language==='en',text=(zh,english)=>en?english:zh;
+  $("booking-auth-context").hidden=false;
+  $("booking-auth-title").textContent=text('登录以继续游玩配套','Sign in to continue your play pass');
+  $("booking-auth-detail").textContent=text('登录后返回配套，再用会员手机号验证购买或兑换。','Return to the pass after sign-in, then verify your member phone to buy or redeem.');
+  $("booking-auth-back").href='play-passes.html';
+  $("booking-auth-back").textContent=text('← 返回游玩配套','← Back to play passes');
+  $("booking-registration-note").textContent=text('首次使用邮箱注册需验证邮箱。','Verify your email when registering with an email address.');
+  $("booking-registration-note").hidden=false;
+  for(const id of["player-eyebrow","player-title","mode","directory","account-registration-note"])$(id).hidden=true;
+  for(const link of document.querySelectorAll('[data-player-only]'))link.hidden=true;
+}
+if(bookingContext){
+  rememberAuthReturn('booking',sessionStorage);showBookingContext();
+  window.addEventListener('gg-language-change',event=>showBookingContext(event.detail.language));
+}else if(passesContext){
+  rememberAuthReturn('passes',sessionStorage);showPassesContext();
+  window.addEventListener('gg-language-change',event=>showPassesContext(event.detail.language));
 }
 
 let directory = [], selectedPlayer;
@@ -139,7 +155,7 @@ function authMode(m) {
     m === "signup" ? "new-password" : "current-password";
   $("recovery-help").hidden = m !== "recover";
   $("auth").hidden = false;
-  if (!bookingContext) {
+  if (!bookingContext && !passesContext) {
     $("auth").scrollIntoView({ behavior: "smooth", block: "start" });
     $("email").focus();
   }
@@ -189,6 +205,7 @@ async function loadAccount() {
   await verified();
   const s = await rpc("gg_session");
   role = s.role;
+  if(passesContext){clearAuthReturn('passes',sessionStorage);location.replace('play-passes.html');return;}
   if (bookingContext) {
     location.replace("booking.html?resume=1");
     return;
@@ -629,7 +646,7 @@ async function boot() {
       clean.hash = "";
       history.replaceState(history.state, "", clean.href);
     }
-    if (!bookingContext) {
+    if (!bookingContext && !passesContext) {
       bundle = await fetch("../data/season.json", { cache: "no-store" }).then((response) => {
         if (!response.ok) throw Error("DATA_LOAD_FAILED");
         return response.json();
