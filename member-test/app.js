@@ -265,7 +265,7 @@ async function loadAccount() {
       $("reset-mfa").hidden = factor?.status !== "unverified";
       if (factor?.status === "unverified") {
         status("验证器等待确认。请填写 KeePassXC 当前的 6 位验证码，无需重新设置。");
-      }
+      } else status("会员登录成功。");
     } else await loadAdmin();
   }
   if ($("mfa").hidden) status("会员登录成功。");

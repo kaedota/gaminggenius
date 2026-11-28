@@ -33,6 +33,15 @@ main:has(#account:not([hidden])) > #player-title {
   margin-top: 20px;
 }
 
+#players,
+#players > .card {
+  min-width: 0;
+}
+
+#players .table-wrap {
+  max-width: 100%;
+}
+
 #staff-access > :is(#mfa, #admin) {
   margin-top: 20px;
 }
@@ -41,6 +50,25 @@ main:has(#account:not([hidden])) > #player-title {
   padding: 0;
   border: 0;
   background: transparent;
+}
+
+/* Keep all shared navigation links within this page's medium-width header. */
+@media (min-width: 761px) and (max-width: 1100px) {
+  #gg-site-shell .gg-shell-nav {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0 16px;
+    padding-block: 8px;
+  }
+
+  #gg-site-shell .gg-shell-nav > a {
+    min-height: 44px;
+    padding-block: 8px;
+  }
+
+  #gg-site-shell .gg-shell-nav > a::after {
+    bottom: 4px;
+  }
 }
 
 @media (max-width: 650px) {
