@@ -7,9 +7,9 @@ export function renderPublicHero(events,today,showMedia){
  const host=document.querySelector('#home .hero-copy');if(!host)return;
  const event=heroEvent(events,today),recap=event?null:heroRecap(events,today);host.replaceChildren();
  if(recap){
-  const title=document.createElement('h1');title.className='visually-hidden';title.textContent='Elmina Cup 2026 — Thank you for an unforgettable battle.';
-  const image=document.createElement('img');image.src='assets/elmina-closing-hero-20261116.webp';image.alt=title.textContent;image.width=1672;image.height=941;image.fetchPriority='high';image.decoding='async';
-  const box=document.createElement('button');box.type='button';box.className='hero-poster-open';box.setAttribute('aria-label','View Elmina Cup closing banner');box.addEventListener('click',()=>showMedia(image.getAttribute('src'),'Elmina Cup 2026','ELMINA CUP 2026','7–8 NOVEMBER 2026'));box.append(image);host.append(title,box);
+  const title=document.createElement('h1');title.className='visually-hidden';title.textContent='GTA VI Play Pass — RM350 · 30 sessions of 2 hours';
+  const image=document.createElement('img');image.src='assets/gta-play-pass-home-20261128.png';image.alt=title.textContent;image.width=1672;image.height=941;image.fetchPriority='high';image.decoding='async';
+  const box=document.createElement('button');box.type='button';box.className='hero-poster-open';box.setAttribute('aria-label','View GTA VI Play Pass poster');box.addEventListener('click',()=>showMedia(image.getAttribute('src'),'GTA VI Play Pass','GAMING GENIUS / PLAY PASS','RM350 · 30 SESSIONS · 2 HOURS EACH'));box.append(image);host.append(title,box);
  }
  else if(!event){
   const title=document.createElement('h1');title.className='visually-hidden';title.textContent='Gaming Genius — Play, compete, belong.';
@@ -24,6 +24,6 @@ export function renderPublicHero(events,today,showMedia){
   const image=document.createElement('img');image.src=event.poster;image.alt=event.title;image.fetchPriority='high';image.decoding='async';button.append(image);host.append(title,meta,button);
  }
  const actions=document.createElement('div');actions.className='hero-actions';
- for(const [label,href,style] of [[event?'VIEW EVENT DETAILS':recap?'VIEW EVENT RECAP':'UPCOMING EVENTS',event?'#event/'+encodeURIComponent(event.id):recap?'#event/'+encodeURIComponent(recap.id):'calendar.html','red'],['GG RANKINGS','#ranking','outline']]){const link=document.createElement('a');link.className='button '+style;link.href=href;link.textContent=label;actions.append(link);}
+ for(const [label,href,style] of [[event?'VIEW EVENT DETAILS':recap?'VIEW PLAY PASS':'UPCOMING EVENTS',event?'#event/'+encodeURIComponent(event.id):recap?'member-test/play-passes.html':'calendar.html','red'],['GG RANKINGS','#ranking','outline']]){const link=document.createElement('a');link.className='button '+style;link.href=href;link.textContent=label;actions.append(link);}
  host.append(actions);
 }
