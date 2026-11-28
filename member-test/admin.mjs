@@ -1,5 +1,5 @@
-import{mountPassAdmin}from'./gg-play-pass/pass-admin.mjs?v=gta-staff-operation-v1';
-import{createPassHttpBridge}from'./gg-play-pass/http-bridge.mjs?v=gta-staff-operation-v1';
+import{mountPassAdmin}from'./gg-play-pass/pass-admin.mjs?v=gta-pos-diagnostic-v1';
+import{createPassHttpBridge}from'./gg-play-pass/http-bridge.mjs?v=gta-pos-diagnostic-v1';
 import passConfig from'./config.js';
 import{mountMemberAdmin}from'./admin-member.mjs?v=20261123-v2';
 import{createOpsAlerts}from'./ops-alerts.mjs?v=fpx-hold5m-v1';
@@ -67,4 +67,4 @@ window.addEventListener('pageshow',ev=>{if(ev.persisted&&service)load();});
 const opsAlerts=createOpsAlerts({rpc,t,onFailure:handleFailure,onOpen:(event,url)=>{const target=new URL(url);history.replaceState(null,'',target.pathname+target.search+target.hash);navigate(target.hash.slice(1)||'overview');}});
 try{client=await connect({manualCallback:true});service=createAdminService(client,rpc);client.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT'){++epoch;gate(t('后台已关闭','Admin closed'),t('已退出或会话结束，请重新登录。','Signed out or session ended. Please sign in again.'));}});await load();}catch(err){gate(t('无法连接后台','Unable to connect'),errorText(err));}
 
-async function mountCurrentPassAdmin(){const n=passAdminEpoch,panel=document.getElementById('pass-admin-panel');if(!panel||!client)return;try{const result=await client.auth.getUser();if(result.error||!result.data?.user)throw Error('AUTH_REQUIRED');if(n!==passAdminEpoch||page!=='passes'||!panel.isConnected)return;const bridge=createPassHttpBridge({client,config:passConfig,expectedUserId:result.data.user.id});passAdminView=mountPassAdmin(panel,{call:bridge.dispatch,t,onFailure:handleFailure});}catch(error){if(n===passAdminEpoch&&panel.isConnected)panel.textContent=errorText(error);}}
+async function mountCurrentPassAdmin(){const n=passAdminEpoch,panel=document.getElementById('pass-admin-panel');if(!panel||!client)return;try{const result=await client.auth.getUser();if(result.error||!result.data?.user)throw Error('AUTH_REQUIRED');if(n!==passAdminEpoch||page!=='passes'||!panel.isConnected)return;const bridge=createPassHttpBridge({client,config:passConfig,expectedUserId:result.data.user.id});passAdminView=mountPassAdmin(panel,{call:bridge.dispatch,t,onFailure:handleFailure,ownerDiagnostic:result.data.user.id==='c249ad08-c38e-4063-ac80-a7eed488e404'});}catch(error){if(n===passAdminEpoch&&panel.isConnected)panel.textContent=errorText(error);}}
