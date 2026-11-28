@@ -9,7 +9,7 @@ export function renderPublicHero(events,today,showMedia){
  if(recap){
   const title=document.createElement('h1');title.className='visually-hidden';title.textContent='GTA VI Play Pass — RM350 · 30 sessions of 2 hours';
   const image=document.createElement('img');image.src='assets/gta-play-pass-home-20261128.png';image.alt=title.textContent;image.width=1672;image.height=941;image.fetchPriority='high';image.decoding='async';
-  const box=document.createElement('button');box.type='button';box.className='hero-poster-open';box.setAttribute('aria-label','View GTA VI Play Pass poster');box.addEventListener('click',()=>showMedia(image.getAttribute('src'),'GTA VI Play Pass','GAMING GENIUS / PLAY PASS','RM350 · 30 SESSIONS · 2 HOURS EACH'));box.append(image);host.append(title,box);
+  const box=document.createElement('a');box.href='member-test/play-passes.html';box.className='hero-poster-open';box.setAttribute('aria-label','View GTA VI Play Pass details');box.append(image);host.append(title,box);
  }
  else if(!event){
   const title=document.createElement('h1');title.className='visually-hidden';title.textContent='Gaming Genius — Play, compete, belong.';

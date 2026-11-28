@@ -1,5 +1,5 @@
 import { renderHomeRecaps } from './home-recaps.mjs?v=20261123-v2';
-import { renderPublicHero } from './public-hero.mjs?v=20261128-home-posters-v1';
+import { renderPublicHero } from './public-hero.mjs?v=20261128-poster-link-v2';
 import { setupEventGallery } from './event-gallery.js';
 import { startAnalytics } from './analytics.js?v=20261031';
 import { renderFeaturedFilm } from './featured-film.js?v=20261102-elmina';

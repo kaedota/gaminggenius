@@ -40,3 +40,6 @@
 
 /* Preserve the complete supplied Elmina closing banner in the existing card. */
 #home .hero-shot-elmina .photo-open img{object-fit:contain;object-position:center}
+
+/* The play-pass banner opens its purchase page. */
+#home a.hero-poster-open{cursor:pointer}
