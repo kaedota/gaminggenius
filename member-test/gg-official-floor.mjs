@@ -1,4 +1,4 @@
-import { mountStationControls } from './gg-station-controls.mjs?v=20261121-cancel-entry-v2';
+import { mountStationControls } from './gg-station-controls.mjs?v=20261128-start-bonus-v1';
 
 const packages = { PS5:[2800,5200,7200], Switch:[1800,3400,4800] };
 
@@ -89,7 +89,7 @@ export async function enableOfficialFloor(container, {rpc, t, onManageBooking}) 
   const title = document.createElement('h2');
   title.textContent = t('大厅机位 · 开台与预约','Lobby stations · Controls & bookings');
   const description = document.createElement('p');
-  description.textContent = t('这里会操作实体电视，并自动更新官网占用。','These controls operate the TV and update website availability.');
+  description.textContent = t('这里会操作实体电视，并自动更新官网占用。新开台赠10分钟，加时不另赠。','These controls operate the TV and update website availability. New sessions include 10 free minutes; extensions do not.');
   const body = document.createElement('div');
   section.append(title, description, body);
   container.replaceChildren(section);

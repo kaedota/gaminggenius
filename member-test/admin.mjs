@@ -4,7 +4,7 @@ import passConfig from'./config.js';
 import{mountMemberAdmin}from'./admin-member.mjs?v=20261123-v2';
 import{createOpsAlerts}from'./ops-alerts.mjs?v=psn-booking-v1';
 import{mountShopAdmin}from'./admin-shop.mjs?v=20261121-bx52';
-import {mountBookings} from './admin-booking.mjs?v=fpx-hold5m-v1';
+import {mountBookings} from './admin-booking.mjs?v=20261128-start-bonus-v1';
 import {renderAnalytics} from './admin-analytics.mjs?v=20261116-account2';
 import {connect,rpc,safeError} from './api.js?v=20261116-notes';
 import {selectTotpFactor} from './mfa-state.js';

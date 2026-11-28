@@ -139,7 +139,7 @@ export function mountStationControls(container, { request, language = 'zh', onMa
 
       if (station.status === 'free' || station.status === 'closed') {
         station.packages.filter(plan=>station.status==='free'||plan.test).forEach(plan => {
-          const duration = plan.test ? tr('测试5分钟','Test 5 minutes') : tr(plan.minutes / 60 + ' 小时', plan.minutes / 60 + ' hr');
+          const duration = plan.test ? tr('测试5分钟','Test 5 minutes') : tr(plan.minutes / 60 + ' 小时＋赠10分钟', plan.minutes / 60 + ' hr + 10 free min');
           actionButton(actions, plan.test ? duration : duration + ' · ' + currency.format(plan.amount / 100),
             (plan.test?tr('员工设备测试，不计游玩收费；5分钟后关闭电视：','Staff equipment test, no gaming charge; TV switches off after 5 minutes: '):tr('开台：','Start ')) + station.name + ' · ' + duration,
             {action:'start', station:station.id, minutes:plan.minutes}, true);
