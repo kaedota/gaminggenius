@@ -22,13 +22,13 @@ export function startAnalytics(measurementId,eventIds=[]) {
   if(!/^G-[A-Z0-9]+$/.test(measurementId)||location.hostname!=='gaminggenius.my'||navigator.doNotTrack==='1')return;
   window.dataLayer=window.dataLayer||[];
   const gtag=function(){window.dataLayer.push(arguments);};
-  const initial=pagePayload(location.hash,eventIds,document.referrer);
+  const initial=pagePayload(location.hash||(location.pathname.endsWith('/events.html')?'#upcoming':''),eventIds,document.referrer);
   gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'granted'});
 gtag('js',new Date());
   gtag('config',measurementId,{...initial,send_page_view:false,allow_google_signals:false,allow_ad_personalization_signals:false});
   let previous='';
   function track() {
-    const payload=pagePayload(location.hash,eventIds,document.referrer);
+    const payload=pagePayload(location.hash||(location.pathname.endsWith('/events.html')?'#upcoming':''),eventIds,document.referrer);
     if(payload.page_location===previous)return;
     previous=payload.page_location;
     gtag('event','page_view',{...payload,send_to:measurementId});
@@ -36,3 +36,4 @@ gtag('js',new Date());
   track();window.addEventListener('hashchange',track);
   const script=document.createElement('script');script.async=true;script.src='https://www.googletagmanager.com/gtag/js?id='+measurementId;document.head.append(script);
 }
+

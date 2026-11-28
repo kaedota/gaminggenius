@@ -1,7 +1,7 @@
 import { renderHomeRecaps } from './home-recaps.mjs?v=20261123-v2';
 import { renderPublicHero } from './public-hero.mjs?v=20261116-elmina-recap';
 import { setupEventGallery } from './event-gallery.js';
-import { startAnalytics } from './analytics.js?v=20261031';
+import { startAnalytics } from './analytics.js?v=20261128-simple-v1';
 import { renderFeaturedFilm } from './featured-film.js?v=20261102-elmina';
 import { calculateRankings } from './ranking.js?v=20261113-corrections';
 import { eventState, sortNewest, upcomingEvents, malaysiaDate, seasonState, rankingEventLabel, matchesPlayer } from './event-utils.js';
@@ -272,3 +272,4 @@ getJSON('data/season.json').then(config => {
   $('season-status').textContent = 'RANKINGS UNAVAILABLE';
   $('ranking-empty').replaceChildren(el('h3', 'PLEASE CHECK BACK'), el('p', 'The leaderboard could not load. Please try again later.'));
 });
+
