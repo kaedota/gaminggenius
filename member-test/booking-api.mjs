@@ -1,4 +1,4 @@
-import {createBookingPaymentApi} from './booking-payment.mjs?v=20261121-fpx';
+import {createBookingPaymentApi} from './booking-payment.mjs?v=paid-only-v1';
 // Integration boundary for the EXISTING GG Supabase client. No new client,
 // token persistence, account, role, password or OAuth setup is introduced.
 export function createBookingApi(client){
@@ -6,7 +6,7 @@ export function createBookingApi(client){
  const call=async(name,args={})=>{const{data,error}=await client.rpc(name,args);if(error)throw error;return data;};
  const member=async()=>{const{data,error}=await client.auth.getUser();if(error)throw error;if(!data?.user)throw Error('AUTH_REQUIRED');await call('gg_session');return data.user;};
  return{
-  catalog:async()=>{const c=await call('gg_booking_catalog');const p=await payment('catalog').catch(()=>({enabled:false}));return {...c,enabled:c.enabled&&p.enabled,fpx_enabled:p.enabled,payment_method:'fpx'};},
+  catalog:async()=>{const c=await call('gg_booking_catalog');const p=await payment('catalog').catch(()=>({enabled:false}));const noHold=p.allocation_policy==='payment_success_only'&&p.pending_reserves_slot===false;return {...c,enabled:c.enabled&&p.enabled&&noHold,fpx_enabled:p.enabled&&noHold,payment_method:'fpx',allocation_policy:p.allocation_policy};},
   payment,
   availability:date=>call('gg_booking_availability',{p_date:date}),
   async hold({station,date,startMinute,minutes,people,requestId,phone}){
@@ -18,7 +18,7 @@ export function createBookingApi(client){
    // Never accepts a price, identity, payment status or expiry from the browser.
    return call('gg_booking_reserve_with_phone',{p_station:station,p_date:date,p_start:startMinute,p_minutes:minutes,p_people:people,p_request:requestId,p_phone:normalized});
   },
-  async mine(){await member();const rows=await call('gg_booking_mine');const payments=rows.some(h=>h.payment_method==='fpx')?await payment('mine'):[];return rows.map(h=>({...h,fpx:payments.find(p=>p.id===h.id)}));},
+  async mine(){await member();return call('gg_booking_mine');},
   async cancelUnpaidHold(id){await member();return call('gg_booking_cancel_reservation',{p_id:id});}
  };
 }

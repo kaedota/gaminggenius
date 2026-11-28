@@ -1,5 +1,5 @@
 import{resolveAuthReturn,rememberAuthReturn,clearAuthReturn}from'./pass-auth-return.mjs?v=gta-pass-20261128-v1';
-import{createOpsAlerts}from'./ops-alerts.mjs?v=20261128-pass-v1';
+import{createOpsAlerts}from'./ops-alerts.mjs?v=paid-only-v1';
 import {message} from "../site-language.mjs?v=20261116-notes";
 import {mountAccount} from "../account-control.js?v=20261115";
 import {selectTotpFactor,requiresLogin,removePendingTotp} from "./mfa-state.js";
@@ -51,7 +51,7 @@ function showPassesContext(language=localStorage.getItem('gg-language')){
   const en=language==='en',text=(zh,english)=>en?english:zh;
   $("booking-auth-context").hidden=false;
   $("booking-auth-title").textContent=text('登录以继续游玩配套','Sign in to continue your play pass');
-  $("booking-auth-detail").textContent=text('登录后返回配套，再用会员手机号验证购买或兑换。','Return to the pass after sign-in, then verify your member phone to buy or redeem.');
+  $("booking-auth-detail").textContent=text('登录后返回配套；FPX购买无需TAC，兑换时再验证会员手机。','Return to the pass after sign-in. Buy by FPX without TAC; verify your member phone when redeeming.');
   $("booking-auth-back").href='play-passes.html';
   $("booking-auth-back").textContent=text('← 返回游玩配套','← Back to play passes');
   $("booking-registration-note").textContent=text('首次使用邮箱注册需验证邮箱。','Verify your email when registering with an email address.');
