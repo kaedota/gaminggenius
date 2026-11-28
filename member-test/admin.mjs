@@ -1,5 +1,5 @@
-import{mountPassAdmin}from'./gg-play-pass/pass-admin.mjs?v=gta-room-occupancy-v1';
-import{createPassHttpBridge}from'./gg-play-pass/http-bridge.mjs?v=wallet-v3';
+import{mountPassAdmin}from'./gg-play-pass/pass-admin.mjs?v=gta-staff-operation-v1';
+import{createPassHttpBridge}from'./gg-play-pass/http-bridge.mjs?v=gta-staff-operation-v1';
 import passConfig from'./config.js';
 import{mountMemberAdmin}from'./admin-member.mjs?v=20261123-v2';
 import{createOpsAlerts}from'./ops-alerts.mjs?v=fpx-hold5m-v1';
