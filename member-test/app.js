@@ -1,5 +1,5 @@
 import{resolveAuthReturn,rememberAuthReturn,clearAuthReturn}from'./pass-auth-return.mjs?v=gta-pass-20261128-v1';
-import{createOpsAlerts}from'./ops-alerts.mjs?v=paid-only-v1';
+import{createOpsAlerts}from'./ops-alerts.mjs?v=fpx-hold5m-v1';
 import {message} from "../site-language.mjs?v=20261116-notes";
 import {mountAccount} from "../account-control.js?v=20261115";
 import {selectTotpFactor,requiresLogin,removePendingTotp} from "./mfa-state.js";

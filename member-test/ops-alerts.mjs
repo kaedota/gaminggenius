@@ -1,4 +1,4 @@
-import{notificationLink,validNotificationFeed,notificationTitle}from'./ops-alert-model.mjs?v=paid-only-v1';
+import{notificationLink,validNotificationFeed,notificationTitle}from'./ops-alert-model.mjs?v=fpx-hold5m-v1';
 const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
 export function createOpsAlerts({rpc,t,onOpen,onFailure}){
  const root=el('aside',undefined,'gg-ops-alerts'),bar=el('div',undefined,'gg-ops-bar'),bell=el('button'),sound=el('button'),panel=el('section',undefined,'gg-ops-panel'),heading=el('h2'),note=el('p'),connection=el('p'),rows=el('div');

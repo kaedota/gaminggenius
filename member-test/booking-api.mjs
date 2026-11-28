@@ -1,3 +1,4 @@
+import{checkoutPolicyEnabled}from'./booking-payment-model.mjs?v=fpx-hold5m-v1';
 import {createBookingPaymentApi} from './booking-payment.mjs?v=paid-only-v1';
 // Integration boundary for the EXISTING GG Supabase client. No new client,
 // token persistence, account, role, password or OAuth setup is introduced.
@@ -6,7 +7,7 @@ export function createBookingApi(client){
  const call=async(name,args={})=>{const{data,error}=await client.rpc(name,args);if(error)throw error;return data;};
  const member=async()=>{const{data,error}=await client.auth.getUser();if(error)throw error;if(!data?.user)throw Error('AUTH_REQUIRED');await call('gg_session');return data.user;};
  return{
-  catalog:async()=>{const c=await call('gg_booking_catalog');const p=await payment('catalog').catch(()=>({enabled:false}));const noHold=p.allocation_policy==='payment_success_only'&&p.pending_reserves_slot===false;return {...c,enabled:c.enabled&&p.enabled&&noHold,fpx_enabled:p.enabled&&noHold,payment_method:'fpx',allocation_policy:p.allocation_policy};},
+  catalog:async()=>{const c=await call('gg_booking_catalog');const p=await payment('catalog').catch(()=>({enabled:false}));const supported=checkoutPolicyEnabled(p);return {...c,enabled:c.enabled&&p.enabled&&supported,fpx_enabled:p.enabled&&supported,payment_method:'fpx',allocation_policy:p.allocation_policy,pending_reserves_slot:p.pending_reserves_slot,checkout_hold_seconds:p.checkout_hold_seconds};},
   payment,
   availability:date=>call('gg_booking_availability',{p_date:date}),
   async hold({station,date,startMinute,minutes,people,requestId,phone}){
