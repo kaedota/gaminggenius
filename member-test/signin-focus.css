@@ -1,0 +1,47 @@
+/* Keep the existing account flow focused on signing in. */
+main:has(#auth:not([hidden]), #recovery:not([hidden]), #recovery-link:not([hidden])) {
+  padding-top: 24px;
+}
+
+main:has(#auth:not([hidden]), #recovery:not([hidden]), #recovery-link:not([hidden])) > :is(#player-eyebrow, #player-title, #mode) {
+  display: none;
+}
+
+#account-functions {
+  margin: 0 0 16px;
+}
+
+#auth-title {
+  margin-top: 0;
+}
+
+#auth,
+#recovery,
+#recovery-link,
+#directory {
+  max-width: 720px;
+}
+
+#directory > summary {
+  font-size: 17px;
+}
+
+#directory:not([open]) {
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+
+.member-utility {
+  font-size: 13px;
+  margin: 10px 0;
+}
+
+@media (max-width: 650px) {
+  main:has(#auth:not([hidden]), #recovery:not([hidden]), #recovery-link:not([hidden])) {
+    padding-top: 18px;
+  }
+
+  #account-functions {
+    gap: 8px;
+  }
+}

@@ -8,15 +8,16 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self' https://fpogdariltzvqzbhrhnl.supabase.co; img-src 'self' data:; base-uri 'none'; form-action 'self'" />
     <title>GG 会员中心</title>
     <link rel="stylesheet" href="player.css?v=20261112-mobile" />
+    <link rel="stylesheet" href="signin-focus.css?v=20261128" />
   <link rel="stylesheet" href="../account-nav.css?v=20261115">
-<link rel="stylesheet" href="../site-language.css?v=20261115"><script type="module" src="../site-language.mjs?v=20261116-notes"></script><link rel="stylesheet" href="ops-alerts.css?v=20261121-notify"></head>
-  <body>
+<link rel="stylesheet" href="../site-language.css?v=20261115"><script type="module" src="../site-language.mjs?v=20261116-notes"></script><link rel="stylesheet" href="ops-alerts.css?v=20261121-notify"><link rel="stylesheet" href="../site-shell.css?v=20261128-signin-nav-v1"><script type="module" src="../site-shell.mjs?v=20261128-signin-nav-v1"></script></head>
+  <body><div id="gg-site-shell"></div>
     <header>
       <a href="../index.html"
         ><img src="../assets/gg-logo.png" alt="Gaming Genius" />GAMING GENIUS</a
       ><div id="member-account" class="site-account member-account"><div class="account-guest"><a href="index.html?mode=login">登录</a><span>/</span><a href="index.html?mode=signup">注册</a></div></div>
     </header>
-    <main><p><a href="wallet.html" data-no-translate>GG Member · 余额／积分 · Balance &amp; points →</a></p><p><a href="play-passes.html" data-no-translate>GTA VI Play Pass · 游玩配套 →</a></p>
+    <main>
       <p id="player-eyebrow" class="eyebrow">YOUR PLAYER ID. YOUR BATTLE HISTORY.</p>
       <h1 id="player-title">GG PLAYER<br /><em>CENTRE.</em></h1>
       <section id="booking-auth-context" class="panel" hidden data-no-translate>
@@ -26,11 +27,9 @@
       </section>
       <p id="mode" class="notice">GG 会员 · Google 或邮箱登录 · 选手档案认领须经 GG 审核</p>
       <nav id="account-functions" aria-label="账号功能">
-<a data-player-only href="judge.html">裁判测试入口 ↗</a>
         <button data-mode="login">登录</button
         ><button data-mode="signup">注册</button
-        ><button data-mode="recover">忘记密码</button
-        ><a data-player-only href="../index.html#ranking">公开排行榜 ↗</a>
+        ><button data-mode="recover">忘记密码</button>
       </nav>
       <p id="status" role="status" aria-live="polite"></p>
       <button id="retry" hidden>重试连接</button>
@@ -38,17 +37,6 @@
         <h2>重设密码</h2>
         <p>点击下方按钮验证这封邮件。链接只可使用一次；如果不是你发起的请求，请关闭页面。</p>
         <button id="verify-recovery-link" type="button">继续重设密码</button>
-      </section>
-      <section id="directory" class="panel" aria-labelledby="directory-title">
-        <h2 id="directory-title">查找我的比赛记录</h2>
-        <p>输入比赛名字或 GG ID，核对赛事记录后选择档案。同名选手请核对 GG ID 和参赛经历。</p>
-        <form id="directory-form">
-          <label>比赛名字或 GG ID<input id="directory-query" type="search" maxlength="80" placeholder="例如 JJ、Orange cat" /></label>
-          <button type="submit">查找选手</button>
-        </form>
-        <p id="directory-status" role="status" aria-live="polite">正在读取公开比赛记录…</p>
-        <div id="directory-results" class="directory-results"></div>
-        <p id="selected-player" class="notice" hidden></p>
       </section>
       <section id="auth" class="panel">
         <h2 id="auth-title">登录</h2>
@@ -103,6 +91,20 @@
           ><label>确认新密码<input id="confirm-password" type="password" autocomplete="new-password" minlength="12" maxlength="128" required /></label><button>保存新密码</button>
         </form>
       </section>
+      <details id="directory" class="panel" aria-labelledby="directory-title">
+        <summary id="directory-title">查找我的比赛记录</summary>
+        <p>输入比赛名字或 GG ID，核对赛事记录后选择档案。同名选手请核对 GG ID 和参赛经历。</p>
+        <form id="directory-form">
+          <label>比赛名字或 GG ID<input id="directory-query" type="search" maxlength="80" placeholder="例如 JJ、Orange cat" /></label>
+          <button type="submit">查找选手</button>
+        </form>
+        <p id="directory-status" role="status" aria-live="polite">正在读取公开比赛记录…</p>
+        <div id="directory-results" class="directory-results"></div>
+        <p id="selected-player" class="notice" hidden></p>
+        <p><a data-player-only href="judge.html">裁判测试入口 ↗</a> · <a data-player-only href="../index.html#ranking">公开排行榜 ↗</a></p>
+      </details>
+      <p class="member-utility"><a href="wallet.html" data-no-translate>GG Member · 余额／积分 · Balance &amp; points →</a></p>
+      <p class="member-utility"><a href="play-passes.html" data-no-translate>GTA VI Play Pass · 游玩配套 →</a></p>
       <section id="account" hidden>
         <div class="section-head">
           <h2>MY PLAYERS</h2>
@@ -233,5 +235,6 @@
       GG 会员中心 · <a href="privacy.html">隐私说明</a>
     </footer>
     <script type="module" src="app.js?v=fpx-hold5m-v1"></script>
+    <script type="module" src="signin-focus.mjs?v=20261128"></script>
   <script type="module" src="../shop-return.mjs?v=20261121"></script></body>
 </html>
