@@ -2,9 +2,9 @@ import{connect}from'../api.js?v=20261116-notes';
 import{createPassApi}from'./pass-paid-api.mjs?v=paid-only-v1';
 import{createPassHttpBridge}from'./pass-paid-http.mjs?v=paid-only-v1';
 import config from'../config.js';
-import{createPassController}from'./pass-paid-controller.mjs?v=paid-only-v1';
-import{mountPassPage}from'./pass-paid-app.mjs?v=gta-guest-live-v1';
-import{safeCatalog}from'./pass-paid-model.mjs?v=paid-only-v1';
+import{createPassController}from'./pass-paid-controller.mjs?v=owner-test-v1';
+import{mountPassPage}from'./pass-paid-app.mjs?v=owner-test-v1';
+import{safeCatalog}from'./pass-paid-model.mjs?v=owner-test-v1';
 export async function loadPublicPassCatalog({fetchImpl=fetch}={}){const response=await fetchImpl(config.supabaseUrl+'/functions/v1/gg-passes',{method:'POST',cache:'no-store',redirect:'error',headers:{apikey:config.publishableKey,'Content-Type':'application/json'},body:JSON.stringify({action:'gta_pass_catalog'}),signal:AbortSignal.timeout(15000)});const data=await response.json();if(!response.ok)throw Error('PASS_SERVICE_UNAVAILABLE');return safeCatalog(data);}
 const root=document.getElementById('app');let view,controller,client,subscription,active=true,language='zh';try{language=localStorage.getItem('gg-language')==='en'?'en':'zh';}catch{}
 const languageChanged=value=>{try{localStorage.setItem('gg-language',value);}catch{}};
