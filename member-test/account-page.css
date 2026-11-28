@@ -1,0 +1,54 @@
+/* The existing app controls account/recovery visibility. */
+main:has(#account:not([hidden])) > :is(#account-functions, #mode, #player-eyebrow) {
+  display: none;
+}
+
+main:has(#account:not([hidden])) {
+  padding-top: 24px;
+}
+
+main:has(#account:not([hidden])) > #player-title {
+  font: 900 clamp(30px, 5vw, 42px)/1.15 Arial, sans-serif;
+  letter-spacing: -0.5px;
+  margin: 0 0 20px;
+}
+
+#account > .account-actions {
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+#account > details > summary,
+#staff-access > summary {
+  font-size: 17px;
+}
+
+#account > details:not([open]),
+#staff-access:not([open]) {
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+
+#competition-records[open] > #players {
+  margin-top: 20px;
+}
+
+#staff-access > :is(#mfa, #admin) {
+  margin-top: 20px;
+}
+
+#staff-access > #mfa {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+@media (max-width: 650px) {
+  main:has(#account:not([hidden])) {
+    padding-top: 18px;
+  }
+
+  #account > .account-actions {
+    align-items: flex-end;
+  }
+}

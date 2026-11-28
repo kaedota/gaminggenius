@@ -186,6 +186,9 @@ function renderDirectory() {
       $("claim-id").value = player.player_id;
       $("selected-player").hidden = false;
       $("selected-player").textContent = `已选择 ${player.display_name}（${player.player_id}）。登录后填写核对说明并提交认领。`;
+      // An explicit profile choice reveals only its claim panel. The account
+      // container remains hidden until the existing authenticated flow opens it.
+      for (let panel = $("claim-form").closest("details"); panel; panel = panel.parentElement?.closest("details")) panel.open = true;
       const target = $("account").hidden ? $("auth") : $("claim-form");
       target.scrollIntoView({ behavior: "smooth", block: "start" });
       (target === $("auth") ? $("email") : $("claim-evidence")).focus();
@@ -219,13 +222,6 @@ async function loadAccount() {
   $("players").replaceChildren(
     ...data.players.map((p) => playerCard(p, bundle)),
   );
-  for (const p of data.players) {
-    const mine = {
-      results: data.records.filter((r) => r.player_id === p.player_id),
-      slots: data.slots.filter((r) => r.player_id === p.player_id),
-    };
-    $("players").append(jsonPanel("已关联原始记录 · " + p.player_id, mine));
-  }
   if (!data.players.length)
     $("players").append(
       node(
@@ -465,6 +461,9 @@ $("reset-form").onsubmit = (e) => {
       $("enroll").hidden = true;
       $("reset-mfa").hidden = true;
       status("此账号已启用双重验证。请先输入原验证器的当前验证码，再保存新密码。");
+      // Recovery requires this form immediately; expose only its presentation wrapper.
+      const staffPanel = $("staff-access");
+      if (staffPanel) { staffPanel.hidden = false; staffPanel.open = true; }
       $("mfa-code").focus();
       return;
     }
@@ -740,3 +739,4 @@ window.addEventListener("focus", () => {
   if (client && !$("account").hidden && $("mfa").hidden) perform(loadAccount);
 });
 boot();
+
