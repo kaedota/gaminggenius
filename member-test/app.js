@@ -739,4 +739,3 @@ window.addEventListener("focus", () => {
   if (client && !$("account").hidden && $("mfa").hidden) perform(loadAccount);
 });
 boot();
-
